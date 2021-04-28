@@ -1,6 +1,31 @@
 \chapter{Recommender systems} \label{chap_recommender_systems}
+In this chapter we will briefly introduce in general what recommender systems are (hereinafter referred to as RS) and then continue with description of the group variant of recommender systems and introduce common approaches and methods they employ.
 
+
+\section{Recommender systems}
+Broadly speaking, recommender systems are algorithms that are trying to suggest items to its users or from other perspective they aim to predict how would a user rate (like) an unseen item. They are used in variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines and many others.
+
+We can generally divide them by their approach as stated in \cite{ricci2011introduction} into:
+\begin{itemize}
+    \item \textbf{Collaborative filtering} (CF)\newline
+        Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users which have similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
+    \item  \textbf{Content-based filtering} (CB)\newline
+        Relies on additional information about users and items. For example parameters of the items together with provided or mined preferences of users. We are essentially building a model based on available features both for items and users.
+\end{itemize}
+
+The popularity of these two approaches vary from domain to domain. Some domains naturally contain item specific data which allows to use the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use the \textit{collaborative filtering} techniques or a mix of the two.
+
+There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on hard data about the items. But at the same time it can cause problems to rely only on user-item interactions, because we need a lot of data in order to make a precise recommendations. There will be nothing to recommend if we cannot find a similar enough other user that already rated some unseen items. This problem is called \textit{cold-start problem}.
+
+Some of the classical and more advanced methods include:
+\begin{itemize}
+    \item User-based and item-based nearest neighbor similarity \cite{hill1995recommending}\cite{shardanand1995social}\cite{balabanovic1997fab}
+    \item Matrix Factorisation techniques\cite{koren2009matrix}
+    \item Keyword-based Vector Space Models
+    \item Linear Classifiers, Rule mining 
+    \item Explicit decision models 
+    \item Neural collaborative filtering
+    \item Graph Convolutional Neural Networks
+\end{itemize}
 
 \section{Group recommender systems} \label{section01.1}
-
-\section{Title of the second subchapter of the first chapter} \label{section01.2}

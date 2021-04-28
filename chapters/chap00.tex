@@ -12,9 +12,10 @@ We can view recommender systems from a very simple perspective - they are algori
 
 One of the variants of recommender systems are those where the recommendation result is shared among more users based on their shared (aggregated) preferences. This is a subset called group recommender systems. They are not used as widely as the non-group variants due to the nature of the usage of most of the aforementioned technologies. We mostly use the web, listen to music and read the news as individuals. At least from the perspective of those systems. But for some of the domains there are valid use cases. We often listen to music and watch movies in groups. Select a restaurant and other public services not just for us. And that's where the group recommenders come handy.
 
+\todo[inline]{tady je trochu moc velky skok - nejdriv asi neco o tom jak group RS funguji. Spis nez evaluation zminit primo fairness, nebo obecneji co ma byt cilem skupinoveho doporuceni}
 But how to approach the evaluation? It starts to become harder than just simply rating the results based on a single feedback, now we have multiple users with possibly very different personal experiences. We want to be fair towards all individuals in the group. But the fairness property can be tricky to describe and evaluate due to the subjective nature of preference perception and distribution among the group members.
 
-Classical recommendation systems has been studied for quite a long time, but the group variant and more soft-level (meaning evaluation on other than classical parameters) thinking about them is quite recent. With the rise of social dilemmas around recommender systems appears the fairness-ensuring topic more and more in many different shapes and sizes. And with that, there is a growing popularity towards recommender systems that are evaluated (and therefore trained) with these novel requirements in mind.
+Classical recommendation systems has been studied for quite a long time, but the group variant and more soft-level (meaning evaluation on other than classical parameters) thinking about them is quite recent. With the rise of social dilemmas around recommender systems appears the fairness-ensuring topic more and more in many different shapes and sizes. And with that, there is a growing popularity towards recommender systems that are trained (and therefore evaluated) with these novel requirements in mind.
 
 
 
@@ -24,6 +25,7 @@ The current research on the topic of group recommender systems is lacking. There
 And the definition of fairness is not unified. It can mean many different things and be evaluated with many different methods.
 
 With these two aforementioned problems goes hand in hand the very subjective nature of user preference.
+\todo[inline]{Mozna merge obou kapitol dohromady?}
 
 \section{Research objective}
 
@@ -31,7 +33,7 @@ We would like to study how fairness can be defined in the context of the recomme
 
 The primary goal of this thesis is to research and design novel group recommender system algorithm that would keep fairness as its primary optimization objective. If we could adapt fairness preserving methods such as voting systems from other fields to group recommendation problem. And evaluating the new algorithm with already existing approaches in the domain of group recommender systems.
 
-Additionally we would like to research and contribute to data sets that could be used for the group setting. Either expanding single user data sets with data augmentation that would generate synthetic groups' information or and with creating a web application in a movie domain that would serve as a platform for online evaluation of group recommender algorithms and provided us with real-user group recommendation data.
+Additionally we would like to research and contribute to data sets that could be used for the group setting. Expanding single user data sets with data augmentation that would generate synthetic groups' information and creating a web application in a movie domain that would serve as a platform for online evaluation of group recommender algorithms and provided us with real-user group recommendation data.
 
 \section{Thesis structure}
 
