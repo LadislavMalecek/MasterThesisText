@@ -1,21 +1,21 @@
 \chapter{Recommender systems} \label{chap_recommender_systems}
-In this chapter we will briefly introduce in general what recommender systems are (hereinafter referred to as RS) and then continue with description of the group variant of recommender systems and introduce common approaches and methods they employ.
+In this chapter, we will briefly introduce in general what recommender systems are (hereinafter referred to as RS) and then continue with a description of the group variant of recommender systems and introduce common approaches and methods they employ.
 
 
 \section{Recommender systems}
-Broadly speaking, recommender systems are algorithms that are trying to suggest items to its users or from other perspective they aim to predict how would a user rate (like) an unseen item. They are used in variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines and many others.
+Broadly speaking, recommender systems are algorithms that are trying to suggest items to their users, or from another perspective, they aim to predict how would a user rate (like) an unseen item. They are used in a variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines, and many others.
 
 We can generally divide them by their approach as stated in \cite{ricci2011introduction} into:
 \begin{itemize}
     \item \textbf{Collaborative filtering} (CF)\newline
-        Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users which have similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
+        Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users who have a similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
     \item  \textbf{Content-based filtering} (CB)\newline
-        Uses item features or item description to recommend items similar to those that the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
+        Uses item features or item descriptions to recommend items similar to those that the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
 \end{itemize}
 
-The popularity of these two approaches vary from domain to domain. Some domains naturally contain item specific data which allows to use the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use the \textit{collaborative filtering} techniques or a mix of the two.
+The popularity of these two approaches varies from domain to domain. Some domains naturally contain item-specific data which allows using the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
 
-There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. But at the same time it can cause problems to rely only on user-item interactions, because we need a lot of data in order to make a precise recommendation. There will be nothing to recommend if we cannot find a similar enough other user that already rated some unseen items. This problem is called a \textit{cold-start problem}.\newline
+There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. But at the same time, it can cause problems to rely only on user-item interactions because we need a lot of data in order to make a precise recommendation. There will be nothing to recommend if we cannot find similar enough other users that already rated some unseen items. This problem is called a \textit{cold-start problem}.\newline
 
 Some of the classical and more advanced methods include:
 \begin{itemize}
@@ -26,12 +26,28 @@ Some of the classical and more advanced methods include:
 \end{itemize}
 
 \section{Group recommender systems} \label{section01.1}
-So far we have discussed only recommender systems, where a single user is the object of a recommendation. But what do we do, when we have a group of users that we need to recommend to?
+\subsection*{Introduction}
+So far we have discussed only recommender systems, where the object of a recommendation is a single user. But what do we do, when we have a group of users that we want to recommend to? For example, a group of friends selecting a movie that they want to watch together or a group listening to music? %We use a group recommender system (group RS). Where the objective of the system is to
 
-There are two main directions we can take:
+Group recommender systems (group RS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
+
+
+\subsection*{Common approaches}
+There are three main directions we can take:
 \begin{itemize}
-    \item \textbf{Group aware RS}
-    \item \textbf{Simple single user RS with an aggregation strategy}
+    \item \textbf{Group aware RS approach}\newline
+    Builds a model for the group based on the preferences of all of its members. Either directly by creating a model (algorithm-specific) for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
+    \item \textbf{Aggregation strategy approach}\newline
+    Use single-user RS to recommend to each individual of the group and then aggregate the results together to create the final recommendation for the group.
 \end{itemize}
 
-They are diametrically different in many ways. The former is building a model for the whole group and considers the group as a single object of the recommendation. The latter is using simple single user recommendations and then an aggregation strategy to merge the results.
+These two main methods do both have some advantages and disadvantages. One advantage of the Aggregation approach is that we can use the same RS as we would use for an individual recommendation. On the other hand, the aggregation strategies do rely on single-user RS so there is not much that can be done in order to extract some hidden latent preferences of the group, which in case of the first method, the group aware approach, can potentially be extracted.
+
+
+We will go in-depth to discuss techniques used in the latest literature in chapter \ref{chap_related_work}.
+
+
+
+
+At the same time, we need to define what does it even mean to recommend something to a group. Do we measure it by fairness, overall user satisfaction, or by the least satisfied member of the group? We will go in depth to describe common approaches to these problems in chapter \ref{chap_fairness}.
+
