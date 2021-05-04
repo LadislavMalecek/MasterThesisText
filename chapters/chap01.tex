@@ -5,7 +5,8 @@ In this chapter, we will briefly introduce in general what recommender systems a
 \section{Recommender systems}
 Broadly speaking, recommender systems are algorithms that are trying to suggest items to their users, or from another perspective, they aim to predict how would a user rate (like) an unseen item. They are used in a variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines, and many others.
 
-We can generally divide them by their approach as stated in \cite{ricci2011introduction} into:
+
+We can generally divide them by their approach as stated in \cite{RS_handbook-ricci2011} into:
 \begin{itemize}
     \item \textbf{Collaborative filtering} (CF)\newline
         Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users who have a similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
@@ -21,7 +22,7 @@ Some of the classical and more advanced methods include:
 \begin{itemize}
     \item User-based and item-based nearest neighbor similarity \cite{hill1995recommending}\cite{shardanand1995social}\cite{balabanovic1997fab}
     \item Matrix Factorisation techniques\cite{koren2009matrix}
-    \item Deep Collaborative filtering \cite{he2017neural}\cite{covington2016deep}
+    \item Deep Collaborative filtering \cite{he2017neural}\cite{YOUTUBE_deeprec-covington2016}
     \item Deep Content extraction
 \end{itemize}
 
@@ -31,17 +32,22 @@ So far we have discussed only recommender systems, where the object of a recomme
 
 Group recommender systems (group RS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
 
+\subsection*{Challenges}
+
 
 \subsection*{Common approaches}
-There are three main directions we can take:
+According to \cite{recommendations_to_groups-jameson2007} there are two main directions we can take:
 \begin{itemize}
     \item \textbf{Group aware RS approach}\newline
-    Builds a model for the group based on the preferences of all of its members. Either directly by creating a model (algorithm-specific) for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
-    \item \textbf{Aggregation strategy approach}\newline
+    Builds a model for the group based on the preferences of all of its members. Either directly by creating a model of preference for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
+    \item \textbf{RS aggregation approach}\newline
     Use single-user RS to recommend to each individual of the group and then aggregate the results together to create the final recommendation for the group.
+    
 \end{itemize}
 
-These two main methods do both have some advantages and disadvantages. One advantage of the Aggregation approach is that we can use the same RS as we would use for an individual recommendation. On the other hand, the aggregation strategies do rely on single-user RS so there is not much that can be done in order to extract some hidden latent preferences of the group, which in case of the first method, the group aware approach, can potentially be extracted.
+In the RS aggregation approach we further distinguish between situations where we have predictions for all possible items and therefore can do aggregation directly on the ratings of all items or if only have a list of recommendation for each user - subset of all the items. These two can function very differently, for example taking in context only the position in the recommended list or position and the rating. They are mentioned separately in \cite{recommendations_to_groups-jameson2007}, but the approaches are very similar, they only differ in the availability of provided results from the underlying RS, so we group them together under one main direction.
+
+Further, both group aware RS and aggregation approaches do both have some advantages and disadvantages. One of advantages of the Aggregation approach is that we can use the same RS as we would use for an individual recommendation, either as a black box aggregating directly the top items provided, or in more involved way by utilizing the predicted ratings. On the other hand, the aggregation strategies do rely on single-user RS so there is not much that can be done in order to extract some hidden latent preferences of the group, which in case of the first method, the group aware approach, can potentially be extracted.
 
 
 We will go in-depth to discuss techniques used in the latest literature in chapter \ref{chap_related_work}.
