@@ -1,10 +1,24 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RECOMMENDER SYSTEMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Recommender systems} \label{chap_recommender_systems}
 In this chapter, we will briefly introduce in general what recommender systems are (hereinafter referred to as RS) and then continue with a description of the group variant of recommender systems and introduce common approaches and methods they employ.
 
 
 \section{Recommender systems}
+%\subsection*{Introduction}
 Broadly speaking, recommender systems are algorithms that are trying to suggest items to their users, or from another perspective, they aim to predict how would a user rate (like) an unseen item. They are used in a variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines, and many others.
 
+At their core as stated in \cite{wiki:Recommender_system} they are essentially an information filtering systems that aim to deal with selecting a subset from all the items by some filtration criteria, in this case the criteria is the user preference. They become necessary when it comes to suppressing the explosive growth in information on the web and function as a defence system against over loading the user with the vast amount of data that is present in almost every system today.
+
+They can be views as decision support systems that guide users in finding and identifying items based on their idea about the desired state, in this situation the desired state is to find an item that they would like \cite{grouprecommendersystems_felfernig2018group}.
+
+RS can provide both, by filtering based on user preference and providing alternatives by utilizing similarity. In a way, finding a suitable item can be viewed as a collaboration of the user and the recommender system, in varying degrees of freedom. From passively accepting the RS recommendations to actively interacting by giving feedback and stating the preferences.
+
+\subsection*{High-level examples}
+Recommender systems are used in multiple ways, we now present a few high-level examples of where and how they can be used.
+\subsection*{Main approaches}
 
 We can generally divide them by their approach as stated in \cite{RS_handbook-ricci2011} into:
 \begin{itemize}
@@ -12,6 +26,8 @@ We can generally divide them by their approach as stated in \cite{RS_handbook-ri
         Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users who have a similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
     \item  \textbf{Content-based filtering} (CB)\newline
         Uses item features or item descriptions to recommend items similar to those that the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
+    \item \textbf{Constraint-based recommendation}\newline
+        
 \end{itemize}
 
 The popularity of these two approaches varies from domain to domain. Some domains naturally contain item-specific data which allows using the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
@@ -22,9 +38,15 @@ Some of the classical and more advanced methods include:
 \begin{itemize}
     \item User-based and item-based nearest neighbor similarity \cite{hill1995recommending}\cite{shardanand1995social}\cite{balabanovic1997fab}
     \item Matrix Factorisation techniques\cite{koren2009matrix}
-    \item Deep Collaborative filtering \cite{he2017neural}\cite{YOUTUBE_deeprec-covington2016}
-    \item Deep Content extraction
+    \item Deep Collaborative filtering \cite{he2017neural}\cite{YOUTUBE_deeprec-covington2016}\cite{DeepLearningBasedRecommenderSystem_zhang2019deep}
+    \item Deep Content extraction\cite{DeepLearningBasedRecommenderSystem_zhang2019deep}
 \end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GROUP RECOMMENDER SYSTEMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Group recommender systems} \label{section01.1}
 \subsection*{Introduction}
@@ -51,7 +73,6 @@ Further, both group aware RS and aggregation approaches do both have some advant
 
 
 We will go in-depth to discuss techniques used in the latest literature in chapter \ref{chap_related_work}.
-
 
 
 
