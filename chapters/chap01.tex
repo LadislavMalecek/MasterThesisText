@@ -18,21 +18,39 @@ RS can provide both, by filtering based on user preference and providing alterna
 
 \subsection*{High-level examples}
 Recommender systems are used in multiple ways, we now present a few high-level examples of where and how they can be used.
-\subsection*{Main approaches}
+\begin{itemize}
+    \item \textbf{}\newline
+    \item \textbf{}\newline
+\end{itemize}
 
-We can generally divide them by their approach as stated in \cite{RS_handbook-ricci2011} into:
+
+\subsection*{Main algorithmic approaches}
+
+We can generally divide them by their approach mentioned in \cite{RS_handbook-ricci2011} and \cite{constraint_based_recommenders} into:
 \begin{itemize}
     \item \textbf{Collaborative filtering} (CF)\newline
         Solely based on ratings of items from users (user-item interactions). Trying to recommend unseen items that were liked by users who have a similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
     \item  \textbf{Content-based filtering} (CB)\newline
         Uses item features or item descriptions to recommend items similar to those that the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
     \item \textbf{Constraint-based recommendation}\newline
-        
+        Depends on hand-crafted deep knowledge about items. User specifies a set of criteria based on which the system filters out items that meet the stated requirements. Additionally the system can sort the items based on their properties, if the stated criteria come with perceived importance - utility.
+    \item \textbf{Hybrid systems}\newline    
+        Combines multiple RS, either the same type with different parameters and/or different types together in order to increase recommendation accuracy. Main types according to \cite{grouprecommendersystems_felfernig2018group} are:
+        \begin{itemize}
+            \item Weighted where predictions of individual recommenders are summed up.
+            \item Mixed, where predictions of individual recommenders are combined into one list.
+            \item Cascade, where predictions of one recommender is feed as an input to another one.
+        \end{itemize}
 \end{itemize}
 
-The popularity of these two approaches varies from domain to domain. Some domains naturally contain item-specific data which allows using the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
+The popularity of the first two approaches varies from domain to domain. Some domains naturally contain item-specific data which allows using the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
 
-There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. But at the same time, it can cause problems to rely only on user-item interactions because we need a lot of data in order to make a precise recommendation. There will be nothing to recommend if we cannot find similar enough other users that already rated some unseen items. This problem is called a \textit{cold-start problem}.\newline
+There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. But at the same time, it can cause problems to rely only on user-item interactions because we need a lot of data in order to make a precise recommendation. There will be nothing to recommend if we cannot find similar enough other users that already rated some unseen items. This problem is called a \textit{cold-start problem}.
+
+Further, the third technique, \textit{Constraint-based filtering} requires a deep knowledge which describes items on a higher level and is not very interesting due to the algorithmic simplicity, we will thus not discuss it further.
+
+One additional approach we didn't include in the list is \textit{Critique-based recommendation}. It's popularity is quite low, but still worth mentioning. It acts as sort of a guide through the item space. Where in cycles we show the user items that are distinct in some property (we could say they lie in different areas of the item space) and user either accepts or rejects them. Based on this feedback we narrow the user's preferences and offer additional set of items that reflect that and try to further guide the user to a satisfactory result.
+\newline
 
 Some of the classical and more advanced methods include:
 \begin{itemize}
@@ -55,6 +73,12 @@ So far we have discussed only recommender systems, where the object of a recomme
 Group recommender systems (group RS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
 
 \subsection*{Challenges}
+\begin{itemize}
+    \item Feedback gathering
+    \item Divergent group preferences
+    \item Active/passive group members
+    \item Postponed item consumption
+\end{itemize}
 
 
 \subsection*{Common approaches}
@@ -73,7 +97,6 @@ Further, both group aware RS and aggregation approaches do both have some advant
 
 
 We will go in-depth to discuss techniques used in the latest literature in chapter \ref{chap_related_work}.
-
 
 
 At the same time, we need to define what does it even mean to recommend something to a group. Do we measure it by fairness, overall user satisfaction, or by the least satisfied member of the group? We will go in depth to describe common approaches to these problems in chapter \ref{chap_fairness}.
