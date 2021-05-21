@@ -19,8 +19,11 @@ RS can provide both, by filtering based on user preference and providing alterna
 \subsection*{High-level examples}
 Recommender systems are used in multiple ways, we now present a few high-level examples of where and how they can be used.
 \begin{itemize}
-    \item \textbf{}\newline
-    \item \textbf{}\newline
+    \item \textbf{Personalized merchandising}, where the system offers items that other users bought together with the viewed item, items that user could like based on previous orders or viewed items, either related or alternative choices.
+    \item \textbf{Personalized content}, for content consumption services such as video and audio libraries. User is offered personalized content based on their preference profile, such as movies or videos that are similar to others they viewed, globally popular for a regional subset of the user-base and so on.
+    \item \textbf{Personalized news feed and social media feed.} We want to offer user interesting content that would keep them engaged with the service. In the recent years there is push towards more social responsible RS design in this context due to the overwhelming power the social media have. It is important to deal with problems such as polarization \cite{recommender_systems_fighting_polarization}, fairness and disagreement.
+    \item \textbf{Expert systems} that help doctors, operators and other people to make an informed decisions based on data. They can help to deal with data overload and filter relevant items and choices. As well as explore the item space when searching for solution with only weakly defined requirements.
+    \item \textbf{Search experience}, that takes into consideration previous searches, preference profile, location and other attributes.
 \end{itemize}
 
 
@@ -74,15 +77,19 @@ Group recommender systems (group RS) are an interesting subarea of recommender s
 
 \subsection*{Challenges}
 \begin{itemize}
-    \item Feedback gathering
-    \item Divergent group preferences
-    \item Active/passive group members
-    \item Postponed item consumption
+    \item \textbf{How to merge individual preferences} \newline
+        The main problem when extending RS systems to support the group setting is how to combine preferences of individual users together. It is possible to not support groups at all and let users deal with the act of combining them via discussion. But then the problem collapses back to single user setting, where the user is the whole group. Therefore we need to decide how and when to merge them. Main two approaches are mentioned bellow in \nameref{subsection_common_aproaches}.
+    \item \textbf{Divergent group preferences} \newline
+        Even in single variant systems there exist users so called \textit{Grey-sheep} and \textit{Black-sheep}, these users are hard to recommend to, because their preferences do not align with many or any other users (respectively). This problem is especially hard to solve in Collaborative filtering, which directly relies on finding similarity between users. And the same problem arises in the group setting, where it becomes much harder to find solutions that would be satisfactory to all of its members. So in Group RS the problem of outlining users can be observed on two levels, in the usual situation, where the groups aggregated preferences are outlined and on another level where the inter-group preferences of individual users do not match.
+    \item \textbf{Feedback gathering} \newline
+        In most applications feedback is gathered directly as well as indirectly. Directly by users rating recommended items, and indirectly by observing users behavior such as which items they've visited or how long they've interacted with the item. Gathering direct feedback in the group setting is still possible, even if harder due to possibility that not all members leave a rating, but gathering the indirect, implicit feedback can become even impossible, depending on how the system-user interactions are designed. In most cases users will be selecting an item on a single device, under account of one person, therefore it is hard to distinguish what are preferences of that one individual and what are preferences of the group.
+    \item \textbf{Active/passive, primary/secondary group members} \newline
+        Another interesting issue arises when we consider that possibly not all members are equally important when it comes to the recommendation. One example could be when parents select a movie to watch with their children, the children should arguably be given a priority over the selection. Second example could be that we would possibly want to prioritize satisfaction of individual in the group that were less satisfied the last time an item was consumed.
 \end{itemize}
 
 
-\subsection*{Common approaches}
-According to \cite{recommendations_to_groups-jameson2007} there are two main directions we can take:
+\subsection*{Common approaches}\label{subsection_common_aproaches}
+Now we will introduce the two main algorithmic approaches of group recommender systems, according to \cite{recommendations_to_groups-jameson2007} these are:
 \begin{itemize}
     \item \textbf{Group aware RS approach}\newline
     Builds a model for the group based on the preferences of all of its members. Either directly by creating a model of preference for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
