@@ -1,4 +1,16 @@
 \chapter{Related work} \label{chap_related_work}
+In this chapter we will go in-depth discussing common approaches that are being used in the group recommendation task. We introduce the main differences between basic types  and go through simple as well as more advanced methods.\newline
+
+The main difference when using the aggregation approach is if the aggregation happens before or after recommender is used.
+\begin{itemize}
+    \item Aggregate before recommender \newline
+    Recommender is working on a set of already aggregated group preferences, either directly aggregating ratings of seen items, or more high level extracted features such as preference matrix in matrix factorization approaches, text description for item-based recommendations and so on, we will discuss these techniques later.
+    \item Aggregate after recommender \newline
+    Recommender is working on single user bases where it recommends for each group member individually, then the group aggregations aggregates the results together.
+\end{itemize}
+
+As we can see the
+If aggregation the recommender is working on a set of already aggregated group preferences, either directly ratings of seen items, or more high level extracted preferences.
 
 \section{Aggregating member preferences}
 
