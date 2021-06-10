@@ -1,7 +1,7 @@
 \chapter{Related work} \label{chap:related_work}
 In this chapter, we will go in-depth discussing common approaches that are being used in the group recommendation task. We introduce the main differences between basic types and go through simple as well as more advanced methods.\newline
 
-We assume that we have individual user preferences (if group preferences are available, then the task actually becomes a simple recommendation with the group acting as a single user). Therefore it is necessary to make a distinction based on where the algorithm goes from the preference of the group's individual users to a result for the whole group.
+\section{Categories} \label{sec:03_categories}
 \begin{itemize}
     \item \textbf{Aggregate models} \newline
     The aggregation works on merging the preferences of each member of the group into a single set of preferences that can be then directly consumed by a recommender system, therefore creating a group preference model. Aggregating the single-user preferences either directly by aggregating ratings of seen, or and rated items, or by aggregating the extracted models of user preference to create a single model for the whole group, such as preference matrix in matrix factorization approaches, text descriptions, or item-based recommendations and so on, we will discuss these techniques later.

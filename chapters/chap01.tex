@@ -7,7 +7,7 @@ In this chapter, we will briefly introduce in general what recommender systems a
 
 
 \section{Recommender systems}\label{sec:01_rec_sys}
-%\subsection*{Introduction}
+%\subsection{Introduction}
 Broadly speaking, recommender systems are algorithms that are trying to suggest items to their users, or from another perspective, they aim to predict how would a user rate (like) an unseen item. They are used in a variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines, and many others.
 
 At their core as stated in \cite{wiki:Recommender_system} they are essentially an information filtering systems that aim to deal with selecting a subset from all the items by some filtration criteria, in this case the criteria is the user preference. They become necessary when it comes to suppressing the explosive growth in information on the web and function as a defence system against over loading the user with the vast amount of data that is present in almost every system today.
@@ -16,7 +16,7 @@ They can be views as decision support systems that guide users in finding and id
 
 RS can provide both, by filtering based on user preference and providing alternatives by utilizing similarity. In a way, finding a suitable item can be viewed as a collaboration of the user and the recommender system, in varying degrees of freedom. From passively accepting the RS recommendations to actively interacting by giving feedback and stating the preferences.
 
-\subsection*{High-level examples}\label{subsec:01_rec_sys.high_level_examples}
+\subsection{High-level examples}\label{subsec:01_rec_sys.high_level_examples}
 Recommender systems are used in multiple ways, we now present a few high-level examples of where and how they can be used.
 \begin{itemize}
     \item \textbf{Personalized merchandising}, where the system offers items that other users bought together with the viewed item, items that user could like based on previous orders or viewed items, either related or alternative choices.
@@ -27,7 +27,7 @@ Recommender systems are used in multiple ways, we now present a few high-level e
 \end{itemize}
 
 
-\subsection*{Main algorithmic approaches}\label{subsec:01_rec_sys.main_alg_approaches}
+\subsection{Main algorithmic approaches}\label{subsec:01_rec_sys.main_alg_approaches}
 
 We can generally divide them by their approach mentioned in \cite{RS_handbook-ricci2011} and \cite{constraint_based_recommenders} into:
 \begin{itemize}
@@ -70,12 +70,13 @@ Some of the classical and more advanced methods include:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Group recommender systems} \label{sec:01_group_rec_sys}
-\subsection*{Introduction}\label{subsec:01_group_rec_sys.introduction}
+\subsection{Introduction}\label{subsec:01_group_rec_sys.introduction}
 So far we have discussed only recommender systems, where the object of a recommendation is a single user. But what do we do, when we have a group of users that we want to recommend to? For example, a group of friends selecting a movie that they want to watch together or a group listening to music? %We use a group recommender system (group RS). Where the objective of the system is to
 
 Group recommender systems (group RS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
 
-\subsection*{Challenges}\label{subsec:01_group_rec_sys.challenges}
+\subsection{Characteristics of group RS}
+\subsection{Challenges}\label{subsec:01_group_rec_sys.challenges}
 \begin{itemize}
     \item \textbf{How to merge individual preferences} \newline
         The main problem when extending RS systems to support the group setting is how to combine preferences of individual users together. It is possible to not support groups at all and let users deal with the act of combining them via discussion. But then the problem collapses back to single user setting, where the user is the whole group. Therefore we need to decide how and when to merge them. Main two approaches are mentioned bellow in \nameref{subsec:01_group_rec_sys.common_aproaches}.
@@ -84,11 +85,11 @@ Group recommender systems (group RS) are an interesting subarea of recommender s
     \item \textbf{Feedback gathering} \newline
         In most applications feedback is gathered directly as well as indirectly. Directly by users rating recommended items, and indirectly by observing users behavior such as which items they've visited or how long they've interacted with the item. Gathering direct feedback in the group setting is still possible, even if harder due to possibility that not all members leave a rating, but gathering the indirect, implicit feedback can become even impossible, depending on how the system-user interactions are designed. In most cases users will be selecting an item on a single device, under account of one person, therefore it is hard to distinguish what are preferences of that one individual and what are preferences of the group.
     \item \textbf{Active/passive, primary/secondary group members} \newline
-        Another interesting issue arises when we consider that possibly not all members are equally important when it comes to the recommendation. One example could be when parents select a movie to watch with their children, the children should arguably be given a priority over the selection. Second example could be that we would possibly want to prioritize satisfaction of individual in the group that were less satisfied the last time an item was consumed.
+        Another interesting issue arises when we consider that possibly not all members are equally important when it comes to the recommendation as mentioned in \cite{deCampos_2009_managing_uncertanity_in_grouprec}. One example could be when parents select a movie to watch with their children, the children should arguably be given a priority over the selection. Second example could be that we would possibly want to prioritize satisfaction of individual in the group that were less satisfied the last time an item was consumed.
 \end{itemize}
 
 
-\subsection*{Common approaches}\label{subsec:01_group_rec_sys.common_aproaches}
+\subsection{Common approaches}\label{subsec:01_group_rec_sys.common_aproaches}
 Now we will introduce the two main algorithmic approaches of group recommender systems, according to \cite{recommendations_to_groups-jameson2007} these are:
 \begin{itemize}
     \item \textbf{Group aware RS approach}\newline
