@@ -2,7 +2,9 @@
 In this chapter, we will go in-depth discussing common approaches that are being used in the group recommendation task. First, specifying the main approaches, dividing them into groups by how they approach the transition from single-user preferences to group results. Then mentioning the main simple techniques and describing how they interact with the common recommendation approaches. And at last diving into some of the more advanced methods that optimize the aggregation in a more elaborate way.
 
 \section{Categories} \label{sec:03_categories}
-We assume that we have individual user preferences (if group preferences are available, then the task actually becomes a simple recommendation with the group acting as a single user), therefore it is necessary to make a distinction based on where the algorithm goes from the preference of the group's individual users to a result for the whole group. We can put each algorithm into one of the following three groups based on the aggregation step:
+We assume that we have individual user preferences (if group preferences are available, then the task actually becomes a simple recommendation with the group acting as a single user), therefore it is necessary to make a distinction based on where the algorithm goes from the preference of the group's individual users to a result for the whole group.
+
+We can put each algorithm into one of the following three groups based on the aggregation step:
 \begin{itemize}
     \item \textbf{Aggregate models} \newline
     The aggregation works on merging the preferences of each member of the group into a single set of preferences that can be then directly consumed by a recommender system, therefore creating a group preference model. Aggregating the single-user preferences either directly by aggregating ratings of seen, or and rated items, or by aggregating the extracted models of user preference to create a single model for the whole group, such as preference matrix in matrix factorization approaches, text descriptions, or item-based recommendations and so on, we will discuss these techniques later.
@@ -20,6 +22,10 @@ We assume that we have individual user preferences (if group preferences are ava
     \item \textbf{Aggregation is a uniform part of the recommender} \newline
     In this case, the algorithm directly works with users of the group and does not allow for a clear distinction of the aggregation step. It is deeply and inseparably built into the algorithm itself. Sometimes the perception of the inseparability of these two steps can vary in the literature. Some could say that for example aggregating the user profiles in matrix factorization makes the aggregation inseparable, because there is a specific preprocessing done before the aggregation step. But others will point out, that the user latent matrix is just a representation of a user preference, even if processed by the algorithm itself. We will let the reader decide for themselves where they see the distinguishing border. We will briefly discuss the available methods in section \ref{sec:03_advanced_methods}
 \end{itemize}
+
+
+This presented grouping based on the aggregation step is different from the main literature  \cite{recommendations_to_groups-jameson2007} and \cite{grouprecommendersystems_felfernig2018group}, where they also make a distinction into three groups, but instead based on the data that the aggregation processes and the position. Instead we have chosen a little different distinction based more on interaction of the aggregation with the recommender system, essentially putting two groups from aforementioned literature under single group (\textit{aggregate models}), but with the mentioned possible subdivision.
+    
 
 \begin{figure}[htbp]
     \centering
@@ -41,7 +47,7 @@ We assume that we have individual user preferences (if group preferences are ava
 
 
 \section{Simple aggregation methods}\label{sec:03_simple_aggregation_metods}
-We will now introduce the main aggregation functions used, together with an overview of how they interact with the single-user recommender systems introduced in chapter \ref{subsec:01_rec_sys.main_alg_approaches}
+We will now introduce the main aggregation functions (interchangeably as "aggregation strategies", "aggregation methods") used, together with an overview of how they interact with the single-user recommender systems introduced in chapter \ref{subsec:01_rec_sys.main_alg_approaches}
 \subsection{Methods}\label{subsec:03_simple_aggregation_methods.methods}
 
 The main aggregation methods can be divided into three groups, based on their high-level approach into - majority, consensus, and borderline based strategies. The majority-based generally use the most popular item among the group members, the consensus-based consider preferences of all the group members, and the borderline-based consider a subset of the items by some limiting criteria.
