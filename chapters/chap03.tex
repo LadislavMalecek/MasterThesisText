@@ -180,4 +180,70 @@ The second option, the aggregation of mined preferences, is more present in cont
 \section{Advanced methods}\label{sec:03_advanced_methods}
 As we can see, the simple methods mentioned before are quite straightforward, they have mostly very simple and clear objectives, and try to optimize in different ways some quite vaguely specified goal. But as we have discussed in the chapter \ref{chap:fairness}, the objective is quite hard to define and measure. We will now introduce some other methods that either directly or indirectly try to optimize some better-specified goal.
 
-\subsection{GFAR} \label{sub:03_advanced_methods.gfar}
+\subsection{GFAR} \label{subsec:03_advanced_methods.gfar}
+So far we have introduced methods that do not directly specify any form of optimization in a direction of \textit{fairness}. A new method introduced in\cite{GFAR-kaya2020} directly optimizes the resulting list to balance the relevance of the recommended items in a rank-sensitive way.
+
+\subsubsection{Introduction}
+
+As mentioned they focus on the \textit{fairness} of top-$N_G$ (\textit{fairness} of the top N recommended items for the group G). Where they define \textit{fairness} as a property of the top-$N_G$ items, not just any single item but the whole list. As already discussed in chapter \ref{sec:02_application_in_grs} the difference between optimization independently item after item versus in some way for the whole list can yield significantly better results when it comes to sequential consumption of items or and balancing users with different preferences. For example, being one member of the group being treated unfairly due to different preferences from the rest of the group, then fairness defined as a property of the whole list can in some way compensate and give more priority for balancing fairness forwards this one user. This kind of unfairness is the main problem that they try to solve.
+
+We have already mentioned one algorithm that tries to balance fairness of the whole list in chapter \ref{subsec:03_simple_aggregation_methods.methods}, FAI, which generates the aggregated results in iterations, each iteration optimizing for a different user in turns. This approach solves the aforementioned problem in a very simple (although somewhat dull) way by not considering the group preferences at all and just trying to please everyone in turns not considering if the item will be liked by the rest of the group.
+
+
+\subsubsection{Approach}
+
+What if we have instead taken into account the previously recommended items when we are selecting the next one in the list? The authors propose defining \textit{fairness} together with ordering within the group by saying that "a top-$N$ is fair to a group if the relevance of the items is balanced across the group members for \textit{each prefix} of the top-$N_G$". In other words for each iteration, we try to select an item that improves the balance as much as possible.
+
+Let us first define Borda relevance following \cite{xiao_2017_fairness_aware_g_rec} as:
+
+
+% In original paper there is an error in the direction of </>
+\begin{equation}
+    \textrm{Borda-rel}(u,i) = 
+    \big\lvert{
+        \left\{j : \textrm{rank}(j, \textrm{top-}N_u) < \textrm{rank}(i, \textrm{top-}N_u) \right\}, \forall_j \in \textrm{top-}N_u)
+    }\big\rvert
+\end{equation}
+
+Where rank is the position of item $i$ in the user's $u$ candidate list (position is determined by ordering the items based on the returned items score, from the best to the worst). Borda relevance essentially gives zero points to the last item and increases the points by one for each position up in the list, with the first/top item getting $(\#\textrm{items} - 1$) points.
+
+Now we can set probability of item $i$ being relevant for user $u$ as:
+
+\begin{equation}
+    p(\textrm{rel}|u, i) = \frac{\textrm{Borda-rel}(u, i)}{\sum_{j \in \textrm{top}-N_u}{\textrm{Borda-rel}(u, j)}}
+\end{equation}
+
+Let also $p(\neg\textrm{rel}|u, S)$ be the probability that item $i$ is not relevant for any of the items in set $S$. We derive the probability that atleast one item from set $S$ is relevant to the user $u$ as:
+
+\begin{equation} \label{eq:atleast_one_relevant}
+\begin{aligned}
+    p(\textrm{rel}|u, S) &= 1 - p(\neg\textrm{rel}|u, S) \\
+    & = 1 - \prod_{i \in S}{(1 - p(\textrm{rel}|u, i))}
+\end{aligned}
+\end{equation}
+
+Now we want to generalize for the whole group, so we define $f(S)$ as the sum of probabilities for each user that they find at least one relevant item in the set $S$:
+
+\begin{equation} \label{eq:relevance_for_set}
+\begin{aligned}
+    f(S) &= \sum_{u \in G}{\left(1 - p(\neg\textrm{rel}|u, S)\right)} \\
+    & = \sum_{u \in G}{\left(1 - \prod_{i \in S}{(1 - p(\textrm{rel}|u, i))}\right)}
+\end{aligned}
+\end{equation}
+
+We have used the Group G as a constant in equation \ref{eq:relevance_for_set} and forward, the group will stay the same during the calculation. $f(S)$ shows how to balance the fairness amongst the group members for a specified set of item. We now want to extend it in order to make it rank-sensitive by defining a marginal gain in function $f$ for adding a new item $i$ to the set $S$ as follows:
+
+\begin{equation} \label{eq:relevance_for_set}
+\begin{aligned}
+    f(i, S) &= f(S \cup {i}) - f(S) \\
+    & = \sum_{u \in G}{\left[p(\textrm{rel}|u, i) \prod_{j \in S}{(1 - p(\textrm{rel}|u, j))}\right]}
+\end{aligned}
+\end{equation}
+
+Where we have used equations \ref{eq:atleast_one_relevant} and \ref{eq:relevance_for_set}. And finally, we can define an ordered set that is considered fair if it balances each of its prefixes. In other words, the first item of the set should be considered fair/balanced by all group members as much as possible, then the first two items and so on, we define fairness in an ordered set $OS$ as:
+
+\begin{equation}
+    \textrm{fair}(OS) = \sum_{k=1}^{|OS|}{f(OS)[k], \{i \in OS : \textrm{rank}(i, OS) < k\})}
+\end{equation}
+
+
