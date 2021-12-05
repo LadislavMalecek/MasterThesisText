@@ -2,9 +2,9 @@
 % TODO: Introduction into the chapter, what we want to achieve, that we want try to define what Fairness is and how to measure it.
 
 % TODO: Reword
-So far, we have discussed recommender systems and the methods that are being used in the field. Now we will step back and look at the problem from a broader perspective. Specifically, we want to focus on the importance of fairness and to see how and if we can make group recommenders better if we understand it and define it properly.
+So far, we have discussed recommender systems and the methods used in the field. We will step back and look at the problem from a broader perspective. Specifically, we want to focus on the importance of fairness and see how and if we can make group recommenders better if we understand it and define it properly.
 
-We will start with general introduction of the topic of fairness. Define its possible meanings and specify which one is important in our setting. This is required due to the overload of the word it self and the rising importance of the topic in today's world. Further, we will explain why fairness seems to be very important parameter in the group recommender setting and will try to reason about how to measure its effects.
+We will start with a general introduction to the topic of fairness. Define its possible meanings and specify which one is important in our setting. This is required due to the overload of the word itself and the rising importance of the topic in today's world. Further, we will explain why fairness seems to be a crucial parameter in the group recommender setting and will try to reason about how to measure its effects.
 
 
 \todo[inline]{Plan:
@@ -17,6 +17,11 @@ We will start with general introduction of the topic of fairness. Define its pos
 
 - Target the one specific meaning we are focusing on
 }
+
+\todo[inline]{Notes:
+
+If you have enough, why do you care if someone gets more}
+
 
 
 
@@ -36,27 +41,41 @@ We will start with general introduction of the topic of fairness. Define its pos
 
 % the notion of fairness is probably important for developing cooperation
 
-The word it self is defined in Cambridge Dictionary \cite{fairness_definition} as "The quality of treating people equally or in a way that is reasonable." And its use have been rising steadily from the 1960s as we can see on
+The word itself is defined in Cambridge Dictionary \cite{fairness_definition} as "The quality of treating people equally or in a way that is reasonable." Its use has been rising steadily from the 1960s as we can see on \ref{fig:popularity_of_fairness}.
 
-We, humans, are obsessed with fairness. From young age, children will get sad when something is not fair. When their sibling gets a bigger piece of a pie, more attention from their parent, or any other unequal situation. It can induce strong emotions such as envy, sadness or anger. And this is not limited only to humans, we can observe the same behavior in monkeys. In \cite{brosnan2003monkeys}, the authors observed that if a monkey is getting worse reward for the same task as their peer, then it refuses the reward and demands the same payout. Even if they were satisfied with the lesser reward for the same task before.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{img/google_ngram_fairness-eng_2012-1800-2000.pdf}
+    \caption{The graph shows the phrase 'fairness' occurring in the corpus of English books from 1800 to 2010. Source: Google Ngram Viewer, corpora 2012. \cite{google_ngram_viewer_2012}}
+    \label{fig:popularity_of_fairness}
+\end{figure}
+
+We, humans, are obsessed with fairness. From a young age, children will get sad when something is not fair, when their sibling gets a more significant piece of a pie, more attention from their parent, or any other unequal situation. It can induce strong emotions such as envy, sadness, or anger, and it emerges very early, as early as 12 months of age or sooner as researched in \cite{children_fairness}.
+
+And this is not limited only to humans; we can observe the same behavior in monkeys. In \cite{brosnan2003monkeys}, the authors observed that if a monkey is getting the worse reward for the same task as its peer,  it refuses the reward and demands the same payout even if they were satisfied with the lesser reward for the same task before.
+
+We observe the same behavior in many other species, but it does not hold for the animal kingdom in general. It seems that it requires a certain level of intelligence for the notion of fairness to emerge. As discussed in \cite{brosnan2014evolution}, based on studies of other non-human species, this evolutionary puzzle can be further dissected into responses to reward distribution among the cooperating group members. Where humans are even willing to seek equalization of outcomes even if it means that they will loose some of their own reward as studied in \cite{willing_to_pay_to_equality}. At the same time, we humans like "free-rides" where we get high rewards for a small amount of work but dislike when someone else gets the same. This directly corresponds with the fairness itself - "It is not fair if someone else gets something we don't.". But that all depends on our personality and the type of relationship involved.
+
+But on the other hand, our society widely accepts the notion of "winner takes all", which can be problematic in itself, for example, in sports and business. It directly shapes the distribution of wealth, which is considered one of the main problems of today's world. But discussing the social aspect of fairness is beyond the scope of this thesis.
 
 
-\todo[inline]{The next paragraph is a lot of information that doesn't fit well together in small amount of text and should probably be rewritten to become more readable.}
+When it comes to the trough nature of fairness on the deepest level, it could even be possible that the notion of fairness which emerges together with cooperation and therefore language/communication, is an inherent property of any intelligent agent that is created through an evolutionary process. But more research has to be done, as our understanding of intelligence, consciousness, and related, hard to quantify phenomena is lacking.\newline
 
-But it does not hold for other species of the animal kingdom in general. It seems that it requires a certain level of intelligence in order for the notion of fairness to emerge. As discussed in \cite{brosnan2014evolution}, based on studies of other non-human species, this evolutionary puzzle can be further dissected into responses to reward distribution among the cooperating group members. Where humans are even willing to seek equalization of outcomes even if it means that they will loose some of their own reward as studied in \cite{willing_to_pay_to_equality}. At the same time we as humans like "free-rides" where us personally get high reward for small amount of work but dislike when someone else gets the same. Which directly corresponds with the fairness it self - "It is not fair, if someone else gets something we don't". But that all depends on our personality and type of relationship that is involved.
-
-It could even be possible, that the notion of fairness which emerges together with cooperation and therefore language/communication is an inherent property of any intelligent agent that is created through evolutionary process.
-\newline
 Let us now get back to fairness in the context of computer systems.
 
-\subsection{Possible meanings and definitions}\label{subsec:02_general.possible_meanings}
-We will focus on fairness in regards of society or individuals interacting with a computer system and we will not discuss further any meaning of fairness outside of the domain of computer science.
 
-Most of the recent literature concerning impacts of algorithms to society, fairness is studied from the perspective of discrimination. We can observe some bias to certain groups of population based on their race, sex, or other factors. These biases are introduced directly from the data the algorithms are trained on. And it is important to study techniques and strategies to mitigate this unfairness.
+\subsection{Algorithmic fairness and possible meanings}\label{subsec:02_general.algorithmic_fairness_and_possible_meanings}
+% The Emerging Theory of Algorithmic Fairness
+We will focus on fairness regarding society or individuals interacting with a computer system. We will not discuss further any meaning of fairness outside of the domain of computer science.
 
-Further, we can also view fairness from the aspect of algorithmic decision making, where a decision process can introduce unfairness based on some non-deterministic property or computation. Some sectors such as justice and finance have to strive for equality of outcome due to possibly of high cost of errors/unfair decisions, either in the form of unjust punishments in the former case or financial loss in the latter one.
+At first, the idea of a machine being unfair may feel strange. But in the end, people are those who create the algorithms. People are those that gather data from some real-world setting. People design the models and train the machine learning algorithm. And in most cases, the unfair biases present in the algorithms are not an ill-fated act of people developing them but obliviousness. Therefore, we could say that the results of any machine learning algorithm are just the product of the underlying data.
 
-Next possible interpretation that applies to our group recommender domain is the notion of fairness in the sense of balance of preference between members of some group. Each member has their own preference and we are trying to balance them in a best possible way so that everyone likes the recommended object or list of objects equally. They may like the recommendation less due to their favorite items maybe not being present or even to like it more due to some introduced novelty from the members having a different preference.
+Fairness is studied from the perspective of discrimination in most recent literature into the impacts of algorithms on society. We observe bias to specific groups of population based on their race, sex, nationality, education, beliefs, and many other attributes. And it is essential to study techniques and strategies to mitigate this unfairness.
+
+Further, we can also view fairness from the aspect of algorithmic decision-making, where a decision process can introduce unfairness based on some non-deterministic property or computation. Some sectors such as justice and finance have to strive for equality of outcome due to the high cost of errors or unfair decisions. Either in the form of unjust punishments in the former case or financial loss in the latter one.
+
+The subsequent possible interpretation that applies to our group recommender domain is the notion of fairness in the sense of balance of preference between members of a group. Each member has their preference, and we are trying to balance them in the best possible way so that everyone likes the recommended object or list of objects equally. They may like the recommendation less because their favorite items may not be present.
+
 
 
 
@@ -68,20 +87,20 @@ Next possible interpretation that applies to our group recommender domain is the
 
 % Already mentioned in the next chapter, need support for: single item vs list fairness.
 
-We will now focus only on the group RS setting. We will now mention some of the main ways how fairness can be understood in this context:
+We will now focus only on the group RS setting, mentioning some of the main ways how fairness can be understood in this context:
 
 \begin{itemize}
-    \item \textbf{Fairness distribution in single recommendation}\newline
-    We are recommending a single list or a single item and have to balance the items that all members will be satisfied by the selection. We can view fairness in this setting as an optimization problem, where items are considered better if they are liked on average (among the group members) more that items that are liked by some part of the group and disliked by the other. As the group size grows this is harder and harder to do, because a bigger group will most probably have wider preference spectrum which will be harder to satisfy.
+    \item \textbf{Fairness distribution in isolated recommendation}\newline
+    We recommend a list of items (possibly even a single item) and have to balance the items that all members will be satisfied by the selection. This single list is an isolated recommendation. We can view fairness in this setting as a direct optimization problem, where items are considered better if they are liked on average (among the group members) more than items liked by some part of the group and disliked by the other. As the group size grows, this is harder and harder to satisfy because a larger group will most probably have a broader preference which will be harder to satisfy.
     
-    \item \textbf{Fairness in list of items that are consumed sequentially}
-    This setting differs from the previous by the fact that we can be recommending items that are less universally likeable but more specific and liked by part of the group. Therefore intertwining the items in a way that each member will be satisfied "at some point". The balance of how group-likeable or member/s-likeable items are can be set according to the deployment of the system.
+    \item \textbf{fairness in a list of items that are consumed sequentially}
+    This setting differs from the previous because we can be recommending items that are less universally likable but more specific and liked by part of the group. Therefore intertwining the items so that each member will be satisfied "at some point". The balance of group-likable or member-likable items can be tuned according to the specific requirement.
     
     \item \textbf{Long-term fairness}\newline
-    Further, we can distinguish another specific case where recommendations are provided in batches that are separated by some bigger amount of time (days or longer). This case is somewhat similar to the last one, but differs by the fact that unfairness can be more costly to repair. If a person is unsatisfied while watching a movie that was recommended by a group RS, they will less likely to be part of the recommendation in the future. So the balance mentioned in the previous setting is even more important and sensitive parameter to tune. And at the same time it is more important to gather and process feedback.
+    Further, we can distinguish another case where recommendations are provided in batches separated by some more significant amount of time (days or longer). This case is somewhat similar to the last one but differs by the fact that unfairness can be more costly to repair. If a person dislikes the item recommended by a group RS, they will less likely be part of the recommendation in the future. So the balance mentioned in the previous setting is an even more important and sensitive parameter to tune. And at the same time, it is more important to gather and process feedback.
     
     \item \textbf{Uneven importance of the group members}
-    In some cases, there will be a situation where the expectation of fairness is distributed nonuniformly. For example when watching a movie with your kids, you probably care about the satisfaction of the kids than the parents. But at the same time, you want to take them into account. In these cases it is important to view fairness as a fluid parameter that can be modified and satisfied by an uneven criteria towards group members.
+    In some cases, there will be a situation where the expectation of fairness is distributed non-uniformly. For example, when watching a movie with your kids, you probably care about the satisfaction of your kids more than your own. But at the same time, you want to take yourself into account too. In these cases, it is essential to view required fairness as a fluid parameter that can be modified and satisfied by uneven criteria towards group members.
     
     \item
     
