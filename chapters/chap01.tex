@@ -75,7 +75,14 @@ So far we have discussed only recommender systems, where the object of a recomme
 
 Group recommender systems (group RS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
 
+
 \subsection{Characteristics of group RS}
+\todo[inline]{mention some basics characteristics, how many recommended, feedback gathering, timeframe}
+
+
+\todo[inline] {intro into next subchapters}
+
+
 \subsection{Challenges}\label{subsec:01_group_rec_sys.challenges}
 \begin{itemize}
     \item \textbf{How to merge individual preferences} \newline
@@ -86,10 +93,30 @@ Group recommender systems (group RS) are an interesting subarea of recommender s
         In most applications feedback is gathered directly as well as indirectly. Directly by users rating recommended items, and indirectly by observing users behavior such as which items they've visited or how long they've interacted with the item. Gathering direct feedback in the group setting is still possible, even if harder due to possibility that not all members leave a rating, but gathering the indirect, implicit feedback can become even impossible, depending on how the system-user interactions are designed. In most cases users will be selecting an item on a single device, under account of one person, therefore it is hard to distinguish what are preferences of that one individual and what are preferences of the group.
     \item \textbf{Active/passive, primary/secondary group members} \newline
         Another interesting issue arises when we consider that possibly not all members are equally important when it comes to the recommendation as mentioned in \cite{deCampos_2009_managing_uncertanity_in_grouprec}. One example could be when parents select a movie to watch with their children, the children should arguably be given a priority over the selection. Second example could be that we would possibly want to prioritize satisfaction of individual in the group that were less satisfied the last time an item was consumed.
+        
+    \item \textbf{How to explain provided recommendations} \newline
+    
+    \item \textbf{Not all members present} \newline
+    \item \textbf{Preference gathering} \newline
+    neni to moc podobne tomu feedback gathering?
+    \item \textbf{Selecting from the provided list} \newline
+\end{itemize}
+
+
+\subsection{Classification}
+As found in \cite{masthoff_2011_group_rec_systems}
+\begin{itemize}
+    \item pref known or gathered overtime
+    \item just presented or experienced in real time
+    \item group is passive or active 
+    \item recommending single item, set, list, sequence?
+    \todo[inline]{We need to distinguish what the result will be used for, generating the recommendations for a list where a single item will be selected is different from when we generate a list that will be consumed in item after item fashion. Is there a naming for this? Single item vs K-item utility?? \cite{xiao_2017_fairness_aware_g_rec} and the original paper \cite{connor_2001_polylens_rec_for_groups}}
 \end{itemize}
 
 
 \subsection{Common approaches}\label{subsec:01_group_rec_sys.common_aproaches}
+\todo[inline]{Mention ephemeral vs persistent from paper PolyLens: A Recommender System for
+Groups of Users}
 Now we will introduce the two main algorithmic approaches of group recommender systems, according to \cite{recommendations_to_groups-jameson2007} these are:
 \begin{itemize}
     \item \textbf{Group aware RS approach}\newline
@@ -98,6 +125,8 @@ Now we will introduce the two main algorithmic approaches of group recommender s
     Use single-user RS to recommend to each individual of the group and then aggregate the results together to create the final recommendation for the group.
     
 \end{itemize}
+
+\todo[inline]{Mention division into groups based on where the recommender is "located" in relation to the aggregation, in short and then ref. the reader to the related work chapter where we discuss in depth. Or move the division from the related work here?}
 
 In the RS aggregation approach we further distinguish between situations where we have predictions for all possible items and therefore can do aggregation directly on the ratings of all items or if only have a list of recommendation for each user - subset of all the items. These two can function very differently, for example taking in context only the position in the recommended list or position and the rating. They are mentioned separately in \cite{recommendations_to_groups-jameson2007}, but the approaches are very similar, they only differ in the availability of provided results from the underlying RS, so we group them together under one main direction.
 

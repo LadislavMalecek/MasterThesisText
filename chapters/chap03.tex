@@ -233,7 +233,7 @@ Now we want to generalize for the whole group, so we define $f(S)$ as the sum of
 
 We have used the Group G as a constant in equation \ref{eq:relevance_for_set} and forward, the group will stay the same during the calculation. $f(S)$ shows how to balance the fairness amongst the group members for a specified set of item. We now want to extend it in order to make it rank-sensitive by defining a marginal gain in function $f$ for adding a new item $i$ to the set $S$ as follows:
 
-\begin{equation} \label{eq:relevance_for_set}
+\begin{equation} \label{eq:relevance_for_set_add}
 \begin{aligned}
     f(i, S) &= f(S \cup {i}) - f(S) \\
     & = \sum_{u \in G}{\left[p(\textrm{rel}|u, i) \prod_{j \in S}{(1 - p(\textrm{rel}|u, j))}\right]}
@@ -247,3 +247,9 @@ Where we have used equations \ref{eq:atleast_one_relevant} and \ref{eq:relevance
 \end{equation}
 
 
+\subsection{Package-to-Group Recommendations}
+Paper \cite{serbos_2017_fairness_packages_to_group_rec}?
+
+
+\subsection{Top-N group RS with fairness}
+Paper \cite{sacharidis_2019_top_n_with_fairness}?
