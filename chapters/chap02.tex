@@ -6,8 +6,6 @@ So far, we have discussed recommender systems and the methods used in the field.
 
 We will start with a general introduction to the topic of fairness. Define its possible meanings and specify which one is important in our setting. This is required due to the overload of the word itself and the rising importance of the topic in today's world. Further, we will explain why fairness seems to be a crucial parameter in the group recommender setting and will try to reason about how to measure its effects.
 
-\todo[inline]{Notes: If you have enough, why do you care if someone gets more}
-
 
 
 
@@ -27,7 +25,7 @@ We will start with a general introduction to the topic of fairness. Define its p
 
 % the notion of fairness is probably important for developing cooperation
 
-The word itself is defined in Cambridge Dictionary \cite{fairness_definition} as "The quality of treating people equally or in a way that is reasonable." Its use has been rising steadily from the 1960s as we can see on \ref{fig:popularity_of_fairness}.
+The word itself is very hard and controversial to define but in Cambridge Dictionary \cite{fairness_definition} it's defined as "The quality of treating people equally or in a way that is reasonable." Its use has been rising steadily from the 1960s as we can see on \ref{fig:popularity_of_fairness}.
 
 \begin{figure}[htbp]
     \centering
@@ -36,9 +34,9 @@ The word itself is defined in Cambridge Dictionary \cite{fairness_definition} as
     \label{fig:popularity_of_fairness}
 \end{figure}
 
-We, humans, are obsessed with fairness. From a young age, children will get sad when something is not fair, when their sibling gets a more significant piece of a pie, more attention from their parent, or any other unequal situation. It can induce strong emotions such as envy, sadness, or anger, and it emerges very early, as early as 12 months of age or sooner as researched in \cite{children_fairness}.
+Humans are obsessed with fairness. From a young age, children will get sad when something is not fair, when their sibling gets a more significant piece of a pie, more attention from their parent, or any other unequal situation. It can induce strong emotions such as envy, sadness, or anger, and it emerges very early, as early as 12 months of age or sooner as researched in \cite{children_fairness}.
 
-And this is not limited only to humans; we can observe the same behavior in monkeys. In \cite{brosnan2003monkeys}, the authors observed that if a monkey is getting the worse reward for the same task as its peer,  it refuses the reward and demands the same payout even if they were satisfied with the lesser reward for the same task before.
+And this is not limited only to humans; we can observe the same behavior in monkeys. In \cite{brosnan2003monkeys}, the authors observed that if a monkey is getting the worse reward for the same task as its peer,  it refuses the reward and demands the same payout even if they were satisfied with the lesser reward for the same task before. In some sense, this is very strange, why should you care about someone having more if you have enough?
 
 We observe the same behavior in many other species, but it does not hold for the animal kingdom in general. It seems that it requires a certain level of intelligence for the notion of fairness to emerge. As discussed in \cite{brosnan2014evolution}, based on studies of other non-human species, this evolutionary puzzle can be further dissected into responses to reward distribution among the cooperating group members. Where humans are even willing to seek equalization of outcomes even if it means that they will loose some of their own reward as studied in \cite{willing_to_pay_to_equality}. At the same time, we humans like "free-rides" where we get high rewards for a small amount of work but dislike when someone else gets the same. This directly corresponds with the fairness itself - "It is not fair if someone else gets something we don't.". But that all depends on our personality and the type of relationship involved. Some are, for example, willing to accept that your partner makes more. But that is very subjective and in some cases can lead even to a larger of envy involved.
 
@@ -52,12 +50,19 @@ When it comes to the true nature of fairness on the deepest level, it could even
 Let us now get back to fairness in the context of computer systems.
 
 
+
+
+
+
+
+
+
 \section{Algorithmic fairness}\label{subsec:02_general.algorithmic_fairness_and_possible_meanings}
 % The Emerging Theory of Algorithmic Fairness
 We will focus on fairness regarding society or individuals interacting with a computer system. We will not discuss further any meaning of fairness outside of the domain of computer science. This topic steers away from the main goal of defining fairness for the group RS sub-domain, but we think that it is very important topic in general, deserves more spotlight and can be a good middle step to understand specifics of the group RS setting.
 
 \subsection{How can computer be unfair?}
-At first, the idea of a machine being unfair may feel strange. How can a computer that has no notion of race or ethnicity discriminate against a group of people? We say, that the algorithm is biased. In the end those who create the algorithms are people. Gathered data that are used to train the algorithm are from the real world. And so they reflect biases that are present in society. Algorithms them selves are not written with ill-fated purpose, it is just a side effect. We can say that the results of any machine learning algorithm are just the product of the underlying data.
+At first, the idea of a machine being unfair may feel strange. How can a computer that has no notion of race or ethnicity discriminate against a group of people? We say, that the algorithm is biased. In the end those who create the algorithms are people. Gathered data that are used to train the algorithm are from the real world. And so they reflect biases that are present in society. Algorithms with bias are not written with ill-fated purpose, it is just a side effect. We can say that the results of any machine learning algorithm are just the product of the underlying data. By design, accurate classifier will reproduce patterns found in training data.
 
 It is important to define which sensitive characteristics need to be taken into account. That is a topic for social science to determine, but usually those are: gender, ethnicity, sexual orientation, disability, and so forth.
 
@@ -65,36 +70,88 @@ Research of algorithm fairness tries to analyze machine learning algorithms and 
 \newline
 As stated in \cite{pessach2020algorithmic_fairness} main sources of unfairness can be:
 \begin{itemize}
-    \item \textbf{Biases already included in the data set}
-    Such as dependence/correlation of data based on sensitive characteristics.
-    \item \textbf{Biases caused by missing data}
-    Results in dataset that does not represent the target population
+    \item \textbf{Biases already included in the data set}\newline
+    Such as dependence/correlation of data based on sensitive characteristics. Bias found in the data is by design reproduced by an accurate classifier.
+    \item \textbf{Biases caused by missing data}\newline
+    Results in data set that does not represent the target population.
     \item \textbf{Biases stemming from algorithmic objectives}\newline
     While training, we usually minimize some error, but that can lead to prioritization of interests of majority.
     \item \textbf{Biases caused by "proxy" attributes}\newline
-    When sensitive/private data get removed or replaced, relationship can be created from which algorithm can still deduce the original bias
+    Some attributes that are not directly considered sensitive still can contain information from sensitive attributes. In other words, they are not independent. The algorithm can therefore use the "proxy" attribute and exploit the sensitive attribute indirectly.
 \end{itemize}
 
 
-Fairness is studied from the perspective of discrimination in most recent literature into the impacts of algorithms on society. We observe bias to specific groups of population based on their race, sex, nationality, education, beliefs, and many other attributes. And it is essential to study techniques and strategies to mitigate this unfairness.
+In most of the recent literature fairness is studied from the perspective of discrimination and impacts of algorithms on society. We observe bias to specific groups of population based on their race, sex, nationality, education, beliefs, and many other attributes. And it is essential to study techniques and strategies to mitigate this unfairness.
 
 Further, we can also view fairness from the aspect of algorithmic decision-making, where a decision process can introduce unfairness based on some non-deterministic property or computation. Some sectors such as justice and finance have to strive for equality of outcome due to the high cost of errors or unfair decisions. Either in the form of unjust punishments in the former case or financial loss in the latter one.
 
-The subsequent possible interpretation that applies to our group recommender domain is the notion of fairness in the sense of balance of preference between members of a group. Each member has their preference, and we are trying to balance them in the best possible way so that everyone likes the recommended object or list of objects equally. They may like the recommendation less because their favorite items may not be present.
+
+\subsection{Examples of algorithmic bias}
+We will now present a few instances of computer systems that have been used where bias towards a sensitive parameter had a substantial impact.
+
+% https://towardsdatascience.com/what-is-algorithm-fairness-3182e161cf9f
+% https://towardsdatascience.com/real-life-examples-of-discriminating-artificial-intelligence-cae395a90070
+
+\begin{itemize}
+    \item \textbf{Amazon's automatic recruiting system}\newline
+    As reported by \cite{amazon-unfair-hiring-2018}, in 2018 it was found that new system for hiring people for Amazon was biased towards women. IT field being mostly male dominated - women represent only around 23\% as stated in \cite{women-in-tech-2021}. Due to this disproportion the algorithm discovered in training data pattern between gender of the candidate and hiring results which lead it to assume that male candidates are preferred before female ones. The algorithm was not told the gender of the candidate, but it inferred it from other data such as university, hobbies and other. This bias is a combination of "bias already included in the data set" and "biases caused by proxy attributes". The company later disbanded the team and left the tool only as a helper tool that works in conjunction with the recruiters, instead of solely automatically.
+    
+    \item \textbf{Apple's credit card}\newline
+    Apple released it's own credit card in 2019. It works by you signing up for the service and the provider (Goldman Sachs) giving you credit limit based on some criteria. Some people, as reported in \cite{apple-card-washingtonpost-2019}, noticed that their wife was assigned smaller credit limit even though her credit score was higher and they only had one shared bank account.
+    In this case, investigation by New York State Department of Financial Services came to conclusion based on an extensive analysis that no unlawful discrimination against applicants have taken place.
+    
+    \item \textbf{COMPAS} - Correctional Offender Management Profiling for Alternative Sanctions\newline
+    COMPAS is an algorithm that was used in US justice system to predict the likelihood that a defendant would become a recidivist. Analysis \cite{compas-analysis-2020} found that black defendants were often predicted as being higher risk than they actually were and on the contrary white defendants were predicted to be less risky than in reality. In case of re-offended, this predicted risk was almost twice as high for blacks compared to whites. They conclude that the tool is very imprecise and does not reflect the true likelihood that it was designed to predict.
+\end{itemize}
+
+In these cases, society and mainly law has to act and protect those that are treated unfairly. European law can act as a good example of what can be done. The general data protection regulation (GDPR) and protection of individuals against algorithmic bias are some of the great and functioning examples.
+
+Details about laws that are in effect in EU and definitions of sensitive characteristics and areas of protection can be found in Handbook on European non-discrimination law \cite{european-union-agency-for-fundamental-rights-2018}.
+
 
 \subsection{Measures of algorithmic fairness}
-We need to have a precise way how to measure bias of the sensitive characteristics. Some of the simple statistical methods presented in \cite{wikipedia-algo-fairness} are:
+It is necessary to 
+
+We need to have a precise way how to measure bias of the sensitive characteristics. Some of the simple statistical methods directly sourced from \cite{wikipedia-algo-fairness} are:
 \begin{itemize}
+
+
     \item \textbf{Independence}
-    We say that sensitive characteristic S is independent of prediction R if 
-    \begin{equation}
-        P\left(R = r|S = a\right)=P\left(R=r|S=b\right) \quad \forall r\in R \quad \forall a,b \in S
-    \end{equation}
+        We say that sensitive characteristic S is independent of prediction R if:
+        \begin{equation}
+            P\left(R = r|S = a\right)=P\left(R=r|S=b\right) \quad \forall r\in R \quad \forall a,b \in S
+        \end{equation}
+    
     
     \item \textbf{Separation}
+        We say that random variables $(R,A,Y)$ satisfy separation if the sensitive characteristics $A$ are statistically independent to the target value $Y$ given the prediction $R$.
+        This relation can be expressed with:
+        \begin{equation}
+        \begin{split}
+            P\left(Y=q|R=r,A=a\right)=P\left(Y=q|R=r,A=b\right) \\
+            \quad \forall r\in R\quad q \in Y \quad \forall a,b \in A
+        \end{split}
+        \end{equation}
+    
+    
     \item \textbf{Sufficiency}
+        We say the random variables $(R,A,Y)$ satisfy sufficiency if the sensitive characteristics $A$ are statistically independent to the target value $Y$ given the prediction $R$. This can be expressed as:
+        \begin{equation}
+        \begin{split}
+            P\left(Y=q|R=r,A=a\right)=P\left(Y=q|R=r,A=b\right) \\
+            \quad \forall q\in Y\quad r \in R \quad \forall a,b \in A
+        \end{split}
+        \end{equation}
     
 \end{itemize}
+
+
+The subsequent possible interpretation that applies to our group recommender domain is the notion of fairness in the sense of balance of preference between members of a group. Each member has their preference, and we are trying to balance them in the best possible way so that everyone likes the recommended object or list of objects equally. They may like the recommendation less because their favorite items may not be present.
+
+
+
+
+
 
 
 
@@ -107,6 +164,9 @@ We need to have a precise way how to measure bias of the sensitive characteristi
 % TODO: Important to distinguish and define the fairness in the group setting. Other related things such as group dynamics, LONG-TERM fairness, balancing among users. Possible RS related problems.
 
 % Already mentioned in the next chapter, need support for: single item vs list fairness.
+
+
+
 
 We will now focus only on the group RS setting, mentioning some of the main ways how fairness can be understood in this context:
 
@@ -123,10 +183,11 @@ We will now focus only on the group RS setting, mentioning some of the main ways
     \item \textbf{Uneven importance of the group members}
     In some cases, there will be a situation where the expectation of fairness is distributed non-uniformly. For example, when watching a movie with your kids, you probably care about the satisfaction of your kids more than your own. But at the same time, you want to take yourself into account too. In these cases, it is essential to view required fairness as a fluid parameter that can be modified and satisfied by uneven criteria towards group members.
     
-    \subsection{Evaluation} \label{sec:02_evaluation}
 % TODO: It is nice to see what we want, but in order to build algorithms and improve, we first need to know how to measure it. List possible ways of how to measure the fairness, mainly in regards to group recommenders. Then discuss about the evaluation on data. The exact process of processing the the training and testing. Define everything very precisely and rigorously.
     
 \end{itemize}
+
+\subsection{Evaluation} \label{sec:02_evaluation}
 
 \section{Other properties} \label{sec:02_other_properties}
 Let us now discuss some similar properties that are closely tied together with fairness in the general setting and algorithmic setting as it it crucial to have wide overview of the problem in order to design algorithms that optimize fairness it self. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness inherently has to be part of a multi-criterion optimization.
@@ -141,6 +202,7 @@ From the algorithmic view, bias is mostly introduced with the underlying data, t
 
 
 \subsection{Privacy}
+We have to extend our definition of privacy even on the machine learning algorithm, because they can leak private information through the prediction. 
 \subsection{Integrity}
 \subsection{Legitimacy}
 
