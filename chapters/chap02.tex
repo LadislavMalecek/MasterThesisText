@@ -40,6 +40,8 @@ And this is not limited only to humans; we can observe the same behavior in monk
 
 We observe the same behavior in many other species, but it does not hold for the animal kingdom in general. It seems that it requires a certain level of intelligence for the notion of fairness to emerge. As discussed in \cite{brosnan2014evolution}, based on studies of other non-human species, this evolutionary puzzle can be further dissected into responses to reward distribution among the cooperating group members. Where humans are even willing to seek equalization of outcomes even if it means that they will loose some of their own reward as studied in \cite{willing_to_pay_to_equality}. At the same time, we humans like "free-rides" where we get high rewards for a small amount of work but dislike when someone else gets the same. This directly corresponds with the fairness itself - "It is not fair if someone else gets something we don't.". But that all depends on our personality and the type of relationship involved. Some are, for example, willing to accept that your partner makes more. But that is very subjective and in some cases can lead even to a larger of envy involved.
 
+\todo[inline]{Fairness acts as a group self healing property, where equality leads to more stable groups?}
+
 In some cases we observe a pattern of generosity, where children are willing to make their own sacrifices in order to ensure fairness, so that the other person does not have less than them, as presented in \cite{children_generocity_blake}. The authors studied fairness in multiple cultural settings and found out that this behavior is learned and only present in some cultures.
 
 On the other hand, our society widely accepts the notion of "winner takes all", which can be problematic in itself, for example, in sports and business. In business it directly shapes the distribution of wealth, which is considered one of the main problems of today's world. But discussing the social aspect of fairness is beyond the scope of this thesis.
@@ -149,6 +151,26 @@ We need to have a precise way how to measure bias of the sensitive characteristi
 The subsequent possible interpretation that applies to our group recommender domain is the notion of fairness in the sense of balance of preference between members of a group. Each member has their preference, and we are trying to balance them in the best possible way so that everyone likes the recommended object or list of objects equally. They may like the recommendation less because their favorite items may not be present.
 
 
+\subsection{Other adverse effects}
+% Zpracovat feedback loop, bias problemy muzou zpusobit problemy dlouhodobe, echochambers
+
+We would now like to talk about other negative effect of not addressing the importance of fairness, when developing machine learning algorithms.
+
+\subsubsection{Negative feedback loop}
+
+A decision-making system that is learning from past data and is retrained in the future, will consume its own (previous versions') decisions as training data. This can lead to amplification of biases that were present and to further skew the distribution of the underlying data. This effect is called "negative feedback loop".
+
+In order to build robust and fair algorithmic systems, we need to understand when and why this effect emerges. When we look at it from a simpler perspective, where the previous system being in production is just a set of predictions, then training the next model is just training the previous with additional data that it made ( the set of predictions from production). In this sense the set of features selected in the previous training will correlate with the new data and therefore affect the selected and used features in the new training. This can be very detrimental to performance of the model. And it is not easily fixable due to how data is gathered and how machine learning is iterated.
+
+We will mention an example from \cite{towardsdatascience_negative_feedback_loop}. Lets assume that we are building a decision-making algorithm that decides where to put our call-center capacity in order to generate the most profit. And lets again assume that in the prior data the conversion rate of person coming from page X is 5\%, from page Y is 2\% and from page Z is 1\%. The algorithm will naturally be selecting to focus our capacity to X, because it has the biggest conversion rate. Now fast forward some time when we are retraining the model on new data. Due to us preferring the page X, and not calling to people coming from Y and Z our data distribution of conversion rate looks like this: X: 8.5\%, Y: 0.5\% and Z: 0\%. We end up having less data about Y and Z due to us, not calling people coming from those pages. Now we will retrain the model and this bias towards X will reinforce. In this way the performance of the model is decreasing, due to the data no longer following the actual underlying distribution. If we use ideas from Reinforcement learning - we are exploiting, but not exploring.
+
+This negative feedback loop can be and is very detrimental to models' performance and in a wider view even dangerous to society. Which directly leads us to a second adverse effect of echo chambers.
+
+\subsubsection{Echo chambers}
+The feedback loop described in previous section can be observed in effect not only when retraining algorithms, but in social groups as well. People naturally seek out information that reinforces and supports their existing views as stated in \cite{garrett2009_reinforcing_opinion}. Serving content to user that supports their views will therefore lead to higher satisfaction and interaction with the system. Together with metrics that are used while training content recommendation systems, which try to maximize the amount of time user spent interacting with the service, or return rate of the visitors, can lead to a creation of system that naturally locks its users in so called "echo chambers". While being inside, your own views will be reinforced. This, together with people increasingly consuming social media feed as their main source of news is probably one of the main forces behind the increasing polarization in society. But more research and empirical findings that directly support these assumptions is needed.
+\todo[inline]{Extend}
+% Need to find source for the increasing polarization.
+
 
 
 
@@ -165,10 +187,13 @@ The subsequent possible interpretation that applies to our group recommender dom
 
 % Already mentioned in the next chapter, need support for: single item vs list fairness.
 
+%Equality of oportunity and equality of outocme a rozlisit mezi tim a my jdeme po oportunity of outcome, tam nejde tolik o bias ale o ten vysledek
+
+So far, we have discussed algorithmic fairness in the context of equality of opportunity, where the main goal is to not discriminate against an individual. The same issues are present in the Group RS domain, but we will focus on equality of outcome more. Our objective is to fairly distribute item recommendation quality between group members, so that everyone is as satisfied as possible and satisfied equally.
 
 
-
-We will now focus only on the group RS setting, mentioning some of the main ways how fairness can be understood in this context:
+\subsection{Specific cases of fairness}
+Let us now mention some of the main ways how fairness in this context can be understood and specific differences between the different ways.
 
 \begin{itemize}
     \item \textbf{Fairness distribution in isolated recommendation}\newline
@@ -188,6 +213,11 @@ We will now focus only on the group RS setting, mentioning some of the main ways
 \end{itemize}
 
 \subsection{Evaluation} \label{sec:02_evaluation}
+
+% omezena komodita rozdistribuovat mezi zdroje
+% 1 mira ferovosti a 2 mira relevance
+% lepsi pro nas mit vsichni min a stejne nez nekdo vic a ostatni min
+% najit metriky ferovosti a zamyslet se nad tim co a jak
 
 \section{Other properties} \label{sec:02_other_properties}
 Let us now discuss some similar properties that are closely tied together with fairness in the general setting and algorithmic setting as it it crucial to have wide overview of the problem in order to design algorithms that optimize fairness it self. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness inherently has to be part of a multi-criterion optimization.
