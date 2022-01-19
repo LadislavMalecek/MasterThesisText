@@ -158,16 +158,16 @@ We would now like to talk about other negative effect of not addressing the impo
 
 \subsubsection{Negative feedback loop}
 
-A decision-making system that is learning from past data and is retrained in the future, will consume its own (previous versions') decisions as training data. This can lead to amplification of biases that were present and to further skew the distribution of the underlying data. This effect is called "negative feedback loop".
+A decision-making system that is learning from past data and is retrained in the future, will consume its own (previous versions') decisions as training data. This can lead to amplification of biases that were already present and to further skew the distribution of the underlying data. This effect is called "negative feedback loop".
 
-In order to build robust and fair algorithmic systems, we need to understand when and why this effect emerges. When we look at it from a simpler perspective, where the previous system being in production is just a set of predictions, then training the next model is just training the previous with additional data that it made ( the set of predictions from production). In this sense the set of features selected in the previous training will correlate with the new data and therefore affect the selected and used features in the new training. This can be very detrimental to performance of the model. And it is not easily fixable due to how data is gathered and how machine learning is iterated.
+In order to build robust and fair algorithmic systems, we need to understand when and why this effect emerges. When we look at it from a simpler perspective, where the current system deployed in production is just a set of predictions, then training the next model is just training the previous with additional data that the current model made (the set of predictions from production). In this sense the set of features selected while the current model was trained will correlate with the new data and therefore affect the selected and used features in the new training. This can be very detrimental to performance of the model. And it is not easily fixable due to how data is gathered and how machine learning is iterated.
 
-We will mention an example from \cite{towardsdatascience_negative_feedback_loop}. Lets assume that we are building a decision-making algorithm that decides where to put our call-center capacity in order to generate the most profit. And lets again assume that in the prior data the conversion rate of person coming from page X is 5\%, from page Y is 2\% and from page Z is 1\%. The algorithm will naturally be selecting to focus our capacity to X, because it has the biggest conversion rate. Now fast forward some time when we are retraining the model on new data. Due to us preferring the page X, and not calling to people coming from Y and Z our data distribution of conversion rate looks like this: X: 8.5\%, Y: 0.5\% and Z: 0\%. We end up having less data about Y and Z due to us, not calling people coming from those pages. Now we will retrain the model and this bias towards X will reinforce. In this way the performance of the model is decreasing, due to the data no longer following the actual underlying distribution. If we use ideas from Reinforcement learning - we are exploiting, but not exploring.
+We will mention an example from \cite{towardsdatascience_negative_feedback_loop}. Lets assume that we are building a decision-making algorithm that decides where to put our call-center capacity in order to generate the most profit. In other words, to which telephone numbers from some candidate list to call. And lets again assume that in the prior data the conversion rate of person coming from page X is 5\%, from page Y is 2\% and from page Z is 1\%. The algorithm will naturally be selecting to focus our capacity to X, because it has the biggest conversion rate. Now fast forward some time when we are retraining the model on new data. Due to us preferring the page X, and not calling to people coming from Y and Z our data distribution of conversion rate looks like this: X: 8.5\%, Y: 0.5\% and Z: 0\%. We end up having less data about Y and Z due to us, not calling people coming from those pages. Now we will retrain the model and this bias towards X will reinforce. In this way the performance of the model is decreasing, due to the data no longer following the actual underlying distribution. If we use ideas from Reinforcement learning - we are exploiting, but not exploring.
 
 This negative feedback loop can be and is very detrimental to models' performance and in a wider view even dangerous to society. Which directly leads us to a second adverse effect of echo chambers.
 
 \subsubsection{Echo chambers}
-The feedback loop described in previous section can be observed in effect not only when retraining algorithms, but in social groups as well. People naturally seek out information that reinforces and supports their existing views as stated in \cite{garrett2009_reinforcing_opinion}. Serving content to user that supports their views will therefore lead to higher satisfaction and interaction with the system. Together with metrics that are used while training content recommendation systems, which try to maximize the amount of time user spent interacting with the service, or return rate of the visitors, can lead to a creation of system that naturally locks its users in so called "echo chambers". While being inside, your own views will be reinforced. This, together with people increasingly consuming social media feed as their main source of news is probably one of the main forces behind the increasing polarization in society. But more research and empirical findings that directly support these assumptions is needed.
+The feedback loop described in previous section can be observed in effect not only when retraining algorithms, but in social groups as well. People naturally seek out information that reinforce and support their existing views as stated in \cite{garrett2009_reinforcing_opinion}. Serving content to user that supports their views will therefore lead to higher satisfaction and interaction with the system. Together with metrics that are used while training content recommendation systems, which try to maximize the amount of time user spent interacting with the service, or return rate of the visitors, can lead to a creation of system that naturally locks its users in so called "echo chambers". While being inside, your own views will be reinforced. This, together with people increasingly consuming social media feed as their main source of news is probably one of the main forces behind the increasing polarization in society. But more research and empirical findings that directly support these assumptions is needed.
 \todo[inline]{Extend}
 % Need to find source for the increasing polarization.
 
@@ -220,7 +220,7 @@ Let us now mention some of the main ways how fairness in this context can be und
 % najit metriky ferovosti a zamyslet se nad tim co a jak
 
 \section{Other properties} \label{sec:02_other_properties}
-Let us now discuss some similar properties that are closely tied together with fairness in the general setting and algorithmic setting as it it crucial to have wide overview of the problem in order to design algorithms that optimize fairness it self. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness inherently has to be part of a multi-criterion optimization.
+Let us now discuss some similar properties that are closely tied together with fairness in the general and algorithmic setting as it it crucial to have wide overview of the problem in order to design algorithms that optimize fairness it self. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness, inherently, has to be part of a multi-criterion optimization.
 
 \subsection{Bias}
 As already mentioned before, bias is an important property that we are trying to suppress. Examples of bias are all around us. Each person has at least some prejudice and ideas about topics that they are not familiar with or that society is giving them. It is therefore important that we actively try to broaden our minds and suppress these biases. Just then, we can truly become equal as individuals.
@@ -228,19 +228,50 @@ As already mentioned before, bias is an important property that we are trying to
 From the algorithmic view, bias is mostly introduced with the underlying data, that we process. Sometimes these biases are used to even generate profit. For example marketing, where sex is a very good indicator of preference. A good question arises - where lies the line between fair usage and abuse? We don't know yet, but it seems that privacy and fairness will be gaining importance and therefore the question of how to get rid of bias will become more significant.
 
 
-\subsection{Similarity}
-
 
 \subsection{Privacy}
-We have to extend our definition of privacy even on the machine learning algorithm, because they can leak private information through the prediction. 
-\subsection{Integrity}
+We have to extend our definition of privacy to the machine learning systems as well. As we have already mentioned, machine learning models underlying data from the provided data set and therefore can leak users' information. Some models are explicitly based on similarity between users. A great example can be user-based methods in recommenders systems that were described in subsection \ref{subsec:01_rec_sys.main_alg_approaches}. In user-based methods we first find users that are similar to our target user to whom we're generating a recommendation and then we recommend those items that the similar users liked and our user haven't yet seen. And it can inherently happen that this preference we are unknowingly exploiting can be considered private. In this approach lies the great strength of user-based methods, they can extract latent meaning from data that would stay otherwise hidden. But it can lead to breach of privacy. Other great example can be text processing systems that are taught on a huge corpi of diverse text ranging from books, private messages, code repositories and other sources. A good example is a coding assistant for generating suggestions called Github Copilot. After the release of an initial version, it was discovered that it leaks secret information from the code repositories that it was trained on as discussed in \cite{github_copilot_leaks_2} and \cite{github_copilot_leaks}. Specifically API access keys.
+
+Other than private data propagation from training data-sets to output of the models can be the gathering and usage of massive training data-sets it self. Fair use which is vaguely mentioned in almost all service providers that gather users data should be revised and brought up to standards of the 21st century. But government regulations lag behind.
+
+\subsection{Trust}
+There are certain machine learning settings that require more trust than others. It directly corresponds with how high of an impact the provided algorithmic decision can have. We will put a system that recommends books to a way lower level of scrutiny than a system that recommends which medication or treatment person should get. This direct proportion between the importance of machine learning output and potential personal loss needs to be taken into account while designing the systems. Sometimes even highly effective and correct outputs of a machine learning system can be dismissed only due to a lack of trust in the system. Then the effectivity of the system can diminish even if the training and testing data tells otherwise. Trust can be greatly increased when providing explanations to the output of the system.
+
+\subsection{Explainability}
+Having a reasonable explanation to why are we getting the result we are getting can greatly improve real-world effectiveness of the system. It can decrease negative reactions to a non-ideal prediction and make users more forgivable as stated in \cite{tintarev2007survey}. We provide two examples of how can such an explanation look like, first from Amazon book store \ref{fig:amazon_explain_book_recommendation} and second from Facebook's explanation of why was a particular advertisement served \ref{fig:facebook_explain_book_recommendation}.
+
+Explanations can achieve not only increased trust in the system as mentioned before, but increase in transparency, scrutability, persuasiveness, overall satisfaction and other benefits. The main problem is, that they are generally hard to make and they need to be taken into account while developing the machine learning system since the beginning. Some algorithms are outright impossible to explain, for example neural networks. They keep context in neural connections which are very hard to provide explanation for. We sometimes refer to this property of a system that we do not fully understand as 'black-box' systems. We know how they work, how to train them, but due to the inner complexity we fail to explain the exact way of how the result was calculated.
+
+Explainability can be even indispensable. Lets for assume that a machine learning model is used to recommend a legal action against an individual in a judiciary setting. We cannot soundly present it as an evidence without being able to justify its actions and warrant its correctness.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{img/AmazonExplanation.png}
+    \caption{Amazon's web-page window that provides context why was a particular book recommended.}
+    \label{fig:amazon_explain_book_recommendation}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{img/FacebookAdExplanation2.png}
+    \caption{Facebook's web-page window that provides information about what data lead to user's seeing Facebook's ads.}
+    \label{fig:facebook_explain_book_recommendation}
+\end{figure}
+
 \subsection{Legitimacy}
 
-\subsection{Accuracy}
-\subsection{Precision}
+
+\subsection{Consistency}
+
 \subsection{Coverage}
 \subsection{Diversity}
 \subsection{Novelty}
+
+\subsection{Similarity}
+\subsection{Accuracy}
+\subsection{Precision}
+
 
 
 
