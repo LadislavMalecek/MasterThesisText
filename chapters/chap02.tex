@@ -64,7 +64,7 @@ Let us now get back to fairness in the context of computer systems.
 We will focus on fairness regarding society or individuals interacting with a computer system. We will not discuss further any meaning of fairness outside of the domain of computer science. This topic steers away from the main goal of defining fairness for the group RS sub-domain, but we think that it is very important topic in general, deserves more spotlight and can be a good middle step to understand specifics of the group RS setting.
 
 \subsection{How can computer be unfair?}
-At first, the idea of a machine being unfair may feel strange. How can a computer that has no notion of race or ethnicity discriminate against a group of people? We say, that the algorithm is biased. In the end those who create the algorithms are people. Gathered data that are used to train the algorithm are from the real world. And so they reflect biases that are present in society. Algorithms with bias are not written with ill-fated purpose, it is just a side effect. We can say that the results of any machine learning algorithm are just the product of the underlying data. By design, accurate classifier will reproduce patterns found in training data.
+At first, the idea of a machine being unfair may feel strange. How can a computer that has no notion of race or ethnicity discriminate against a group of people? We say, that the algorithm is biased. In the end those who create the algorithms are people. Gathered data that are used to train the algorithm are from the real world. And so they reflect biases that are present in society. Algorithms with bias are not written with ill-fated purpose, it is just a side effect. We can say that the results of any machine learning (ML) algorithm are just the product of the underlying data. By design, accurate classifier will reproduce patterns found in training data.
 
 It is important to define which sensitive characteristics need to be taken into account. That is a topic for social science to determine, but usually those are: gender, ethnicity, sexual orientation, disability, and so forth.
 
@@ -88,7 +88,7 @@ In most of the recent literature fairness is studied from the perspective of dis
 Further, we can also view fairness from the aspect of algorithmic decision-making, where a decision process can introduce unfairness based on some non-deterministic property or computation. Some sectors such as justice and finance have to strive for equality of outcome due to the high cost of errors or unfair decisions. Either in the form of unjust punishments in the former case or financial loss in the latter one.
 
 
-\subsection{Examples of algorithmic bias}
+\subsection{Examples of algorithmic bias}\label{subsec:02_algo_fairness.examples_of_algo_biass}
 We will now present a few instances of computer systems that have been used where bias towards a sensitive parameter had a substantial impact.
 
 % https://towardsdatascience.com/what-is-algorithm-fairness-3182e161cf9f
@@ -168,7 +168,7 @@ This negative feedback loop can be and is very detrimental to models' performanc
 
 \subsubsection{Echo chambers}
 The feedback loop described in previous section can be observed in effect not only when retraining algorithms, but in social groups as well. People naturally seek out information that reinforce and support their existing views as stated in \cite{garrett2009_reinforcing_opinion}. Serving content to user that supports their views will therefore lead to higher satisfaction and interaction with the system. Together with metrics that are used while training content recommendation systems, which try to maximize the amount of time user spent interacting with the service, or return rate of the visitors, can lead to a creation of system that naturally locks its users in so called "echo chambers". While being inside, your own views will be reinforced. This, together with people increasingly consuming social media feed as their main source of news is probably one of the main forces behind the increasing polarization in society. But more research and empirical findings that directly support these assumptions is needed.
-\todo[inline]{Extend}
+%\todo[inline]{Extend}
 % Need to find source for the increasing polarization.
 
 
@@ -213,6 +213,7 @@ Let us now mention some of the main ways how fairness in this context can be und
 \end{itemize}
 
 \subsection{Evaluation} \label{sec:02_evaluation}
+\todo[inline]{DEADLINE 17.1. osnova v bodech}
 
 % omezena komodita rozdistribuovat mezi zdroje
 % 1 mira ferovosti a 2 mira relevance
@@ -220,29 +221,28 @@ Let us now mention some of the main ways how fairness in this context can be und
 % najit metriky ferovosti a zamyslet se nad tim co a jak
 
 \section{Other properties} \label{sec:02_other_properties}
-Let us now discuss some similar properties that are closely tied together with fairness in the general and algorithmic setting as it it crucial to have wide overview of the problem in order to design algorithms that optimize fairness it self. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness, inherently, has to be part of a multi-criterion optimization.
+Let us now discuss some similar properties that are closely tied together with fairness in the general and algorithmic setting as it is helpful to have a wide overview of the problem while designing algorithms that optimize fairness. We can have a fair algorithm, but to what use it will be, if it recommends bad items that are disliked. Fairness, as well as most other parameters we are usually trying to optimise has to be part of a multi-criterion optimization, especially in the non-academia setting.
 
 \subsection{Bias}
-As already mentioned before, bias is an important property that we are trying to suppress. Examples of bias are all around us. Each person has at least some prejudice and ideas about topics that they are not familiar with or that society is giving them. It is therefore important that we actively try to broaden our minds and suppress these biases. Just then, we can truly become equal as individuals.
+As already mentioned before, bias is an important harmful property that we are aiming to reduce. Examples of bias are all around us. Each person has at least some prejudice and false ideas about topics that they have no expertise in. It is therefore important that we actively try to broaden our minds and actively suppress these biases. Just then, we can truly become equal as individuals.
 
-From the algorithmic view, bias is mostly introduced with the underlying data, that we process. Sometimes these biases are used to even generate profit. For example marketing, where sex is a very good indicator of preference. A good question arises - where lies the line between fair usage and abuse? We don't know yet, but it seems that privacy and fairness will be gaining importance and therefore the question of how to get rid of bias will become more significant.
-
+From the algorithmic view, bias is mostly introduced from the underlying data, that we are using as a training set. Sometimes these biases are even knowingly used to even generate profit. For example in marketing, where sex is a very good indicator of preference. A good question arises - where lies the line between fair usage and abuse? We don't know yet, but it seems that privacy and fairness will be gaining importance and therefore the question of how to get rid of bias will become more significant.
 
 
 \subsection{Privacy}
-We have to extend our definition of privacy to the machine learning systems as well. As we have already mentioned, machine learning models underlying data from the provided data set and therefore can leak users' information. Some models are explicitly based on similarity between users. A great example can be user-based methods in recommenders systems that were described in subsection \ref{subsec:01_rec_sys.main_alg_approaches}. In user-based methods we first find users that are similar to our target user to whom we're generating a recommendation and then we recommend those items that the similar users liked and our user haven't yet seen. And it can inherently happen that this preference we are unknowingly exploiting can be considered private. In this approach lies the great strength of user-based methods, they can extract latent meaning from data that would stay otherwise hidden. But it can lead to breach of privacy. Other great example can be text processing systems that are taught on a huge corpi of diverse text ranging from books, private messages, code repositories and other sources. A good example is a coding assistant for generating suggestions called Github Copilot. After the release of an initial version, it was discovered that it leaks secret information from the code repositories that it was trained on as discussed in \cite{github_copilot_leaks_2} and \cite{github_copilot_leaks}. Specifically API access keys.
+We have to extend our definition of privacy to ML systems as well. It tries to model given underlying data and therefore can leak users' information that is present in the data. Some models are explicitly based on similarity between users. A great example can be user-based methods from recommenders systems that were described in subsection \ref{subsec:01_rec_sys.main_alg_approaches}. In user-based methods we first find users that are similar to our target user to whom we're generating a recommendation and then we recommend those items that the similar users liked and our user have not yet seen. It can inherently happen that this preference we are unknowingly exploiting can be considered private. In this approach lies the great strength of user-based methods, they can extract latent meaning from data that would stay otherwise hidden. But on the other hand it can lead to a breach of privacy. Another great example can be text processing systems that are taught on a huge corpi of diverse text ranging from books, private messages, code repositories and other sources. A good example is a coding assistant for generating suggestions called Github Copilot. After the release of an initial version, it was discovered that it leaks secret information from the code repositories that it was trained on as discussed in \cite{github_copilot_leaks_2} and \cite{github_copilot_leaks}. More specifically - API access keys. The issue was later mitigated with applying content filters that check for known secret data such as the already mentioned API access keys, emails, passwords and other personal data.
 
-Other than private data propagation from training data-sets to output of the models can be the gathering and usage of massive training data-sets it self. Fair use which is vaguely mentioned in almost all service providers that gather users data should be revised and brought up to standards of the 21st century. But government regulations lag behind.
+Other issues apart from private data propagation out of training data-sets to predictions of the models can be the gathering and usage of massive training data-sets it self. Fair use which is vaguely mentioned by almost all service providers that gather users data should be revised and brought up to standards of the 21st century. But as we all know - government regulations lag behind.
 
 \subsection{Trust}
-There are certain machine learning settings that require more trust than others. It directly corresponds with how high of an impact the provided algorithmic decision can have. We will put a system that recommends books to a way lower level of scrutiny than a system that recommends which medication or treatment person should get. This direct proportion between the importance of machine learning output and potential personal loss needs to be taken into account while designing the systems. Sometimes even highly effective and correct outputs of a machine learning system can be dismissed only due to a lack of trust in the system. Then the effectivity of the system can diminish even if the training and testing data tells otherwise. Trust can be greatly increased when providing explanations to the output of the system.
+There are certain machine learning applications that require aiming to optimize trust than others. It directly corresponds with how high of an impact the provided algorithmic decision can have. We will put a system that recommends books to a way lower level of scrutiny than a system that recommends which medication or treatment should a person get. This direct proportion between the importance of machine learning output and potential personal loss needs to be taken into account while designing the systems. Sometimes even highly effective and correct outputs of a machine learning system can be dismissed only due to a lack of trust in the system. Then the effectivity of the system can diminish even if the training and testing data tells otherwise. Trust can be greatly increased when providing explanations accompanying the output of the system.
 
 \subsection{Explainability}
-Having a reasonable explanation to why are we getting the result we are getting can greatly improve real-world effectiveness of the system. It can decrease negative reactions to a non-ideal prediction and make users more forgivable as stated in \cite{tintarev2007survey}. We provide two examples of how can such an explanation look like, first from Amazon book store \ref{fig:amazon_explain_book_recommendation} and second from Facebook's explanation of why was a particular advertisement served \ref{fig:facebook_explain_book_recommendation}.
+Having a reasonable explanation as to why we are getting the result we are getting can greatly improve real-world effectiveness of the system. It can decrease negative reactions to a non-ideal prediction and make users more forgivable as stated in \cite{tintarev2007survey}. We provide two examples of how can such an explanation look like, first from Amazon book store \ref{fig:amazon_explain_book_recommendation} and second from Facebook's explanation of why was a particular advertisement served \ref{fig:facebook_explain_book_recommendation}.
 
-Explanations can achieve not only increased trust in the system as mentioned before, but increase in transparency, scrutability, persuasiveness, overall satisfaction and other benefits. The main problem is, that they are generally hard to make and they need to be taken into account while developing the machine learning system since the beginning. Some algorithms are outright impossible to explain, for example neural networks. They keep context in neural connections which are very hard to provide explanation for. We sometimes refer to this property of a system that we do not fully understand as 'black-box' systems. We know how they work, how to train them, but due to the inner complexity we fail to explain the exact way of how the result was calculated.
+Explanations can achieve not only increased trust in the system as mentioned before, but increase in transparency, scrutability, persuasiveness, overall satisfaction and other positive effects. The main problem is, that they are generally hard to provide and they need to be taken into account while developing machine learning systems in all stages. Some algorithms are currently outright impossible to explain. One of the proliferated example of neural networks. Neural nets keep context in neural connections which are very hard to provide explanation for. We sometimes refer to this property of a system that we do not fully understand as 'black-box' systems. We know how they work, how to train them, but due to the inner complexity we fail to explain the exact way of how the result was calculated.
 
-Explainability can be even indispensable. Lets for assume that a machine learning model is used to recommend a legal action against an individual in a judiciary setting. We cannot soundly present it as an evidence without being able to justify its actions and warrant its correctness.
+Explainability can be even indispensable. Lets for assume that a ML model is used to recommend a legal action against an individual in a judiciary setting. We cannot soundly present it as an evidence without being able to justify its actions and warrant its correctness.
 
 
 \begin{figure}[htbp]
@@ -260,13 +260,21 @@ Explainability can be even indispensable. Lets for assume that a machine learnin
 \end{figure}
 
 \subsection{Legitimacy}
+Legitimacy can be viewed as an another step after explainability. If we provide a prediction together with a sound reasoning that can be repeated and verified either by a human analyst or by another trusted system, then we can use it in more serious and sensitive deployments. One of them can be the legal domain. In it computer systems can be used to provide unbiased and fair decisions and analysis if set up correctly. But as mentioned many times before, we need to be very careful with the data that we use for training. Lot of care needs to be taken even if we do not use an automated training solutions. Most of the current systems are most probably base on hand crafted rules that can very well be subject to bias as well. One of the examples being the system COMPAS presented in \ref{subsec:02_algo_fairness.examples_of_algo_biass}.
 
+%\subsection{Auditability}
+\todo[inline]{Add 'Auditability?'}
 
 \subsection{Consistency}
+We have different requirements for each of the ML systems. Some of them should aim to provide novelty, but for others it is important to stay consistent even for a slightly different input. Lets assume, that we are developing an illness detection algorithm, that offers the medical personal some insights about the patient based on provided symptoms. Then the predicted recommendation should not drastically change if for example the temperature changes by 0.1°C. It is therefore closely tied to the previous properties of legitimacy and explainability. Most high critical ML systems have to be designed with consistency in mind. Driver-less cars that abruptly change direction with only one pixel change in the input would not induce trust of its users.
+
+From less high critical systems we can mention navigation properties in software and recommendation. We sometimes need machine learning user tailored systems that are exceptional for speeding up work or retrieval of information, but its users would not be comfortable with often changes in the provided recommendations. 
+
+\subsection{Novelty}
+But contrary to the previously mentioned consistency parameter, we sometimes strive for novelty and exploration. If a person is picking out a movie to watch, then showing them the same selection over and over would most certainly lead to their dissatisfaction due to the limited and repeated content that the system is providing. This property is most sought for in domains where exploration is important.
 
 \subsection{Coverage}
 \subsection{Diversity}
-\subsection{Novelty}
 
 \subsection{Similarity}
 \subsection{Accuracy}
