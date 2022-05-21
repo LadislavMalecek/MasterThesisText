@@ -1,7 +1,210 @@
 \chapter{Datasets}  \label{chap:datasets}
+People are gregarious in nature, but the same, unfortunately, cannot be said about machine learning datasets due to vast majority of them having only single users as the subject. In order to design and evaluate group recommender systems, we need a dataset that contains group information.
 
-\section{Main datasets}
+Let us now describe what dataset are suitable for the use in RS domain. We will first describe commonly used datasets in the non-group RS domain, then talk about the existing datasets in the group RS and finally go through methods that can be used to generate the group recommendation information synthetically.
 
+% We will first describe a few of the popular datasets which we have determined to be used as research data the most. Then we will 
+
+
+\section{Single user datasets}
+There exist multiple well known and thoroughly studied datasets in the recommender system domain. Let us now present the popular ones that are used the most.
+
+If we talk about specific format of the data then we are referring to the unified format into which we have transformed the original data into. Further description about the data format transformations follow in \ref{subsec:04_single_user_datasets.gathering_processing}.
+
+
+
+% -------------------------------------------------------------------------------------
+\subsection{Movie Lens}
+% -------------------------------------------------------------------------------------
+One of the most well known dataset in the RS domain, it contains 25 million ratings in total across 62,000 movies and 162,000 users. The data were collected between 1995 and 2019 and the current version of this size (25M) was released in November of 2019. Data are organic and come from a web-based recommendation system at \href{https://movielens.org/}{movielens.org}. The project was specifically created in order to gather research data on personalized recommendation by researches at University of Minnesota.
+
+Dataset is in a good format that is quite easy to parse and use. Further description follows in \ref{subsec:04_single_user_datasets.gathering_processing}.
+
+\hfill \break
+\noindent
+\textbf{Number of items:} 62,000 \newline
+\textbf{Number of users:} 162,000 \newline
+\textbf{Number of user-item interactions:} 25,000,095 \newline
+\textbf{User-item interactions format:} Sparse matrix of ordinal ratings [1, 1.5, 2, ... 4.5, 5] \newline
+\textbf{List of datatables:} Movies (detail in table \ref{table:5.1_ML_movies}), Ratings (detail in table \ref{table:5.1_ML_ratings}), Tags, Links, Genres, Genome Scores, Genome Tags
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{ l l }
+\verb|item_id| & \verb|title| \\
+    \hline
+     1  &                   Toy Story (1995) \\
+     2  &                     Jumanji (1995) \\
+     3  &            Grumpier Old Men (1995) \\
+   ...  &                                ... \\
+209169  &                A Girl Thing (2001) \\
+209171  &     Women of Devil's Island (1962) \\ [1mm]
+\multicolumn{2}{l}{{[62423 rows x 2 columns]}}
+\end{tabular}
+\caption{Short snippet of Movie Lens dataset's \texttt{movies.csv} table.}
+\label{table:5.1_ML_movies}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{ l l l l }
+
+% \texttt{user\_id} & \texttt{item\_id} & \texttt{rating} & \texttt{timestamp} \\
+\verb|user_id| & \verb|item_id| & \verb|rating| & \verb|timestamp| \\
+    \hline
+    1 &      296  &   5.0 & 1147880044 \\
+    1 &      306  &   3.5 & 1147868817 \\
+    1 &      307  &   5.0 & 1147868828 \\
+  ... &      ...  &   ... &        ... \\
+162541 &    58559  &   4.0 & 1240953434 \\
+162541 &    63876  &   5.0 & 1240952515 \\ [1mm]
+\multicolumn{4}{l}{{[25000095 rows x 4 columns]}}
+\end{tabular}
+\caption{Short snippet of Movie Lens dataset's \texttt{ratings.csv} table.}
+\label{table:5.1_ML_ratings}
+\end{table}
+
+% This dateset contains information about movies in the form of \textit{'\textless movieId, title, genres\textgreater'}, ratings in the form of \textit{'\textless userId, movieId, rating, timestamp\textgreater'} and additional information about links, tags, genome-scores and genome-tags.
+
+
+
+
+% -------------------------------------------------------------------------------------
+\subsection{KGRec}
+% -------------------------------------------------------------------------------------
+\textbf{Two separate datasets} of music and sound, KGRec-music and KGRec-sound respectively.
+
+The first music dataset comes from \href{https://www.songfacts.com/}{songfacts.com} (items and text descriptions) and \href{https://www.last.fm/}{last.fm} (items and tags). Each user-item interaction is an user downloading a song.
+
+\hfill \break
+\noindent
+\textbf{Number of items:} 8,640 \newline
+\textbf{Number of users:} 5,199 \newline
+\textbf{Number of user-item interactions:} 751,531 \newline
+\textbf{User-item interactions format:} one-valued implicit feedback \newline
+\textbf{List of datatables:} Ratings (detail in table \ref{table:5.1_KGRec_ratings}), Tags, Descriptions
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ c c }
+        \verb|user_id|   & \verb|item_id| \\
+        \hline
+        7596     &  68  \\
+        7596     & 130  \\
+        7596     & 330  \\
+        ...      & ...  \\
+        50572897 & 8618 \\
+        50572897 & 8619 \\ [1mm]
+        \multicolumn{2}{l}{{[751531 rows x 2 columns]}}
+    \end{tabular}
+    \caption{Short snippet of KGRec dataset's \texttt{music\_ratings.csv} table.}
+    \label{table:5.1_KGRec_ratings}
+\end{table}
+
+
+The second sound dataset comes from \href{https://freesound.org/}{freesound.org}. Items are sounds with description using text and tags that were created by the person that uploaded the sound. Each user-item interaction is again, user downloading the item, in this case a sound.
+
+\hfill \break
+\noindent
+\textbf{Number of items:} 21,552 \newline
+\textbf{Number of users:} 20,000 \newline
+\textbf{Number of user-item interactions:} 2,117,698 \newline
+\textbf{User-item interactions format:} one-valued implicit feedback \newline
+\textbf{List of datatables:} Ratings(detail similar to \ref{table:5.1_KGRec_ratings}), Tags, Descriptions
+
+% \newline
+% Both dataset are in the form of '\textlessuser userId, itemId\textgreater'
+
+
+
+% -------------------------------------------------------------------------------------
+\subsection{Netflix Prize}
+% -------------------------------------------------------------------------------------
+
+Data that were originally release in the year 2009 by Netflix.com video streaming company for the Netflix \$1,000,000 Prize open competition. It contains data of more than 400 thousand randomly selected users from the Netflix database. Data contain information about users ratings of movies. It was originally available on the contest web page, but has been removed since.
+
+The original data was split into multiple files in a file for ratings per movie manner. Each rating is a quadruplet of the form '<user, movie, date of rating, rating>'.
+
+\hfill \break
+\noindent
+\textbf{Number of items:} 17,770 \newline
+\textbf{Number of users:} 480,189 \newline
+\textbf{Number of user-item interactions:} 100,480,507 \newline
+\textbf{User-item interactions format:} sparse matrix of ordinal ratings [1, 2, 3, 4, 5] \newline
+\textbf{List of datatables:} Ratings (detail in table \ref{table:5.1_Netflix_ratings}), Movies (detail in table \ref{table:5.1_Netflix_movies})
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ c c c c }
+        \verb|user_id| & \verb|item_id| & \verb|rating| & \verb|date| \\
+        \hline
+              6 &             30 &             3 &  2004-09-15 \\
+              6 &            157 &             3 &  2004-09-15 \\
+              6 &            173 &             4 &  2004-09-15 \\
+            ... &            ... &           ... &         ... \\
+        2649429 &          17627 &             3 &  2003-07-21 \\
+        2649429 &          17692 &             2 &  2002-12-07 \\ [1mm]
+        \multicolumn{4}{l}{{[100480507 rows x 4 columns]}}
+    \end{tabular}
+    \caption{Short snippet of Netflix dataset's \texttt{ratings.csv} table.}
+    \label{table:5.1_Netflix_ratings}
+\end{table}
+    
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ c c c }
+        \verb|item_id| & \verb|release_year| & \verb|title| \\
+        \hline
+            1 &       2003.0 &            Dinosaur Planet    \\
+            2 &       2004.0 & Isle of Man TT 2004 Review    \\
+            3 &       1997.0 &                  Character    \\
+          ... &          ... &                        ...    \\
+        17769 &       2003.0 &                The Company    \\
+        17770 &       2003.0 &               Alien Hunter \\ [1mm]
+        \multicolumn{3}{l}{{[17770 rows x 3 columns]}}
+    \end{tabular}
+    \caption{Short snippet of Netflix dataset's \texttt{movies.csv} table.}
+    \label{table:5.1_Netflix_movies}
+\end{table}
+
+\subsection{Spotify - Million Playlist Dataset}
+
+\subsection{Dataset comparison}
+
+\subsection{Datasets gathering and processing} \label{subsec:04_single_user_datasets.gathering_processing}
+
+Processing the above mentioned datasets while gathering information about them was more difficult than it should have been. They are not easily accessible, some of them only behind a login wall and in different, incompatible and non standard formats. We have therefore processed and unified these datasets and created a shared storage where they are available in standard zipped CSV format that can be easily loaded by the most of the popular data manipulation tools such as Pandas.
+
+\begin{itemize}
+    \item We have downloaded the Movie Lens dataset from the authors web page \newline \href{https://grouplens.org/datasets/movielens/25m/}{https://grouplens.org/datasets/movielens/25m/}. It is easily accessible and ready-to-be-used dataset (files in valid CSV format, zipped together in a single archive).
+    
+    \item We have downloaded KGRec dataset from authors web page\newline \href{https://www.upf.edu/web/mtg/kgrec}{https://www.upf.edu/web/mtg/kgrec}
+    \newline
+    downloading it was not straightforward due to the origin not being https, which is a problem while using modern browsers which do not support mixed http and https content. The dataset has the ratings in a standard CSV form with redundant information about the incidence, which is always the number 1. Main data in sparse incidence matrix representation are in the form of '\textless userId, itemId\textgreater'. Additional data with tags and descriptions of items are separated into individual files in the original dataset, we have transformed them into two CSV tables of form '\textless itemId, tags\textgreater' and '\textless movieId, description\textgreater' respectively.
+    
+    \item We have downloaded the Netflix dataset from an independent web page
+    \newline
+    \href{https://www.kaggle.com/datasets/netflix-inc/netflix-prize-data}{https://www.kaggle.com/datasets/netflix-inc/netflix-prize-data}
+    \newline
+    as the original web page of the challenge is no longer available. The dataset was additionally processed by the uploader by aggregating the small per movie rating files into four bigger files. This dataset was in non-standard format where ratings were not in CSV but in a custom format reflecting the original movie ratings per file division. Each group of ratings for a movie starts with a line only containing the id of the movie and a colon, then ratings for the movie follow each per line in a format 'user-id,rating,timestamp'.
+\end{itemize}
+
+
+todo: pocet ratingu
+srovnat itemy podle toho kolik lidi hodnotilo a zobrazit prumerny rating
+
+
+
+
+
+A simple python snippet is provided that can be used to easily download the available datasets.
+
+
+    
 \section{Group datasets}
 
 \section{Creating of artificial groups}
+
+- clanky co cituji gfar vytvarely umele skupiny, prozkoumat,
+- lada clanek jednotlive popisy
+- porovnani prozkoumani a nasledne shrnuti/vylepseni
