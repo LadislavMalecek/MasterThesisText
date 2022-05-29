@@ -88,7 +88,7 @@ In a more rigorous way, we can say that output of any machine learning (ML) algo
 
 
 %Research of algorithm fairness tries to analyze machine learning algorithms and data gathering and processing with the goal of understanding how bias in them is created and how it can be fixed.
-\newline
+% \newline
 Let us now present a division by the main sources of unfairness as stated in \cite{pessach2020algorithmic_fairness} with examples following in \ref{subsec:02_algo_fairness.examples_of_algo_biass}:
 \begin{itemize}
     \item \textbf{Biases already included in the data set}\newline
@@ -241,7 +241,7 @@ Two of the most common problems are the so called 'negative feedback loop' and '
 
 %\todo[inline]{na tohle intro jeste mrkni}
 
-\subsubsection{Negative feedback loop}
+\subsubsection{Negative feedback loop}\label{subsubsec:02_algo_fairness.adverse_effects.nfl}
 
 A decision-making system that is learning from past data and is retrained in the future on data that were affected by it's decisions  (after being utilized in the environment from which we gather the data set) will consume its own (previous versions') decisions as training data. This can lead to amplification of biases that were already present and to further skew the distribution of the underlying data. This effect is called "negative feedback loop". 
 %\todo[inline]{tady to chce nejake citace, resp. chybi ti tady jeden krok, tj. ze uzivatel je ovlivneny vystupy toho systemu}
@@ -415,13 +415,83 @@ From a different perspective we can view fairness as a sort consistency in the w
 One other meaning of consistency in regards to ML systems can be stability in the meaning of ML outputs being the same while navigating a system or an app. We can attribute it to the application's design more than the ML system it self. If a user is browsing a web page, lets say an aggregator of products on the web, they may rely on the back button while browsing the different outputs. In this setting, inconsistency and changes to the recommendation items may be harmful as it will affect the user experience while listing and using the provided information.
 
 \subsection{Novelty}
+Novelty can have multiple meanings when we use it to describe RS. Firstly it can be that the item it self is a new addition to the data-set and we do not have many user-item interactions which we would use to asses and recommend the new item.
+
+Secondly, we can say that the the item is presented to the user for the first time. Sometimes, depending on the presentation of the recommended items, we have to show the recommended item repeatedly in order for it to be noticed. In that way, novelty can be viewed as a non binary attribute, where each time we present the item to the user it decreases the items novelty, with respect to that one user. But often it is viewed as a binary attribute, shown or not-yet-shown.
+
+Thirdly, by novelty we can describe that an unusual item is presented to the user. Such situation can occur either due to the RS incorrectly assuming that the user will like that item, or by, on purpose introducing a new not yet seen item so that we introduce more exploration and present items that the user will view as fresh.
+
+And lastly, novelty is important as an exploration. RS should try to broaden and expand the model of users' preference, which needs to be done by gathering feedback on items outside of the users current preference model. Balance between exploration and exploitation is difficult, but can substantially increase models' performance if done correctly.
+
+In general and contrary to the previously mentioned consistency parameter, we usually strive for novelty and exploration. If a person is picking out a movie to watch, then showing them the same selection over and over would most certainly lead to their dissatisfaction due to the limited and repeated content that the system is providing. As with all properties, novelty requirements heavily depend on the domain the system is deployed in. This property is most sought for in domains where exploration is important.
+
+
+
+
+% As an example, we can imagine that in a movie recommender system a user only watched Harry Potter movies, then a RS that does not try to introduce new novel items will only recommend other Harry Potter movies which will most probably be seen as boring, repetitive and valueless.
+
+
+% 3 meanings
+% new item in dataset
+% new item presented to user
+% unusual item presented to user
+% item that wasn't shown to the user that many times
+
+
+
 Contrary to the previously mentioned consistency parameter, we sometimes strive for novelty and exploration. If a person is picking out a movie to watch, then showing them the same selection over and over would most certainly lead to their dissatisfaction due to the limited and repeated content that the system is providing. This property is most sought for in domains where exploration is important.
-\todo[inline]{Zrovna pro novelty existuje celkem dost docela zajimavych interpretaci, ktere se daji zminit. Novelty jako inverse popularity (pokud nemame zaznamy o impressions, interakcni novelty - uzivateli jsme to zatim (mockrat) nezobrazovali, temporalni novelty - je to nove vytvoreny produkt}
+
+
+
+% \todo[inline]{Zrovna pro novelty existuje celkem dost docela zajimavych interpretaci, ktere se daji zminit. Novelty jako inverse popularity (pokud nemame zaznamy o impressions, interakcni novelty - uzivateli jsme to zatim (mockrat) nezobrazovali, temporalni novelty - je to nove vytvoreny produkt}
 
 \subsection{Coverage}
-\subsection{Diversity and similarity}
-\subsection{Accuracy and precision}
-\subsection{Performance}
+% Popsat situaci kde rs failuje v tom, ze nejake itemy jsou unreachable, nebudou pak doporuceny vsem, pripadne muzeme taky zminit to, ze popularni itemy budou vzdycky ve vyhode ktera nemusi byt uplne fair v tom, ze kdyz mas exposure tak je jednodussi dostat dalsi exposure, takovej trochu negative feedback loop. A muze se pak stavat, ze misto toho abychom doporucili item ktery je opravdu awesome pro toho uzivatele tak doporucime neco no neni tak awesome
+
+In some ML and RS applications, there can emerge a situation where some items are never recommended. If the reason is that the item quality is bad then it can be the right system quality. In other situations, such as RS that recommends based on item properties, an undesirable behavior can occur when an item is just too different and we do not have a reasonable 'link' to other items that would serve as comparison for the recommendation. Then this item will be left out and never recommended.
+
+Other coverage problem is with items that are popular. Popularity is sometimes a good indicator of quality, but not always. If an item is popular, then in a system that exploits popularity, it will receive more and more attention. This in turn further increases its popularity. In a way we can have a same type of phenomenon as Negative feedback loop mentioned in \ref{subsubsec:02_algo_fairness.adverse_effects.nfl}. It then happens that item exposure distribution will be unnaturally skewed even more towards the popular items. This can lead to decrease in system's performance due to some items that are less popular not being recommended even if being possibly a better choice for recommendation. In a way popularity and unpopularity correspond to a notion of novelty where instead of considering a single user we consider all users of the system together.
+
+% \subsection{Diversity and similarity}
+%
+
+\subsection{Efficacy, accuracy and precision}
+We have so far mentioned multiple other criteria. But all of them are hard to measure due to their somewhat subjective nature, let us now present two of the most widely used exact efficacy properties: accuracy and fairness.
+
+Accuracy (sometimes as trueness) is a measure of how far away outputs of a ML system are from the desired outputs. Precision is a measure of how unsure or dispersed the outputs are, in other words how away are from each other. They are both measures of observation error and the definitions differ based on type of the systems outputs. We can see an illustration for continuous value prediction on \ref{fig:accuracy_fairness}
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=9.5cm]{img/accuracy_and_precision.svg}
+    \caption{Illustrative description of the relationship of accuracy and precision from \cite{Accuracy_precision}}
+    \label{fig:accuracy_fairness}
+\end{figure}
+
+How to measure the distance of outputs to ground truth can differ based on the shape/dimensionality of the output. Usually we use a simple metric such as Euclidean distance or simple Manhattan distance.
+
+
+For categorical data we have (binary retrieval task and multi-class classification respectively):
+\begin{equation}
+    Accuracy = \dfrac{\text{TP + TN}}{\text{TP + FP + TN + FN}} = \dfrac{\text{correct classifications}}{\text{all classifications}}
+\end{equation}
+and precision for binary classification:
+\begin{equation}
+    Precision = \dfrac{\text{TP}}{\text{TP + FP}}
+\end{equation}
+
+Precision for categorical data does not have a set meaning, we can either use precision for each class separately or have one class that act as a FP label.
+
+Difficulties with using accuracy arise when miss labels to some or all items in the dataset. Calculating the correct denominator in categorical case or the correct distance to the reference value can be difficult or and impossible.
+
+\subsection{Performance and scalability}
+% Popsat motivaci teto sub, performance vice vyznamu, total resources needed, odezva, availability, scalability, one computer nezvladne uplne vsechno co si vymyslim
+We can design any algorithm we want, but what for will it be if cannot then use it in the real world? Theoretical algorithms certainly have their place, but we are aiming to solve real problems of addressing fairness. Therefore another and last discussed property will be performance and with it related property of scalability.
+
+Performance of as system can be described either in a form of total computational resources needed for processing, either the whole deployment or normalized to a single user. Other possible performance property can be the length of time needed for processing of a single request called latency. These two properties usually need to be balanced against each other. To a certain point we can either add more computational capacity to improve - decrease latency, or remove some capacity with the possible increase in latency.
+
+Scalability is a property of a system that the it is able to handle a growing amount of work. We have to keep this property in mind while designing ML and RS systems. If for example we are using a comparison with other users such is the case in some RS algorithm, we will be growing the system requirements most probably linearly with the amount of users. This can be fine in for example research applications, but becomes a real concern when applying to a world wide applications used by millions of users. At these scales we will be required to scale using not only vertical scaling (that is using a more powerful computational resources), but mainly using horizontal scaling (by using many computers at once).
+
+
 
 % \todo[inline]{Z toho co tu jsou jen jako nadpisy, tak diversity a similarity mi trochu splyvaji, podobne precision a accuracy - minimalne vzhledem k tomu ze jsi o ostatnich vecech mluvil na dost high-level urovni, tak bych tohle asi spojil dohromady.}
 
