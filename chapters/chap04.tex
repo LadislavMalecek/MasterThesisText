@@ -229,7 +229,7 @@ For completeness, it is necessary to add that some playlists are 'collaborative'
 
 
 % -------------------------------------------------------------------------------------
-\subsection{Dataset comparison}
+\subsection{Comparison of datasets}
 % -------------------------------------------------------------------------------------
 
 \begin{figure}[ht!]
@@ -299,8 +299,184 @@ A simple python snippet is provided that can be used to easily download the avai
 
 % -------------------------------------------------------------------------------------
 \section{Group datasets}
+% -------------------------------------------------------------------------------------
+Let us now investigate datasets that contain information about groups of users. We will look through some of the datasets mentioned in related literature in the group recommender system domain.
+
+\subsection{Datasets overview}\label{subsection:04_}
+
+When reading through related literature on the topic of GRS, we have mostly encountered synthetically created datasets either from the Movie Lens dataset or from the Netflix dataset. The main reason for not utilizing datasets that have innate group information is that there is not many of them. Let us now go through some of the mentioned datasets from the related literature and determine their suitability for the use in group recommender system research.
+
+First, we would like to point out, that most papers in our domain that do not use the more traditional Movie Lens or Netflix datasets and instead use less known datasets. That would be an entirely valid thing to do if there is not a total lack of description about where and how the dataset can be obtained and or how the raw dataset was filtered and altered. Most papers only mention which dataset they were using and some high level information about the dataset such as number of users, items and interactions. This makes the papers' experiments irreproducible and unverifiable. Same can sometimes be said about papers that use single user datasets with synthetically generated group information. Some of the time, it is not entirely clear as of how the synthetic groups were generated or how were parameters of the synthetic group info creation set.
+
+We have put together high level information about the some of the datasets in \ref{table:5.2_GRS_datasets_comparation}.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ l | l l l l }
+         & \#users & \#items & \#groups & avg. g. size \\
+        \hline
+            CAMRa2011\cite{attentative_group_recommendation}
+                & 602 & 7,710 & 290 & ? \\
+            Douban\cite{gowalla_weeplaces_yelp}
+                & 23,032 & 10,039 & 58,983 & 4.2 \\
+            Gowalla\cite{gowalla_weeplaces_yelp}
+                & 25,405 &  38,306 & 44,565 &  2.8 \\
+            Mafengwo\cite{attentative_group_recommendation}
+                & 5,275 & 1,513 & 995 & ? \\
+            Meetup\cite{meetup_origin}
+                & 42,747 & 2,705 & 13,390 & 16.66 \\
+            Plancast\cite{meetup_plancast}
+                & 41,065 & 13,514 & 25,447 & 12.01 \\
+            Yelp\cite{gowalla_weeplaces_yelp}
+                & 7,037 & 7,671 & 10,214 & 6.8 \\
+            Weeplaces\cite{gowalla_weeplaces_yelp}
+                &  8,643 & 25,081 & 22,733 & 2.9 \\
+    \end{tabular}
+    \caption[Size overview of selected GRS datasets]{Size overview of selected GRS datasets. Note: Some dataset sizes are given after transforming the original datasets by removing users and items that are not part of any group.}
+    \label{table:5.2_GRS_datasets_comparation}
+\end{table}
+
+
+\subsubsection{CAMRa2011} \label{subsubsec:04_group_datasets.overview.camra}
+CAMRa2011 dataset was released in 2011 for 2011 ACM Recommender Systems Conference. The dataset is unavailable at the original location and we were unable to retrieve it from the web. Numbers in table \ref{table:5.2_GRS_datasets_comparation} are taken from \cite{attentative_group_recommendation}. We have found altered version of the dataset at \href{https://github.com/LianHaiMiao/Attentive-Group-Recommendation}{github.com/LianHaiMiao/Attentive-Group-Recommendation}, which is a GitHub repository for the code and experiments from \cite{attentative_group_recommendation}. The dataset is quite small and we are doubtful about its quality and source.
+
+
+\subsubsection{Douban} \label{subsubsec:04_group_datasets.overview.douban}
+This dataset has similar problems as the CAMRa2011 dataset, we are unable to retrieve it from the web. At the same time, in the already mentioned repository for \cite{attentative_group_recommendation}, we found an author's comment about adding the dataset soon (in 2018), which was never done.
+
+
+\subsubsection{Gowalla} \label{subsubsec:04_group_datasets.overview.gowalla}
+Gowalla was a location based social network. It has been dissolved in 2012 when it was acquired by Facebook. The dataset contains people logging in locations that they have visited. The dataset can be easily downloaded at \href{https://www.yongliu.org/datasets/}{yongliu.org/datasets/}, we have discovered this page and dataset in \cite{gowalla_weeplaces_yelp}.
+
+This dataset does not directly contain any group information but it could be inferred by combining the check-in data in of format '\textless userid, placeid, datetime\textgreater' and friendship data that link pairs of users '\textless userid1, userid2\textgreater'. If you and some of your friends visit the same place at around the same time, we can state that probably you were part of the same group. And if you visit more places together then the chance of a random occurrence drops significantly.
+
+We suspect that due to the data being location based there will be a substantial location similarity bias where if you visit a certain place then you are very likely to visit a popular place nearby regardless of its quality.
+
+\begin{itemize}
+    \item \textbf{Available group information:} none explicit, can be interpolated from friendship information and user-item interaction timestamps
+    \item \textbf{User-item interactions:} one-valued implicit feedback
+    \item \textbf{Group-item interactions:} none
+    \item \textbf{Items type:} Places check-ins
+\end{itemize}
+
+
+\subsubsection{Mafengwo} \label{subsubsec:04_group_datasets.overview.mafengwo}
+Very small, proprietary dataset mentioned in paper  \cite{attentative_group_recommendation}. Dataset is unavailable for download. We were unable to find other source from where we would be able to download this dataset.
+
+
+\subsubsection{Meetup} \label{subsubsec:04_group_datasets.overview.meetup}
+This dataset is crawled data from website \href{https://www.meetup.com}{meetup.com} from \cite{meetup_origin} used in \cite{meetup_plancast}. Meetup is a popular web page for meeting other people with same hobbies and interests. This dataset contains only data from two regions, New York City and state of California. One substantial distinction from other datasets is that the items represent social events that a person can attend which happen only once. And are not repeating, this creates difficulties with similarity calculation between users.
+
+With some difficulties we have downloaded the dataset from
+\newline\href{https://personal.ntu.edu.sg/gaocong/datacode.htm}{personal.ntu.edu.sg/gaocong/datacode.htm}.
+
+\begin{itemize}
+    \item \textbf{Available group information:} group memberships, groups are on average big
+    \item \textbf{User-item interactions:} one-valued implicit feedback
+    \item \textbf{Group-item interactions:} none
+    \item \textbf{Items type:} Social events
+\end{itemize}
+
+
+\subsubsection{Plancast} \label{subsubsec:04_group_datasets.overview.plancast}
+Unfortunately we were unable to obtain this dataset for further analysis. In \cite{meetup_plancast} where this dataset is mentioned, there is no download link, only a reference to \cite{plancast_origin} where no additional information about the source is provided.
+
+\subsubsection{Yelp}\label{subsubsec:04_group_datasets.overview.yelp}
+This dataset contains reviews for businesses and places. In \cite{gowalla_weeplaces_yelp} they use a subset of the whole dataset only for the city of Los Angeles, the whole dataset can be downloaded at \href{https://www.yelp.com/dataset}{yelp.com/dataset} and in its unfiltered variant is vastly bigger than other mentioned datasets with over 6,9 million ratings.
+
+\begin{itemize}
+    \item \textbf{Available group information:} none explicit, can be interpolated from friendship information and user-item interaction timestamps
+    \item \textbf{User-item interactions:} one-valued implicit feedback and text reviews
+    \item \textbf{Group-item interactions:} none
+    \item \textbf{Items type:} Places check-ins
+\end{itemize}
+
+
+\subsubsection{Weeplaces} \label{subsubsec:04_group_datasets.overview.weeplaces}
+Similarly to Gowalla dataset, Weeplaces was a website that aimed to visualize users' location based check-in activities. It has been integrated with multiple location-based social networking services such as Foursquare or Facebook.
+It contains information about check-ins and friendships, same as the Gowalla dataset. It can be downloaded from \href{https://www.yongliu.org/datasets/}{yongliu.org/datasets/}. We have discovered this page and dataset in \cite{gowalla_weeplaces_yelp}.
+Same arguments for the group information and location based bias hold for this dataset, again, same as for Gowalla dataset. 
+
+How are groups created is not described in the original paper. Other information which is missing is a full description of how was the raw dataset transformed and filtered. High level description is present, but it is incomplete.
+
+
+\begin{itemize}
+    \item \textbf{Available group information:} none explicit, can be interpolated from friendship information and user-item interaction timestamps
+    \item \textbf{User-item interactions:} one-valued implicit feedback
+    \item \textbf{Group-item interactions:} none
+    \item \textbf{Items type:} Places check-ins
+\end{itemize}
+
+
+\subsubsection{Dataset selection}
+Let us now select subset of the mentioned datasets for further analysis and for inclusion to our download and transform tool.
+
+We have rated all datasets on a scale of 'poor', 'ok' and 'good' in \ref{table:5.2_GRS_datasets_rating} for the following important criteria:
+\begin{itemize}
+    \item \textbf{Ease of retrieval} \newline
+        We award 'poor' rating if the dataset cannot be downloaded at all. 'ok' rating if we can download the dataset with some difficulties from either the source in the mentioned paper or any of the related linked papers, we well as if we can download the dataset from an unrelated source. We award 'good' rating if the dataset is easily downloadable using the original sources or any source original to the dataset, such as the original research challenge web page.
+    \item \textbf{Available group information} \newline
+        We award 'poor' rating if the group information is either not very fitting to our use case, if the dataset does not contain any, or the group information is very scarce. We award 'ok' and 'good' in cases where the information is present and the the quality is good or great respectively. Ideal situation is if the dataset contains a full information about which members were part of the group-item interaction and when the group-item interaction is rated by each member.
+    \item \textbf{Size}\newline
+        We award 'poor' if the dataset size is borderline unusable (the definition of what size is and isn't usable can differ widely based on the utilized methods). We award good, if the amount of information is on the order of information we can find in single user datasets. We award 'ok' to sizes in between.
+    \item \textbf{Source legitimacy} \newline
+        We award 'poor' if the dataset comes from either not well known service of from a service that is already canceled. We award 'ok' if the source is less well known but legitimate and easily traceable and finally we award 'good' if the source is a well known service used around the world.
+\end{itemize}
+
+Additionally, some criteria that we were unable to assess (due to the dataset not being available for download) were marked 'n/a'.
+
+With all relevant information about each dataset that can be found in the current subchapter and in \ref{table:5.2_GRS_datasets_rating}, we have chosen datasets that do not have the rating 'poor' in any of the mentioned criteria. %The only datasets that fulfill these criteria are Yelp and Weeplaces datasets. We will include them in our dataset comparison and add to our Dataset downloader tool.
+
+Unfortunately no datasets that we have explored currently satisfy our criteria. Gowalla, Weeplaces and Yelp datasets are borderline usable with retrieving the group information from friendships and timestamps of reviews. But then belonging to a group requires us to set a window parameter, either floating or fix. Further Meetup dataset can be used, but with this dataset the average group size is unnaturally high, especially for researching fairness which in the context of big groups of unrelated people stops being relevant.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ r | c c c c | c}
+         & \makecell[c]{ease of \\ retrieval} & \makecell[c]{available \\ group \\ information} & size & \makecell[c]{source \\ legitimacy} & selected\\
+        \hline
+            % CAMRa2011
+            \nameref{subsubsec:04_group_datasets.overview.camra}
+                & poor & n/a & poor & poor & no\\
+            % Douban
+            \nameref{subsubsec:04_group_datasets.overview.douban}
+                & poor & n/a & ok & poor & no \\
+            % Gowalla
+            \nameref{subsubsec:04_group_datasets.overview.gowalla}
+                & good & poor & ok &  ok & no\\
+            % Mafengwo
+            \nameref{subsubsec:04_group_datasets.overview.mafengwo}
+                & poor & n/a & poor & poor & no\\
+            % Meetup
+            \nameref{subsubsec:04_group_datasets.overview.meetup}
+                & ok & poor & ok & good & no\\
+            % Plancast
+            \nameref{subsubsec:04_group_datasets.overview.plancast}
+                & poor & n/a & ok & poor & no\\
+            % Yelp
+            \nameref{subsubsec:04_group_datasets.overview.yelp}
+                & good & poor & ok & good & no\\
+            % Weeplaces
+            \nameref{subsubsec:04_group_datasets.overview.weeplaces}
+                &  good & poor & ok & ok & no\\
+    \end{tabular}
+    % \caption[Rating of selected GRS datasets.]{Rating of selected GRS datasets. Note for 'n/a' - we were unable to download the dataset, therefore unable to asses this criteria}
+    \caption{Ratings of selected GRS datasets.}
+    \label{table:5.2_GRS_datasets_rating}
+\end{table}
+
 
 \section{Creation of artificial groups}
+
+As we have can see from the previous chapter, datasets with group information are a scarce resource. Ideally, we would like to have a dataset where we have different types of groups, where members separately have single user ratings and then members in groups have ratings as a group, meaning that there is a rating for items by the group. But this is hard to achieve in practice and usually the only information from the group that we have is a one-valued implicit feedback about if the group for example saw a movie or visited a place together.
+
+Let us now explore how we can generate a synthetic groups of different sizes and properties.
+
+% First, do the clustering of the people. Find the top-N similar users for the target person in a particular cluster. Select the tour with maximum voting among the top-N users by the individuals of the group.
+\subsection{Methods}
+
+
+
+\section{Dataset downloader tool}
 
 % - clanky co cituji gfar vytvarely umele skupiny, prozkoumat,
 % - lada clanek jednotlive popisy
