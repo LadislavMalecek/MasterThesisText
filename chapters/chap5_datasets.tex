@@ -6,11 +6,13 @@
 
 
 \chapter{Datasets}  \label{chap:datasets}
-People are gregarious in nature, but the same, unfortunately, cannot be said about machine learning datasets. Due to the vast majority of them containing information only about single user preference, they are not directly usable in the group RS research. In order to design and evaluate group recommender systems, we preferably need datasets that contain the information about groups' preference.
+People are gregarious in nature, but the same, unfortunately, cannot be said about machine learning datasets. Vast majority of them are not directly usable in the group RS research due to only containing information about single user preference. In order to design and evaluate group recommender systems, we preferably need datasets that contain information about groups' preference.
 
-In this chapter we will start with description of what dataset are suitable for the use in RS domain. We describe commonly used datasets in the non-group RS domain. Analyse their high level properties and describe what transformations are needed in order to use the datasets easily. Then we will describe a data transformation library that we have created for the purpose of simplifying the research efforts in the RS domain and for evaluation of our proposed algorithm. 
+In this chapter, we will start with description of which datasets are suitable for the use in RS domain. We describe commonly used datasets in the non-group RS domain. Analyse their high level properties and describe what transformations are needed in order to make the use of the dataset convenient. 
 
-Then we will talk about the existing group RS datasets and introduce methods that can be used to generate the group recommendation information synthetically from non-group RS datasets. Finally, we will use these methods to generate standardized synthetically enriched group RS datasets from non-group datasets that we will describe in the single user datasets subchapter.
+Next, we will talk about the existing group RS datasets and introduce methods that can be used to generate the group recommendation information synthetically from non-group RS datasets. We will use these methods to generate standardized synthetically enriched group RS datasets from non-group datasets that we will describe in the single user datasets subchapter.
+
+And finally, we will describe a data transformation library that we have created for the purpose of simplifying the research efforts in the RS domain and for evaluation of our proposed algorithm.
 
 % We will first describe a few of the popular datasets which we have determined to be used as research data the most. Then we will 
 
@@ -35,7 +37,7 @@ Dataset is in a good format that is quite easy to parse and use. Further descrip
 \textbf{Number of items:} 62,000 \newline
 \textbf{Number of users:} 162,000 \newline
 \textbf{Number of user-item interactions:} 25,000,095 \newline
-\textbf{User-item interactions format:} Sparse matrix of ordinal ratings [1, 1.5, 2, ... 4.5, 5] \newline
+\textbf{User-item interactions format:} Sparse matrix of ordinal ratings [1, 1.5, 2, ... 4.5, 5] - user rated a movie \newline
 \textbf{List of datatables:} Movies (detail in table \ref{table:5.1_ML_movies}), Ratings (detail in table \ref{table:5.1_ML_ratings}), Tags, Links, Genres, Genome Scores, Genome Tags
 
 \begin{table}[!ht]
@@ -86,7 +88,6 @@ Dataset is in a good format that is quite easy to parse and use. Further descrip
 KGRec is a smaller and less known dataset. We have chosen this dataset due to it being utilized in GFAR method introduced in \cite{GFAR-kaya2020} and described in \ref{subsec:03_advanced_methods.gfar}. This dataset consists of two separate datasets of music and sound, KGRec-music and KGRec-sound respectively.
 
 The first music dataset comes from \href{https://www.songfacts.com/}{songfacts.com} (items and text descriptions) and \href{https://www.last.fm/}{last.fm} (ratings, items, tags). Each user-item interaction is a user listening to a song.
-\newline
 
 The second, sound dataset, comes from \href{https://freesound.org/}{freesound.org}. Items are sounds with description using text and tags that were created by the person that uploaded the sound. Each user-item interaction is a user downloading an item, in this case a sound.
 
@@ -100,7 +101,7 @@ Both datasets were created for the needs of \cite{kgrec_dataset_origin}, where t
 \textbf{Number of items:} 8,640; 21,552\footnote{Number of items, users and user-item interactions are in order - music dataset; sound dataset} \newline
 \textbf{Number of users:} 5,199; 20,000 \newline
 \textbf{Number of user-item interactions:} 751,531; 2,117,698 \newline
-\textbf{User-item interactions format:} one-valued implicit feedback \newline
+\textbf{User-item interactions format:} one-valued implicit feedback - user listened or downloaded a song/sound \newline
 \textbf{List of datatables:} Ratings(detail similar to \ref{table:5.1_KGRec_ratings}), Tags, Descriptions
 
 \begin{table}[!ht]
@@ -128,9 +129,9 @@ Both datasets were created for the needs of \cite{kgrec_dataset_origin}, where t
 \subsection{Netflix Prize}
 % -------------------------------------------------------------------------------------
 
-Data that were originally release in the year 2009 by Netflix.com video streaming company for the Netflix \$1,000,000 Prize open competition. It contains data of more than 400 thousand randomly selected users from the Netflix database. Data contain information about users ratings of movies. It was originally available on the contest web page, but has been removed since.
+Data that were originally released in 2009 by the Netflix.com video streaming company for the \textit{Netflix Prize}, open competition with main prize of 1 million dollars. It contains data of more than 400 thousand randomly selected users from the company's database. Data contain information about users ratings of movies. It was originally available on the contest web page, but has been removed since.
 
-The original data was split into multiple files in a file for ratings per movie manner. Each rating is a quadruplet of the form '<user, movie, date of rating, rating>'.
+The original data was split into multiple files in a file for ratings per movie manner. Each rating is a quadruplet of the form '\textless user, movie, date of rating, rating\textgreater'.
 
 \hfill \break
 \noindent
@@ -176,11 +177,11 @@ The original data was split into multiple files in a file for ratings per movie 
 % -------------------------------------------------------------------------------------
 \subsection{Spotify - Million Playlist Dataset}
 % -------------------------------------------------------------------------------------
-This dataset was released in January 2018 for \textit{The Spotify Milion PlaylistDataset Challenge}. It contains 1,000,000 playlists with information about tracks that are part of each playlist. Main purpose of this dataset was to study and develop better algorithms for automatic playlist continuation where the system would be able to recommend songs that are similar to those that are already in the playlist. In contrast to the Netflix challenge, no prize was to be awarded at the end of the challenge.
+This dataset was released in January 2018 for \textit{The Spotify Milion Playlist Dataset Challenge}. It contains 1,000,000 playlists with information about tracks that are part of each playlist. Main purpose of this dataset was to study and develop better algorithms for automatic playlist continuation where the system would be able to recommend songs that are similar to those that are already in the playlist. In contrast to the Netflix challenge, no prize was to be awarded at the end of the challenge.
 
-Even though the context of this dataset are playlists and not users, we propose a different view on the dataset, where each playlist will represent a single user. This way, we have an another big and organic dataset at our disposal. It can therefore be used not only for playlist continuation tasks, but for the classical RS domain tasks as well. In a sense, a single playlist is a specific subset of preference of the user that created the playlist. Therefore we expect to see a narrower preference distribution for each of these 'playlist' users.
+Even though the context of this dataset are playlists and not users, we propose a different view on the dataset, where each playlist will represent a single user. This way, we have an another big and organic dataset at our disposal. It can therefore be used not only for playlist continuation tasks, but for the classical RS domain tasks as well. In a sense, a single playlist is a specific subset of preference of the user that have created the playlist. Therefore we expect to see a narrower preference distribution for each of these 'playlist' users.
 
-For completeness, it is necessary to add that some playlists are 'collaborative', meaning that they were created by multiple users. But they account for only 2.3\% of all playlists, which in our opinion does not substantially affect the dataset. These collaborative datasets could be used as a group recommender dataset on their own, unfortunately, the information about which user added what, to the collaborative playlist is not present.
+For completeness, it is necessary to add that some playlists are 'collaborative', meaning that they were created by multiple users. But they account for only 2.3\% of all playlists, which in our opinion does not substantially affect the dataset. These collaborative datasets could be used as a group recommender dataset on their own, unfortunately, the information about which user added which track, to the collaborative playlist, is not present.
 
 \begin{table}[!ht]
     \centering
@@ -222,7 +223,7 @@ For completeness, it is necessary to add that some playlists are 'collaborative'
 \textbf{Number of items:} 2,262,292 \newline
 \textbf{Number of users:} 1,000,000 \newline
 \textbf{Number of user-item interactions:} 66,346,428 \newline
-\textbf{User-item interactions format:} one-valued implicit feedback \newline
+\textbf{User-item interactions format:} one-valued implicit feedback - user added a song to a playlist\newline
 \textbf{List of datatables:} Tracks (detail in table \ref{table:5.1_Spotify_tracks}), Ratings (detail in table \ref{table:5.1_Spotify_ratings})
 
 
@@ -235,13 +236,13 @@ For completeness, it is necessary to add that some playlists are 'collaborative'
 \begin{figure}[ht!]
     \centering
     \includegraphics{img/figures/datasets_counts.pdf}
-    \caption{Size comparison of the selected datasets. All x-axes are log scale due to the big differences between the dataset.}
+    \caption[Size comparison of the selected datasets.]{Size comparison of the selected datasets. All x-axes are log scale due to the big differences between the dataset.}
     \label{fig:datasets_counts}
 \end{figure}
 
-We have described each dataset separately, let us now compare them together to see how they differ. As we can see on \ref{fig:datasets_counts} the Spotify and Netflix datasets are the biggest. We see that KGRec dataset is almost two orders of magnitude smaller than the rest of the datasets. As already mentioned, we have selected it due to it being utilized in the related literature, mainly in \cite{GFAR-kaya2020} as mentioned in \ref{subsec:03_advanced_methods.gfar}. Spotify dataset is different by having two orders of magnitude more items, which can present a challenge on its own. If we for example use matrix factorization methods to compute the preference, then the amount of memory will rise by two orders of magnitude as well.
+We have described each dataset separately, let us now compare them together to see how they differ. As we can see on \ref{fig:datasets_counts} the Spotify and Netflix datasets are the biggest. We see that KGRec dataset is almost two orders of magnitude smaller than the rest of the datasets. As already mentioned, we have selected it due to it being utilized in the related literature, mainly in \cite{GFAR-kaya2020} as mentioned in \ref{subsec:03_advanced_methods.gfar}. Spotify dataset is different by having two orders of magnitude more items, which can present a challenge on its own. If we for example use matrix factorization methods to compute the preference, then the amount of memory will rise by two orders of magnitude as well. Additionally, the sparsity of ratings is higher, which can negatively affect efficacy.
 
-Movie Lens dataset has a potential benefit as it has actual ratings for each user-item interaction. All other presented datasets only contain the user-item interaction, where Spotify has the item-playlist interaction instead of user-item interaction.
+Movie Lens dataset has a potential benefit as it has actual ratings for each user-item interaction. All other presented datasets only contain user-item interactions in the form of one-valued implicit feedback, where Spotify has the item-playlist interaction instead of user-item interaction.
 
 \begin{figure}[ht!]
     \centering
@@ -267,7 +268,7 @@ Further, Netflix dataset look similar to Movie Lens with two exceptions. First b
 \subsection{Datasets gathering and processing} \label{subsec:04_single_user_datasets.gathering_processing}
 % -------------------------------------------------------------------------------------
 
-Processing the above mentioned datasets was more difficult than it should have been. They are not easily accessible, some of them are available only behind a login wall and in different, incompatible and non standard formats. We have therefore processed and unified these datasets using a tool that we have developed. At first, we wanted to have a shared storage where they would be available in already transformed form, but that is not feasible due to datasets' licences. Let us now describe data transformations that we have done for each of the datasets. We aim to have the datasets in standard zipped CSV format that can be easily loaded by most of the popular data manipulation tools such as Pandas. Additionally, when not misleading, we want the columns of the datasets to be named in unified fashion.
+Processing the above mentioned datasets was more difficult than it should have been. They are not easily accessible, some of them are available only behind a login wall and in different, incompatible and non standard formats. We have therefore processed and unified these datasets using a tool that we have developed. At first, we wanted to have a shared storage where they would be available in already transformed form, but that is not feasible due to datasets' licences. Let us now describe data transformations that we have done for each of the datasets. We aim to have the datasets in standard zipped CSV format that can be easily loaded by most of the popular data manipulation tools such as Pandas. Additionally, if not misleading, we prefer the columns of the datasets to be named in unified fashion.
 
 \begin{itemize}
     \item \textbf{Movie Lens} dataset is available at the the authors web page \newline \href{https://grouplens.org/datasets/movielens/25m/}{grouplens.org/datasets/movielens/25m/}. It is easily accessible and ready-to-be-used dataset (files in valid CSV format, zipped together in a single archive). This was the nicest dataset to start working with. No transformations were necessary.
@@ -277,7 +278,7 @@ Processing the above mentioned datasets was more difficult than it should have b
     \item \textbf{Netflix} dataset is available at an independent web page
     \newline
     \href{https://www.kaggle.com/datasets/netflix-inc/netflix-prize-data}{kaggle.com/datasets/netflix-inc/netflix-prize-data}.
-    The original web page of the challenge is no longer available. The dataset was additionally processed by the uploader by aggregating the small per movie rating files into four bigger files. This dataset was in non-standard format where ratings were not in CSV but in a custom format reflecting the original movie ratings per file division. Each group of ratings for a movie starts with a line only containing the id of the movie and a colon, then ratings for the movie follow each per line in a format 'user-id,rating,timestamp'.
+    The original web page of the challenge is no longer available. The dataset was additionally processed by the uploader by aggregating the small per movie rating files into four bigger files. This dataset was in non-standard format where ratings were not in CSV but in a custom format reflecting the original movie ratings per file division. Each group of ratings for a movie starts with a line only containing the id of the movie and a colon, then ratings for the movie follow each per line in a format '\textless user-id,rating,timestamp\textgreater'.
     
     \item \textbf{Spotify} dataset is available at AIcrowd.com where the original Spotify challenge was introduced. Unfortunately, the dataset is behind a login wall. After registering and logging in, it can be downloaded from \newline\href{https://www.aicrowd.com/challenges/spotify-million-playlist-dataset-challenge}{aicrowd.com/challenges/spotify-million-playlist-dataset-challenge}.
     \newline
@@ -312,7 +313,7 @@ We have put together high level information about the some of the datasets in \r
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{ l | l l l l }
+    \begin{tabular}{ r | c c c c }
          & \#users & \#items & \#groups & avg. g. size \\
         \hline
             CAMRa2011\cite{attentative_group_recommendation}
