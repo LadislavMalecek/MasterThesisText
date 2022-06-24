@@ -466,14 +466,240 @@ Unfortunately no datasets that we have explored currently satisfy our criteria. 
 \end{table}
 
 
+% -------------------------------------------------------------------------------------
 \section{Creation of artificial groups}
+% -------------------------------------------------------------------------------------
 
-As we have can see from the previous chapter, datasets with group information are a scarce resource. Ideally, we would like to have a dataset where we have different types of groups, where members separately have single user ratings and then members in groups have ratings as a group, meaning that there is a rating for items by the group. But this is hard to achieve in practice and usually the only information from the group that we have is a one-valued implicit feedback about if the group for example saw a movie or visited a place together.
+As we can see, datasets with group information are a scarce resource. Ideally, we would like to have a dataset with user-item interactions, information about groups that the users belong to and group-item interactions. 
 
-Let us now explore how we can generate a synthetic groups of different sizes and properties.
+But this information is hard to obtain in practice. Most of the dataset we have seen only contain information about friendships and not about groups and they do not contain group-item interactions. They contain user-item interactions from which we can only estimate the corresponding group-item interactions.
+
+Let us now explore how we can generate synthetic groups of different sizes and properties.
 
 % First, do the clustering of the people. Find the top-N similar users for the target person in a particular cluster. Select the tour with maximum voting among the top-N users by the individuals of the group.
+% -------------------------------------------------------------------------------------
 \subsection{Methods}
+% -------------------------------------------------------------------------------------
+
+Generally, we have three main methods how to create synthetic groups:
+\begin{itemize}
+    \item \textbf{At random}
+    \item \textbf{Based on user similarity, using user-item interactions}.
+    \item \textbf{Based on user similarity, using user-attributes}.
+\end{itemize}
+
+Creating groups at random is very east to do, for each group we take the desired amount of users from the user pool without replacement. And then for the next group either adding the users back to the pool or keeping them out and therefore having each user be part of at most one groups. We could argue that entirely random groups do not exist in the real world, but some groups actually can be pretty close to entirely random at least in a specific preference such as music taste. For example, when commuting in the public transportation or dining in a restaurant, we would observe a very wide spectrum of preference among people.
+
+The second and third cases are more interesting because there is only rarely a situation where groups are created entirely randomly. Most of the time users that create groups in the real world do have some similarity, either in preference (second case) or in attributes, such as where they live, what is their age, gender, education and so on (third case).
+
+In reality, we most usually create groups with people in the same social setting, such as age related peers, friends from high school and university, work and other similar attributes. It would therefore make sense to utilize this information for creation of the artificial groups. But unfortunately, this information is not present in any of our datasets and it would need to be quite extensive in order to be usable. This type of data is almost unattainable, maybe apart from the biggest tech companies such as Google and Facebook.
+
+Other argument against the use of user-attributes is that with their usage as a grouping parameter the concern for privacy and protection of sensitive attributes arises. These attributes should be protected as already discussed in \ref{subsec:02_general.algorithmic_fairness_and_possible_meanings}.
+
+Using user-item interactions for measuring similarity is very convenient due to this information being the most accessible. It is very similar to a user based collaborative filtering discussed in \ref{subsec:01_rec_sys.main_alg_approaches}. The main differences are that we want to directly control the amount of similarity for creating either similar groups or groups with varying amount of diversity and that we do not perform the second step where we recommend items based on the relevant users.
+
+
+In order to create user groups from user-item interactions we need a similarity metric that gives us for each pair of uses a value representing how similar they are. There is a multitude of similarity metrics that can be used. We have selected to use the following: 
+\begin{itemize}
+    \item 
+        \textbf{Pearson Correlation Coefficient} (PCC) due to its stable performance as mentioned in \cite{similarity_measures_comparason},  and due to its wide use among the recommender system domain.
+        For two vectors $X$ and $Y$ it can be computed as follows:
+        \begin{equation}
+            P(X,Y) = \frac{cov(X,Y)}{\sigma_x \sigma_y}
+            = \frac{\sum\limits_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}{\sqrt{\sum\limits_{i=1}^{n} (x_i - \overline{x})^2}\sqrt{\sum\limits_{i=1}^{n}(y_i - \overline{y})^2}},
+        \end{equation}
+        where $cov$ is covariance, and $\sigma$ is standard deviation.
+        
+        
+    \item
+        \textbf{Jaccard similarity} due to its simplicity and suitability for data with only one-valued implicit feedback:
+        \begin{equation}
+            J(X,Y) = \frac{|X \cap Y|}{|X \cup Y|} = \frac{|X \cap Y|}{|X| + |Y| - |X \cap Y|}.
+        \end{equation}
+        Where $X$ and $Y$ are sets of items where user has a positive rating of 1.
+        For our case we consider the intersection to be only when both samples have a positive value of 1 (sometimes match of zeroes is considered as an intersection as well).
+        
+    \item
+        \textbf{Cosine similarity} due to its simplicity and property of not depending on the vectors magnitude, but only on their angle:
+        \begin{equation}
+            cos(x, y) = \frac {x \cdot y}{||x|| \cdot ||y||}
+             = \frac{\sum\limits_{i=0}^{n}{x_i y_i}} {\sqrt{\sum\limits_{i=0}^{n}{x_i^2}}\sqrt{\sum\limits_{i=0}^{n}{y_i^2}}}
+            ,
+        \end{equation}
+        where $x$ and $y$ are vectors of user preference.
+        This insensitivity to scaling comes handy when working with different types of ratings among multiple datasets. 
+\end{itemize}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics{img/figures/similarity_metrics.pdf}
+    \caption{Comparison of similarity metrics on Movie Lens dataset.}
+    \label{fig:similarity_metrics}
+\end{figure}
+
+% We have additionally considered Cosine similarity, but in our case it is important to consider only ratings that are a positive match due to most user item ratings not being present and therefore having value of '0'. The Cosine similarity would put users with sparse item ratings closer together due to taking matching 'zeros' as similar. The same hold for Jaccard similarity if we allow the intersection to match on 'zeros'.
+
+We have compared the similarity metrics on a random sample of 1 million distinct user pairs on \ref{fig:similarity_metrics}.
+
+We originally wanted to select Pearson Correlation Coefficient based on \ref{fig:similarity_metrics} and the before mentioned stability. But interestingly, PCC and the Cosine similarity are overlapping substantially, this is due to the ratings being very sparse which causes the means in PCC calculation to be close to 0 which then corresponds to the Cosine similarity. Further, PCC and Cosine similarity on average has more samples with higher similarity and less samples of small similarity. We therefore select Cosine as our similarity metric, due to its similarity to PCC and better properties than Jaccard similarity.
+
+
+Now we have a method of how to determine similarity of two users. Further, we need to have a way of how to modulate the amount of similarity in the group. There is many interesting ways as how to put create synthetic groups. Let us now present some of them.
+
+Some of possible types of group creation:
+\begin{itemize}
+    \item \textbf{Random:}
+        Randomly sample without replacement from the user-pool.
+        
+    \item \textbf{Similar:}
+        Select one user randomly as a pivot, then fill in the remaining group spots with users that are as similar as possible. This basically is k-nearest neighbours. Problem with this approach is that very rarely we encounter situations like in the real world. Another problem is that computationally selecting the most similar users has a time complexity of $\mathcal{O}(n^2)$. Which is not ideal for the sizes of our datasets.
+        
+    \item \textbf{Somehow similar, with outliers:}
+        One other way as how to relax the similarity is to randomly selecting a pivot user and then selecting the nearest neighbours only from a random sample of the total user-pool. This way, we still get pretty similar users and do not need to perform so much calculation.
+        
+        Other idea would be to instead of the pivot always select the another user to the last drawn user, this way, we could create more variable preference among the group members with still overlapping user-item interactions.
+        
+        Additionally, instead of selecting top-k similar users, we can make random steps in the similarity ordering, such as if we have 1000 most similar users ordered by the similarity metric, we do not need to take the top-k best ones, but for example 100th most similar, 200th most similar and so on.
+        
+        Further, instead of a top-k, we can select users based on a weighted probability generated either from the similarity or from the ordering of all the candidate members.
+        
+    \item \textbf{Similar to the whole group:}
+        Instead of selecting candidates to be similar to a single main user, we can select next group members to incrementally be similar to group members already assigned, either by aggregating the ratings or by for example Borda count, this has the advantage of easier candidate selection, due to the bigger possible preference overlap. But it has a disadvantage of needing to perform more computation of similarity after each member is selected.
+        
+    \item \textbf{Dissimilar:}
+        Apart from finding group members based being as similar as possible, we can also try to create as dissimilar groups as possible. Here we can again randomly select a first user, then select next one with at least similarity as possible. But then, instead of selecting another user in the same way, we can calculate dissimilarity of all other uses with the joined preference of the users that are already selected to the group.
+\end{itemize}
+
+
+% -------------------------------------------------------------------------------------
+\subsection{Selected approach}
+% -------------------------------------------------------------------------------------
+Let us now specify, in detail, methods we have used and how we set the required parameters. We are showing the calculations only for the Movie Lens dataset if not mentioned otherwise.
+
+Easiest and most convenient option would be to calculate the similarity matrix for all users and then select groups based on this single calculation. But this matrix can become pretty huge with the growing amount of users. Lets assume our worst case of 1,000,000 users of the Spotify dataset. Then we will have $10^{12}/2$ of similarity calculations that need to be processed and stored. This becomes difficult to manage as the amount of memory needed would be around on the order terabytes and the time needed for processing on the order of hours or days. We therefore opt for an iterative approach, where we randomly select only a smaller subset of potential group members and select the actual group members from this smaller group instead of the whole user pool.
+
+\subsubsection{Similar groups with top-k selection}
+Straightforward approach that generates groups with very distinct user preferences. We select the desired amount of users for one group from the user-pool and assign them together. Then repeat with the whole user-pool (not removing the selected members) again.
+
+\subsubsection{Similar groups with top-k selection}
+We select one user as a pivot of the group at random. Next we select some substantial amount of users at random from the dataset and calculate the similarity between the pivot and each of the selected user candidates. Next we select the top-N most similar users to the pivot where N is the desired group size - 1 and fill in the rest of the group with these top-N most similar.
+
+This ensures that there will be pressure for similarity using the top-K mechanism as well as some variety due to the random selection of candidates.
+
+\subsubsection{Similar groups with probability respecting similarity}
+We perform the same random selection as in the previous method for similar groups, but with a different procedure in the second step of selection from the candidates. We would like to select a candidate with a probability that corresponds to their similarity with the pivot user and decreases quite heavily to still ensure there is enough of a push towards selecting similar users.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics{img/figures/histogram_cosine.pdf}
+    \caption{Histogram of cosine similarity of 1 million random user pairs from Movie Lens dataset.}
+    \label{fig:cosine_movielens_histogram}
+\end{figure}
+
+Due to the exponentially decreasing number of users with higher similarity scores as can be seen on \ref{fig:similarity_metrics} and in detail on \ref{fig:cosine_movielens_histogram}, we need to ensure that potential group members with higher similarity still retain overall higher probability of being selected. We can do that by presetting the desired probability to the each cosine similarity group and then dividing this probability by the average number of user pairs in that similarity group.
+
+Unfortunately, we do not have the precise average number of user pairs, which would require to compute similarity between all possible pairs. We can get a good estimation by sampling some amount of user pairs and calculating the ratio between the size of the group and the number of total samples. Sample of size 1 million on Movie Lens dataset can be seen on \ref{fig:cosine_movielens_histogram}.
+
+
+In order to avoid deciding on the correct amount of bins to split the data into how to smooth and sample from the bins, we have selected to model the expected cosine similarity probability density function minimizing the L2 norm. Which allows us then to calculate what is the expected amount of samples for a small neighbourhood. We have selected an exponential distribution with parameter $\lambda=0.08918$. This distribution models our underlying data quite well, comparison can be found in \ref{table:5.3_modeled_comparison}. Most important portion of samples between 0.4 to 0.8 where most of the members with highest chance of being selected will fall, seems to be modeled quite precisely.
+Then we can express the average expected amount of similarity pairs with similarity of $x$ in some small constant sized neighbourhood of size $NS$ to be:
+\begin{equation}
+    expectedSampleRatio(x, N, \lambda) = cdf(exp(\lambda), x + N) - cdf(exp(\lambda), x),
+\end{equation}
+where cdf stands for the cumulative distribution function of in this case exponential distribution with the $\lambda$ parameter of $0.08918$.
+
+Next, we need to have a way as how to scale the actual similarity. We would like to have a non-linear difference between samples. If a sample $A$ has similarity higher than sample $B$ by $0.1$, then we would like to have the sample $A$ to be selected twice as likely. Further, we can generalize the the difference as parameter $D$ and the multiplying factor as $M$.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{ c | c | c}
+       cosine sim. & sampled data & $exp(\lambda=0.08918)$ \\
+        \hline
+        $\left[ 0.0, 0.1\right)$ & 600,716 & 674,139 \\
+        $\left[ 0.1, 0.2\right)$ & 275,099 & 219,675 \\
+        $\left[ 0.2, 0.3\right)$ & 90,355 & 71,583 \\
+        $\left[ 0.3, 0.4\right)$ & 24,265 & 23,326 \\
+        $\left[ 0.4, 0.5\right)$ & 6,660 & 7,601 \\
+        $\left[ 0.5, 0.6\right)$ & 2,181 & 2,476 \\
+        $\left[ 0.6, 0.7\right)$ & 602 & 807 \\
+        $\left[ 0.7, 0.8\right)$ & 110 & 263 \\
+        $\left[ 0.8, 0.9\right)$ & 12 & 85 \\
+        $\left[ 0.9, 1.0\right]$ & 0 & 27 \\d
+        total & 1,000,000 & 999,982
+            
+    \end{tabular}
+    % \caption[Rating of selected GRS datasets.]{Rating of selected GRS datasets. Note for 'n/a' - we were unable to download the dataset, therefore unable to asses this criteria}
+    \caption{Comparison of histograms of data sampled from the dataset and the created data model.}
+    \label{table:5.3_modeled_comparison}
+\end{table}
+
+We get:
+\begin{equation}
+    scale(x, D, M) = M^{\frac{1}{D}x} = M^{\frac{x}{D}},
+\end{equation}
+where for doubling the probability every 0.1 similarity difference will become:
+
+\begin{equation}
+    scale(x, 2, 0.1) = 2^{\frac{x}{0.1}} = 2^{10x}.
+\end{equation}
+
+This gives us a framework as how to assign each candidate member a weight by which we can perform a weighted random choice and therefore introduce more variability into the group selection process. We present a description of the whole algorithm in \ref{alg:create_sim_groups}.
+
+
+
+\begin{algorithm}
+	\caption{Generate groups with probability respecting similarity}
+	\begin{algorithmic}[1]
+	    \State Select parameters D, N, M and the desired amount of samples and amount of candidates
+	
+	    \vspace{3mm}
+	
+	    \For {Desired number of samples}
+    	    \State Select random pair for users $u1$ and $u2$ from the user-pool
+    	    \State Calculate similarity of $u1$ and $u2$ and store it
+	    \EndFor
+	    \State Fit an exponential distribution to the stored values
+	    \State Get its parameter $\lambda$
+	    
+	    \vspace{3mm}
+	    
+	    \For {Number of desired groups}
+    	    \State Select 1 user $uCaptain$ from the user-pool as main user
+    	    \State Select 1000 random users as $uCandidates$ from the user-pool
+    	    \For {Each user $u$ from $uCandidates$}
+    	        \State Calculate similarity between $uCaptain$ and $u$ as $sim$
+    	        \State Calculate random candidate weight with (Eq. 5.4 and 5.5):
+    	        \State $weight$ = scale($sim$, D, M) / expectedSampleRatio($sim$, N, $\lambda$)
+    	    \EndFor
+    	    \For{ Desired group size - 1}
+    	    \State Perform weighted random selection on the candidates using the weights
+    	    \State Add the selected user to the group and remove it from the candidates
+    	    \EndFor
+        \EndFor
+	\end{algorithmic}
+	\label{alg:create_sim_groups}
+\end{algorithm} 
+
+
+
+% Pearson Correlation Coefficient due to its stable performance as mentioned in \cite{similarity_measures_comparason},  and due to its wide use among the recommender system domain.
+
+% \textbf{Pearson correlation coefficient} for two vectors $X$ and $Y$ can be computed as follows:
+% \begin{equation}
+%     P(X,Y) = \frac{\text{cov}(X,Y)}{\sigma_x \sigma_y}
+%     = \frac{{}\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \overline{x})^2(y_i - \overline{y})^2}},
+% \end{equation}
+% where $cov$ is the covariance, and $\sigma$ is the standard deviation.
+
+% Further we have selected \textbf{Jaccard similarity} due to its simplicity:
+% \begin{equation}
+%     J(X,Y) = \frac{|X \cap Y|}{|X \cup Y|} = \frac{|X \cap Y|}{|X| + |Y| - |X \cap Y|}.
+% \end{equation}
+% It has a 
+
+% -------------------------------------------------------------------------------------
+\subsection{Evaluation of the generated groups}
+% -------------------------------------------------------------------------------------
 
 
 
