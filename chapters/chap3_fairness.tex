@@ -295,7 +295,7 @@ Let us first introduce two concepts of item preference:
 This is one of the main optimization decisions we have to make. In some settings, as we will discuss later, will member-likeability a better choice, in others it will be the group-likeability. We can view it as an opposing force. We can either push towards more or less uniformity.
 
 
-\subsection{Specific cases of fairness}
+\subsection{Specific cases of fairness} \label{subsec:specific_cases_of_fairness}
 Let us now mention some of the main ways and their differences, as how fairness in this context can be understood.
 %\todo[inline]{ differences , different - zkus jedno z tech slov nahradit.  Nevim jak tebe, ale me vzdycky ve slohu ucili, ze bych se mel vyhnout pouzivani stejneho/podobneho slova 2x v jedne vete nebo vicekrat v navazujicich vetach...}
 
@@ -318,7 +318,33 @@ Let us now mention some of the main ways and their differences, as how fairness 
 \end{itemize}
 
 \subsection{Evaluation} \label{sec:02_evaluation}
-\todo[inline]{DEADLINE 17.1. osnova v bodech}
+
+In order to asses performance of group recommender systems, we need to define some metrics as how to measure the fairness and other utility function we select as the observed parameter.
+Let's assume that an output of a group recommender system is a list of items recommended to the group of users. For each item we have an information about the effect of that item to the users utility function.
+
+The utility function we want to calculate is the total relevance of the recommended list to each user and we consider fair if it is balanced among users, where no one is systematically biased against. We therefore need provide a single measure for each user and the recommended item list.
+
+\begin{itemize}
+    \item \textbf{Average relevance score} (AR)
+        We calculate a simple average of the observed metric, for each user separately, such as the expected relevance of the item to the user. We can then evaluate for each group minimum, maximum, average (and other) of this average aggregated relevance. We therefore end up with a set of evaluations for each group, which we can further process.
+    
+    \item \textbf{Normalized discounted cumulative gain} (nDCG)
+        We can assume that the position of items in the recommended list is important. Especially with fairness. As an example, if we generate a playlist for a group of two users and then satisfy the first user for the first half, the other user will be quite unhappy even if the second part of the playlist will be dedicated to them entirely. This approach would not be ideal. It is therefore important to incorporate the position of the items accordingly.
+        
+        Discounted cumulative gain (DCG) is defined as:
+        \begin{equation}
+            DCG_p = \sum_{i=1}^p \dfrac{rel_i}{log_2(i+1)}
+        \end{equation}.
+        
+        And further, nDCG is a normalized form where we order items in the list $p$ by their relevance so that they create the ideal list with maximum DCG score. We assign this score as $IDCG_p$ ( ideal-DCG).
+        \begin{equation}
+            nDCG_p = \dfrac{DCF_p}{IDCG_p}
+        \end{equation}.
+\end{itemize}
+
+With these two measures of recommendation we have a way as how to aggregate relevance of items in the recommended list. We will mention further specifics about evaluation in \ref{chap:experiments}.
+
+
 
 % omezena komodita rozdistribuovat mezi zdroje
 % 1 mira ferovosti a 2 mira relevance
