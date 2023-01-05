@@ -1,1 +1,33 @@
+% -------------------------------------------------------------------------------------
 \chapter{Conclusion}  \label{chap:conclusion}
+% -------------------------------------------------------------------------------------
+
+We have developed and implemented a novel group recommendation method, EP-FuzzDA, based on the D'Hondt mandate allocation algorithm. It is an aggregation method that works on top of single-user group recommendation systems.
+
+To evaluate its performance, we have developed a fast and easy-to-use set of software components in Python, which simplifies reproducibility and future work with group recommendation systems. These tools provide a complete loop for decoupled evaluation. The separate components are a dataset downloader and processing tool, a synthetic group generation tool, a single-user recommendation system for generating the ground truths for decoupled evaluation, and a group recommendation tool into which a group aggregation recommender can be plugged into.
+
+We have explored 8 group recommendation datasets from the related literature but determined that none are suitable enough to be used for our purposes of evaluating GRS. We have further described and analyzed 4 datasets without any group information but of suitable quality.
+
+Further, we have designed a group generation method PRS (probability respecting similarity) that allows for a free scaling of the average similarity of the created artificial groups with the average inter-group similarity having a natural variance.
+
+We have extensively evaluated our algorithm and seven other related algorithms on five datasets of various sizes, two group types, and three evaluation scenarios. It provides a good balance of fairness and item relevance, allows for direct use with group member importance weights, and provides the most correlated recommended item relevance with the desired weights. Additionally, we showed that it could be applied to a long-term recommendation scenario to maintain fairness across multiple recommendation sessions, but currently the other algorithms are giving us a better performance for mean relevance scores.
+
+Compared to other related work, the evaluation has been performed not only on small datasets such as KGRec and MovieLens1M but also on huge and more organic datasets such as Spotify and Netflix. All tools in the evaluation software components have been optimized enough so that the evaluation of these huge datasets is still computationally feasible (in a matter of hours).
+
+
+% -------------------------------------------------------------------------------------
+\section{Future work}  \label{sec:08_conclusion.future_work}
+% -------------------------------------------------------------------------------------
+
+We have focused on the fairness aspect of designing a group recommendation system. The main problem we have encountered is the nonexistence of datasets with organic group recommendation information. The step of synthetic group creation can cause a bias towards some algorithms that will be hard to address differently than having an organic group recommendation dataset. This can be solved by an online evaluation using a user study focused on long-term fairness preservation in realistic group settings.
+
+Additional work needs to be put into evaluating the effect of different underlying recommender systems on the decoupled evaluation we have used. We have selected a popular matrix factorization algorithm with parameters set to similar values as in the related literature. However, we have not performed any comparison of the GRS algorithms with different underlying single-user RS.
+
+Further, more software development effort can be put into expanding and improving the software evaluation tools that we have created. They are easily usable but still quite tightly tailored to our needs. A more general framework could be designed based on our current work.
+
+Additionally, the evaluation of long-term and weighted evaluation scenarios can be improved by designing a better set of metrics that more directly measure fairness. This requires to better define what fairness is in these weighted and long-term settings.
+
+More work can be put into our algorithm to make it fairness configurable so that the trade-off between performance and fairness can be adjusted as required. This would probably help in the long-term scenario when the groups are balanced enough, and the algorithm could push more toward the average rating performance.
+
+
+% add we are not satisfied with the long term performance, mozna spatne nastavujeme vahy pro longterm, pocitame na zaklade predchozi rating performance, ale dostupne mnozstvi ratingu v nasledujicich itemech je mensi
