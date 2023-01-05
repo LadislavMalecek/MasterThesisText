@@ -1,0 +1,42 @@
+\begin{tabular}{ c | c c c | c c c || c c c | c c c}
+
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=3} & \multicolumn{6}{c}{PRS(M=4), group size s=3} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{77.52} & 0.02 & 0.18 & \textbf{0.74} & 0.02 & 0.15 & \textbf{77.42} & 0.04 & 0.18 & \textbf{0.73} & 0.04 & 0.15 \\
+AVG & \underline{73.52} & 0.41 & 0.14 & 0.71 & 0.41 & \underline{0.10} & \underline{73.42} & 0.47 & 0.13 & 0.70 & 0.47 & \underline{0.09} \\
+DHondtDO & 72.34 & \underline{0.41} & \underline{0.13} & \underline{0.71} & \underline{0.41} & 0.10 & 72.75 & \underline{0.48} & \underline{0.12} & \underline{0.71} & \underline{0.48} & 0.10 \\
+EP-FuzzDA & 68.32 & \textbf{0.67} & \textbf{0.09} & 0.70 & \textbf{0.67} & \textbf{0.09} & 68.47 & \textbf{0.71} & \textbf{0.08} & 0.69 & \textbf{0.71} & \textbf{0.09} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=4} & \multicolumn{6}{c}{PRS(M=4), group size s=4} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{71.38} & 0.01 & 0.14 & \textbf{0.69} & 0.01 & 0.12 & \textbf{73.07} & 0.00 & 0.14 & \textbf{0.68} & 0.00 & 0.12 \\
+AVG & \underline{67.50} & 0.42 & 0.11 & 0.66 & 0.42 & \underline{0.08} & \underline{68.69} & 0.46 & 0.11 & 0.65 & 0.46 & \underline{0.08} \\
+DHondtDO & 66.35 & \underline{0.44} & \underline{0.10} & \underline{0.67} & \underline{0.44} & 0.08 & 67.62 & \underline{0.49} & \underline{0.10} & \underline{0.66} & \underline{0.49} & 0.08 \\
+EP-FuzzDA & 63.59 & \textbf{0.62} & \textbf{0.08} & 0.66 & \textbf{0.62} & \textbf{0.08} & 65.49 & \textbf{0.64} & \textbf{0.07} & 0.65 & \textbf{0.64} & \textbf{0.08} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=6} & \multicolumn{6}{c}{PRS(M=4), group size s=6} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{66.12} & 0.02 & 0.10 & \textbf{0.63} & 0.02 & 0.08 & \textbf{66.42} & 0.00 & 0.09 & \textbf{0.63} & 0.00 & 0.08 \\
+AVG & \underline{62.65} & 0.41 & 0.08 & 0.61 & 0.41 & \textbf{0.06} & \underline{62.84} & 0.43 & 0.07 & 0.60 & 0.43 & \underline{0.06} \\
+DHondtDO & 61.41 & \underline{0.44} & \underline{0.07} & \underline{0.61} & \underline{0.44} & 0.06 & 61.43 & \underline{0.46} & \underline{0.07} & \underline{0.61} & \underline{0.46} & 0.06 \\
+EP-FuzzDA & 59.92 & \textbf{0.55} & \textbf{0.06} & 0.61 & \textbf{0.55} & \underline{0.06} & 60.24 & \textbf{0.57} & \textbf{0.05} & 0.61 & \textbf{0.57} & \textbf{0.06} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=8} & \multicolumn{6}{c}{PRS(M=4), group size s=8} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{61.92} & 0.02 & 0.07 & \textbf{0.60} & 0.02 & 0.06 & \textbf{62.78} & 0.01 & 0.07 & \textbf{0.60} & 0.01 & 0.06 \\
+AVG & \underline{58.78} & 0.41 & 0.06 & 0.58 & 0.41 & \textbf{0.05} & \underline{59.40} & 0.44 & 0.06 & 0.57 & 0.44 & \textbf{0.04} \\
+DHondtDO & 57.16 & \underline{0.44} & \underline{0.06} & 0.58 & \underline{0.44} & 0.05 & 57.86 & \underline{0.46} & \underline{0.05} & 0.57 & \underline{0.46} & 0.05 \\
+EP-FuzzDA & 56.54 & \textbf{0.53} & \textbf{0.04} & \underline{0.58} & \textbf{0.53} & \underline{0.05} & 57.52 & \textbf{0.55} & \textbf{0.04} & \underline{0.58} & \textbf{0.55} & \underline{0.05} \\
+
+\end{tabular}

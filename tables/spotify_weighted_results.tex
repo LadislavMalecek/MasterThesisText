@@ -1,0 +1,42 @@
+\begin{tabular}{ c | c c c | c c c || c c c | c c c}
+
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=3} & \multicolumn{6}{c}{PRS(M=4), group size s=3} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{3.53} & 0.02 & 0.28 & \textbf{0.50} & 0.02 & 0.26 & \textbf{4.46} & -0.00 & 0.24 & \textbf{0.65} & -0.00 & 0.21 \\
+AVG & \underline{3.28} & \underline{0.38} & \underline{0.24} & 0.49 & \underline{0.38} & \underline{0.21} & \underline{4.25} & \underline{0.30} & 0.21 & 0.63 & \underline{0.30} & \underline{0.17} \\
+DHondtDO & 2.73 & 0.38 & 0.24 & 0.44 & 0.38 & 0.26 & 3.91 & 0.30 & \underline{0.20} & 0.60 & 0.30 & 0.23 \\
+EP-Fuzz-DA & 2.69 & \textbf{0.57} & \textbf{0.12} & \underline{0.50} & \textbf{0.57} & \textbf{0.09} & 3.81 & \textbf{0.46} & \textbf{0.13} & \underline{0.64} & \textbf{0.46} & \textbf{0.11} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=4} & \multicolumn{6}{c}{PRS(M=4), group size s=4} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{3.14} & 0.00 & 0.23 & \textbf{0.43} & 0.00 & 0.22 & \textbf{4.02} & -0.00 & 0.20 & \textbf{0.57} & -0.00 & 0.17 \\
+AVG & \underline{2.89} & \underline{0.37} & 0.21 & 0.40 & \underline{0.37} & \underline{0.19} & \underline{3.81} & \underline{0.31} & \underline{0.17} & 0.55 & \underline{0.31} & \underline{0.14} \\
+DHondtDO & 2.31 & 0.32 & \underline{0.20} & 0.36 & 0.32 & 0.21 & 3.41 & 0.30 & 0.17 & 0.52 & 0.30 & 0.17 \\
+EP-Fuzz-DA & 2.40 & \textbf{0.49} & \textbf{0.10} & \underline{0.42} & \textbf{0.49} & \textbf{0.08} & 3.47 & \textbf{0.43} & \textbf{0.10} & \underline{0.56} & \textbf{0.43} & \textbf{0.09} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=6} & \multicolumn{6}{c}{PRS(M=4), group size s=6} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{2.62} & 0.03 & 0.17 & \textbf{0.34} & 0.03 & 0.16 & \textbf{3.58} & -0.00 & 0.14 & \textbf{0.49} & -0.00 & 0.12 \\
+AVG & \underline{2.42} & \underline{0.37} & 0.15 & 0.32 & \underline{0.37} & \underline{0.14} & \underline{3.39} & \underline{0.31} & 0.12 & 0.47 & \underline{0.31} & \underline{0.11} \\
+DHondtDO & 1.82 & 0.30 & \underline{0.15} & 0.28 & 0.30 & 0.15 & 2.99 & 0.26 & \underline{0.12} & 0.43 & 0.26 & 0.12 \\
+EP-Fuzz-DA & 2.01 & \textbf{0.44} & \textbf{0.08} & \underline{0.33} & \textbf{0.44} & \textbf{0.07} & 3.13 & \textbf{0.36} & \textbf{0.08} & \underline{0.48} & \textbf{0.36} & \textbf{0.07} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=8} & \multicolumn{6}{c}{PRS(M=4), group size s=8} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & corr & MAE & mean & corr & MAE & mean & corr & MAE & mean & corr & MAE \\
+\hline
+AVG-U & \textbf{2.21} & -0.02 & 0.13 & \textbf{0.29} & -0.02 & 0.13 & \textbf{3.30} & 0.02 & 0.11 & \textbf{0.44} & 0.02 & 0.10 \\
+AVG & \underline{2.03} & \underline{0.32} & 0.12 & 0.27 & \underline{0.32} & 0.11 & \underline{3.16} & \underline{0.28} & 0.10 & 0.42 & \underline{0.28} & \underline{0.09} \\
+DHondtDO & 1.44 & 0.23 & \underline{0.11} & 0.22 & 0.23 & \underline{0.11} & 2.65 & 0.23 & \underline{0.09} & 0.37 & 0.23 & 0.09 \\
+EP-Fuzz-DA & 1.67 & \textbf{0.38} & \textbf{0.06} & \underline{0.27} & \textbf{0.38} & \textbf{0.06} & 2.89 & \textbf{0.33} & \textbf{0.06} & \underline{0.42} & \textbf{0.33} & \textbf{0.06} \\
+
+\end{tabular}

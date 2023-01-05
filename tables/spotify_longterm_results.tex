@@ -1,0 +1,52 @@
+\begin{tabular}{ c | c c c | c c c || c c c | c c c }
+
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=2} & \multicolumn{6}{c}{PRS(M=4), group size s=2} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & min & M/M & mean & min & M/M & mean & min & M/M & mean & min & M/M \\
+\hline
+AVG-U & \underline{12.50} & 6.24 & 0.34 & 1.21 & 0.75 & 0.47 & \underline{14.56} & 8.84 & 0.43 & 1.43 & 1.12 & 0.65 \\
+AVG & 10.22 & 8.27 & 0.63 & \underline{1.24} & \underline{1.16} & \textbf{0.88} & 12.87 & 10.32 & 0.63 & \underline{1.44} & \underline{1.37} & \textbf{0.90} \\
+DHondtDO & \textbf{15.56} & \textbf{13.73} & \underline{0.72} & \textbf{1.63} & \textbf{1.40} & \underline{0.74} & \textbf{20.71} & \textbf{17.73} & \underline{0.70} & \textbf{2.00} & \textbf{1.81} & \underline{0.81} \\
+EP-Fuzz-DA & 9.49 & \underline{8.58} & \textbf{0.77} & 1.21 & 0.97 & 0.68 & 12.23 & \underline{10.59} & \textbf{0.73} & 1.41 & 1.21 & 0.75 \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=3} & \multicolumn{6}{c}{PRS(M=4), group size s=3} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & min & M/M & mean & min & M/M & mean & min & M/M & mean & min & M/M \\
+\hline
+AVG-U & \underline{10.96} & 3.55 & 0.17 & 0.97 & 0.40 & 0.26 & \underline{13.69} & 6.50 & 0.28 & 1.22 & 0.81 & 0.49 \\
+AVG & 8.74 & 5.57 & 0.42 & \underline{0.99} & \underline{0.79} & \textbf{0.68} & 11.95 & 8.15 & 0.48 & \underline{1.23} & \underline{1.05} & \textbf{0.75} \\
+DHondtDO & \textbf{11.59} & \textbf{8.80} & \underline{0.52} & \textbf{1.18} & \textbf{0.90} & 0.59 & \textbf{18.40} & \textbf{14.17} & \underline{0.55} & \textbf{1.64} & \textbf{1.37} & 0.68 \\
+EP-Fuzz-DA & 7.83 & \underline{5.93} & \textbf{0.58} & 0.96 & 0.73 & \underline{0.60} & 11.31 & \underline{8.39} & \textbf{0.56} & 1.20 & 0.98 & \underline{0.68} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=4} & \multicolumn{6}{c}{PRS(M=4), group size s=4} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & min & M/M & mean & min & M/M & mean & min & M/M & mean & min & M/M \\
+\hline
+AVG-U & \textbf{10.01} & 2.08 & 0.09 & 0.83 & 0.23 & 0.15 & \underline{12.68} & 5.07 & 0.20 & 1.10 & 0.62 & 0.37 \\
+AVG & 7.85 & 3.83 & 0.29 & \underline{0.84} & 0.54 & \underline{0.50} & 11.13 & 6.48 & 0.36 & \underline{1.10} & \underline{0.84} & \textbf{0.61} \\
+DHondtDO & \underline{9.29} & \textbf{5.76} & \underline{0.36} & \textbf{0.92} & \textbf{0.61} & 0.45 & \textbf{16.05} & \textbf{10.96} & \textbf{0.43} & \textbf{1.40} & \textbf{1.06} & 0.55 \\
+EP-Fuzz-DA & 7.04 & \underline{4.07} & \textbf{0.39} & 0.81 & \underline{0.56} & \textbf{0.52} & 10.58 & \underline{6.64} & \underline{0.43} & 1.08 & 0.82 & \underline{0.60} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=6} & \multicolumn{6}{c}{PRS(M=4), group size s=6} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & min & M/M & mean & min & M/M & mean & min & M/M & mean & min & M/M \\
+\hline
+AVG-U & \textbf{8.61} & 0.77 & 0.03 & \underline{0.69} & 0.08 & 0.05 & \underline{11.41} & 3.30 & 0.12 & \underline{0.95} & 0.39 & 0.24 \\
+AVG & 6.67 & 1.92 & 0.15 & 0.68 & 0.29 & \underline{0.29} & 9.99 & \underline{4.65} & 0.26 & 0.95 & \underline{0.60} & \textbf{0.46} \\
+DHondtDO & \underline{7.00} & \textbf{2.74} & \underline{0.19} & \textbf{0.69} & \underline{0.31} & 0.26 & \textbf{13.60} & \textbf{7.59} & \textbf{0.30} & \textbf{1.14} & \textbf{0.71} & 0.39 \\
+EP-Fuzz-DA & 6.00 & \underline{1.96} & \textbf{0.20} & 0.65 & \textbf{0.31} & \textbf{0.33} & 9.63 & 4.60 & \underline{0.27} & 0.93 & 0.60 & \underline{0.45} \\
+
+\multicolumn{12}{c}{} \\
+\multicolumn{1}{c}{} & \multicolumn{6}{c}{PRS(M=1), group size s=8} & \multicolumn{6}{c}{PRS(M=4), group size s=8} \\
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} & \multicolumn{3}{c}{AR} & \multicolumn{3}{c}{nDCG} \\
+& mean & min & M/M & mean & min & M/M & mean & min & M/M & mean & min & M/M \\
+\hline
+AVG-U & \textbf{7.34} & 0.23 & 0.01 & \textbf{0.57} & 0.01 & 0.00 & \underline{10.74} & 2.44 & 0.09 & \underline{0.86} & 0.26 & 0.15 \\
+AVG & \underline{5.58} & \underline{1.03} & 0.08 & \underline{0.56} & \underline{0.16} & \underline{0.17} & 9.33 & \underline{3.69} & 0.19 & 0.84 & \underline{0.44} & \underline{0.33} \\
+DHondtDO & 5.43 & \textbf{1.38} & \underline{0.11} & 0.54 & 0.14 & 0.13 & \textbf{11.94} & \textbf{5.53} & \textbf{0.21} & \textbf{0.97} & \textbf{0.50} & 0.28 \\
+EP-Fuzz-DA & 4.95 & 1.01 & \textbf{0.11} & 0.53 & \textbf{0.17} & \textbf{0.21} & 8.97 & 3.50 & \underline{0.19} & 0.82 & 0.44 & \textbf{0.34} \\
+
+\end{tabular}
