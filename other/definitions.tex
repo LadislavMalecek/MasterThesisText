@@ -5,7 +5,7 @@
 \def\ThesisAuthor{Bc. Ladislav Maleček}
 
 % Year when the thesis is submitted
-\def\YearSubmitted{2022}
+\def\YearSubmitted{2023}
 
 % Name of the department or institute, where the work was officially assigned
 % (according to the Organizational Structure of MFF UK in English,
@@ -28,13 +28,18 @@
 % An optional dedication: you can thank whomever you wish (your supervisor,
 % consultant, a person who lent the software, etc.)
 \def\Dedication{%
-\textcolor{red}{Dedication.}
+
+    I dedicate this work to my closest friends and my family, whose never-ending support and kind words have kept me motivated throughout my studies and writing this thesis.
+    
+    Furthermore, I want to thank my supervisor Mgr. Ladislav Peška, Ph.D., for his patience, time, and a considerable amount of valuable insight and suggestions, not only on a professional level.
+
 }
 
 % Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
-\def\Abstract{%
-\textcolor{red}{Abstract}.
+\def\Abstract{
+
+    The goal of this thesis is to explore the area of group recommender systems with an emphasis on fairness. In the core part of our thesis, we have created a novel aggregation method that works on top of a single-user recommender system called Exactly Proportional Fuzzy D'Hondt. We have evaluated it on five datasets, in three different recommendation scenarios, and with two different types of artificially created groups. The proposed algorithm performed favorably with respect to several fairness metrics while maintaining a reasonable utility of the recommendation as well. Furthermore, we have created a set of tools to simplify the evaluation pipeline of group recommender systems. The main parts of the pipeline are a dataset downloader, matrix factorizer, and synthetic group creation scripts. We believe these tools may contribute towards more reproducible research in the group recommender systems domain.
 }
 
 % 3 to 5 keywords (recommended), each enclosed in curly braces
-\def\Keywords{group recommender systems, fairness, synthetic datasets, preference aggregation}
+\def\Keywords{{group recommender systems}, {fairness}, {synthetic datasets}, {preference aggregation}}

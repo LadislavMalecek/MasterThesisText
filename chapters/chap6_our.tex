@@ -1,55 +1,48 @@
 \chapter{Proposed group recommender system}  \label{chap:our_work}
 
-As we have discussed so far, group recommendation is not an easy task. There is many social and mathematical optimization criteria that are hard to define and even harder to measure. Let us now present our algorithm that aims to provide group recommendations that optimizes fairness and relevance.
+As we have discussed so far, group recommendation is not an easy task. There are many social and mathematical optimization criteria that are hard to define and even harder to measure. Let us now present our algorithm that aims to provide group recommendations that optimize fairness and relevance. We published this algorithm originally at UMAP'21 in \cite{our_ep_fuzz_da}.
 
 \section{Preliminary}
 
 In our context, we see fairness as a property that no user should be systematically discriminated against when it comes to their satisfaction with the recommended items. Optimizing this type of fairness is hard, especially when we have a user or a subset of the group whose preferences differ from the rest.
 
-Some algorithms, such as the Average (AVG) and Least Misery(LM), already optimize for fairness (even if not primarily designed for that purpose). We can say that AVG strategy is fair due to its property that it considers all members' preferences as equally important. If the task is to recommend only a single item, then there is not much improvement to be made apart from how we define what we consider to be fair.  But, that is different for tasks where we recommend either a list of items or we have a multiple following recommendation sessions. Then we can tweak our following recommendations in such a way that 'fixes' our previously introduced fairness imbalance.
+Some algorithms, such as the Average (AVG) and Least Misery(LM), already optimize for fairness (even if not primarily designed for that purpose). We can say that AVG strategy is fair due to its property that it considers all members' preferences as equally important. If the task is to recommend only a single item, then there is not much improvement to be made apart from how we define what we consider fair. However, that is different for tasks where we recommend a list of items or we have multiple following recommendation sessions. Then we can tweak our following recommendations to fix our previously introduced fairness imbalance.
 
-Let us now classify approaches by how they optimize fairness into the following groups: \textit{item-wise}, \textit{list-wise} and \textit{rank-sensitive} fairness.
+Let us now classify approaches by how they optimize fairness into the following groups: \textit{item-wise}, \textit{list-wise}, and \textit{rank-sensitive} fairness.
 
-Firstly, item-wise approaches optimize single item performance. They usually apply some form of aggregation such as average for the AVG or minimum for the LM approach. Scores for each item are calculated independently and so scores for one item do not affect scores for any other.
+Firstly, item-wise approaches optimize single-item performance. They usually apply some form of aggregation, such as average for the AVG or minimum for the LM approach. Scores for each item are calculated independently, and so scores for one item do not affect scores for any other.
 
-Secondly, \textit{list-wise} approaches take into consideration which items have been recommended before. This allows us to balance fairness among group members over multiple of consecutively recommended items. All before mentioned methods from \ref{subsec:specific_cases_of_fairness} fall into this category. In other words, items are not recommended independently, but a total fairness of items recommended in succession is important. The simplest example of a \textit{list-wise fairness} approach is FAI. We select for each user, in turn, their most preferred item. This way, at some point, each user will be satisfied and FAI therefore indirectly balances the per user utility.
+Secondly, \textit{list-wise} approaches take into consideration which items have been recommended before. This allows us to balance fairness among group members over multiple consecutively recommended items. All before mentioned methods from Subsection \ref{subsec:specific_cases_of_fairness} fall into this category. In other words, items are not recommended independently, but the total fairness of items recommended in succession is important. The simplest example of a \textit{list-wise fairness} approach is FAI. We select for each user, in turn, their most preferred item. This way, at some point, each user will be satisfied, and FAI therefore indirectly balances the per-user utility.
 
-We can define a per-user utility function $r_u; u \in G$, which measures the specified properties that we aim to optimize during the process of generating a list of recommended items. We can then use this utility function to control the recommendation of the following items in order to balance fairness among the group members. Most commonly the utility function is a mean of predicted relevance for each user. %We can apply multiple fairness metrics such as LM, Min-Max ratio fairness.
+We can define a per-user utility function $r_u; u \in G$, which measures the specified properties that we aim to optimize during the process of generating a list of recommended items. We can then use this utility function to control the recommendation of the following items to balance fairness among the group members. Most commonly, the utility function is a mean of predicted relevance for each user.
 
-And lastly, \textit{rank-sensitive} approaches optimize fairness for each prefix of the recommended list of items. This approach has theoretically ideal properties in use-cases where we don't know what portion of the recommended list will be consumed or viewed by the users. We only know about a single related approach from this category, GFAR \cite{GFAR-kaya2020}. As already described in \ref{subsec:03_advanced_methods.gfar} the authors define fairness through the sum of probabilities that at least one item from the list will be relevant to each user.
+Moreover, lastly, \textit{rank-sensitive} approaches optimize fairness for each prefix of the recommended list of items. This approach has theoretically ideal properties in use cases where we do not know what portion of the recommended list will be consumed or viewed by the users. We only know about a single related approach from this category, GFAR \cite{GFAR-kaya2020}. As already described in Subsection \ref{subsec:03_advanced_methods.gfar}, the authors define fairness through the sum of probabilities that at least one item from the list will be relevant to each user.
 
-Our proposed algorithm falls into the group of \textit{rank-sensitive} approaches. It maximizes the per-user proportional fraction of total relevance. Compared to GFAR, it does not define fairness based on the ranks of items. This gives it more freedom in the item selection process, due to rank sensitive approach discounting relevance of items with the decreasing rank quite quickly, even if in reality items on lower ranks can still present a great option.
+Our proposed algorithm falls into the group of \textit{rank-sensitive} approaches. It maximizes the per-user proportional fraction of total relevance. Compared to GFAR, it does not define fairness based on the ranks of items. This gives it more freedom in the item selection process due to rank sensitive approach discounting the relevance of items with decreasing rank quite quickly, even if, in reality, items on lower ranks can still present a great option.
 
-As already mentioned in our paper about this algorithm \cite{our_ep_fuzz_da}, the main inspiration for our work are election algorithms that are used for mandates allocation.
+As already mentioned in our paper about this algorithm \cite{our_ep_fuzz_da}, the main inspiration for our work is election algorithms that are used for mandates allocation.
+Mandate allocation is an important problem in distributing mandates based on the votes received. The important part of the problem is what to do if the votes are not divisible in the way that would allow to distribute them by a simple one mandate per a set number of votes without any remaining votes left unassigned.
 
-Mandates allocation is an important problem that can affect the final distribution of awarded mandates from the underlying vote distribution. The important part of the problem is, what to do on the borders of mandate allocation, if the votes are not divisible in the way that would allow to distribute them by a simple one mandate per a set number of votes without any remaining votes left unassigned.
+We focus on D'Hondt's algorithm (DA). It, as already stated in Subsection \ref{subsec:03_advanced_methods.DHondtDO}, is commonly used in election systems around the world. It is a greedy selection algorithm that minimizes the number of votes that need to be left aside so that the remaining votes are represented exactly proportionally as described in \cite{wiki:dhondt_method}.
 
-We focus on D'Hondt's algorithm (DA) which is commonly used in European elections. DA is a greedy selection algorithm that minimizes the number of votes that need to be left aside so that the remaining votes are represented exactly proportionally as described in \cite{wiki:dhondt_method}.
-
-The procedure behind DA works as follows, in steps it awards the party with largest quotient $quot$ one seat, after each step the quotient is recalculated. The quotient is calculated as follows:
+D'Hondt's algorithm procedure works in discrete steps, where in each step, it selects the party with the maximum quotient $quot$ one seat. The quotient for each party is calculated as the total number of votes the party has received $V_p$ divided by the number of seats $s_p$ + 1 that has already been awarded to that party $p$. Initially, $s_p$ is set to zero.
 
 \begin{equation}
     quot(V_p, s_p) = \dfrac{V_p}{s_p + 1},
 \end{equation}
-where $V_p$ is the total number of votes that party $p$ received and $s_v$ is the number of seats that has been allocated to party $p$ so far (initially 0).
 
-D'Hondt's method minimizes the largest mandate-to-vote ratio as stated in \cite{wiki:dhondt_method}, in other words, it tries to minimize unfairness by trying to award mandates in such a way that there are ideally no parties that would on average receive more mandates per each vote. In this sense, it tries to balance fairness.
-This fact sparked an idea that we maybe also use it to balance fairness in group recommender scenarios.
-
-Unfortunately, direct use of DA is not possible because it does not handle a situation where a single item has utility to multiple users. For a situation with equal user weights and therefore equal votes in the DA terminology, the algorithm would behave the same as FAI.
-
-In order to compensate for this, FuzzDA presented in \cite{fuzz_da}, can be used. For each group member $u$ and each candidate item $i$, we assign a relevance score of that item for that user to $r_{u,i} \in [0,1]$. At each step, FuzzDA select a candidate that maximizes $\sum_{u \in G} quot(V_u, s_u) * r_{u,i}$. After each step, each group members' accountable votes are decreased by the factor of $r_{u,i}$. This represents a fuzzy approach that fixes the DA problem of being unable to handle items that are relevant to multiple parties by lowering their accountable votes (therefore the power in the next step) by how much utility they have received with each new item.
+Directly using the DA algorithm is not possible due to it being designed for discrete mandate allocation problems. But this unfortunate property has been addressed in \cite{fuzz_da}. We describe the method of D'Hondt's direct optimization in more detail in Subsection \ref{subsec:03_advanced_methods.DHondtDO}.
 
 \section{EP-FuzzDA}
 
-Let us now describe our algorithm of \textbf{E}xactly \textbf{P}roportional \textbf{FuzzDA}. It is a greedy algorithm that iteratively select the best candidate item maximizing the marginal gains on \textbf{E}xactly-\textbf{P}roportional \textbf{rel}evance \textbf{sum} (EP-rel-sum) criterion.
+Let us now describe our algorithm of \textbf{E}xactly \textbf{P}roportional \textbf{F}uzzy \textbf{D} 'Hondt's \textbf{A}ggregation. It is a greedy algorithm that iteratively selects the best candidate item maximizing the marginal gains on \textbf{E}xactly-\textbf{P}roportional \textbf{rel}evance \textbf{sum} (EP-rel-sum) criterion.
 
-As mentioned before, candidate allocation algorithm such as D'Hondt does not consider the varying relevance of candidate items nor the possible overlap of user's preferences. Both these situations are very common in the domain of group recommender systems. We can most certainly find a set of items that closely balance the relevance between all group members. But it is possible, that each of these items do have an item that is better fit for the group over all, but would lead to more imbalance. This could easily lead to recommending mediocre items only for the sake of balancing the fairness.
+As mentioned before, candidate allocation algorithm such as D'Hondt does not consider the varying relevance of candidate items nor the possible overlap of user preferences. Both these situations are very common in the domain of group recommender systems. We can probably find a set of items that closely balance the relevance between all group members. Nevertheless, each of these items may have a different candidate item that is a better fit for the group in the average rating but would lead to more imbalance. This could easily lead to recommending mediocre items only for the sake of balancing fairness.
 
-We therefore want to maximize the balance of items utility for each group member but without hindering the possible additional provided utility to members that overlap in preference with other members or are in other ways easier to satisfy. One solution is to optimize for the total item relevance, but cap the maximum possible gain for each individual user so that it does not further add to the total item score. We call this cap \textit{exactly proportional relevance allowance}. It is calculated as a proportional share of each user on the total sum of all so far selected item's relevance.
+We, therefore, want to maximize the balance of items' utility for each group member but without hindering the possible additional utility provided to members that overlap in preference with other members or are easier to satisfy. One solution is to optimize for the total item relevance but cap the maximum possible gain for each individual user so that it does not further add to the total item score. We call this cap \textit{exactly proportional relevance allowance}. It is calculated as a proportional share of each user on the total sum of all so far selected items' relevance.
 
 
-Lets assume that we have already selected items $\mathcal{L}$ (this set can be empty), with individual relevance of $r_{i,u}$ for all items $i \in I$ and users $u$ of group $\mathcal{G}$. We will use the example in Table \ref{table:6.2_relevance_example} for the following calculations.
+Let us assume that we have already selected items $\mathcal{L}$ (this set can be empty), with individual relevance of $r_{i,u}$ for all items $i \in I$ and users $u$ of a group $\mathcal{G}$. We will use the example in Table \ref{table:6.2_relevance_example} for the following calculations.
 
 \begin{table}[!ht]
     \centering
@@ -64,27 +57,32 @@ Lets assume that we have already selected items $\mathcal{L}$ (this set can be e
         $c_5$ & 0.1 & 0.1 & 0.8 & 0.333 & 0.1 & 0.53 & 0.90 \\
         $c_6$ & 0.2 & 0.0 & 0.7 & 0.300 & 0.2 & 0.50  & 0.70 \\
     \end{tabular}
-    \caption[Example of relevance calculation for item-wise aggregations]{Example of relevance calculation for item-wise aggregations. Least-misery, average and two steps of our DA method. Step 2 is after selecting $c_1$ in step 1.}
+    \caption[Example of relevance calculation for item-wise aggregations]{Example of relevance calculation for item-wise aggregations. Least-misery, average, and two steps of our DA method. Step 2 is after selecting $c_1$ in step 1.}
     \label{table:6.2_relevance_example}
 \end{table}
 
 
-We then calculate the relevance allowance for a new candidate item as follows. First we sum up relevance for all users for all already selected items as 
+We then calculate the relevance allowance for a new candidate item as follows. First, we sum up relevance for all users for all already selected items as 
 \begin{equation}
     TOT(\mathcal{G}, \mathcal{L}) = \sum_{i \in \mathcal{L}}\sum_{u\in \mathcal{G}} r_{i,u},
 \end{equation}
-Then we add the potential of the candidate item $c$ $TOT(\mathcal{G}, \mathcal{L} \cup c)$ as $TOT_c$. This represents the expected total plus prospected utility. We then calculate the maximal allowed relevance with the appropriate weight of a user $w_u$ as:
 
+Then we define $TOT_c$ for a candidate item $c$ (different from all already selected) as $TOT(\mathcal{G}, \mathcal{L} \cup c)$. This represents the prospected total utility if we would select the candidate $c$.
+
+
+
+
+We then calculate the maximum allowed utility (relevance) with the appropriate weight of a user $w_u$ as:
 \begin{equation}
     allowed\_utility_u = TOT_c * w_u.
 \end{equation}
 
-Weight of each group member can either be set to $1/|\mathcal{G}|$ or arbitrarily so that $\sum_{u \in \mathcal{G}} w_u = 1$. This weight represents how important each user is in the group and will scale the preferred utility ratio between group members if not set uniformly.
+The weight of each group member can either be set to $1/|\mathcal{G}|$ or arbitrarily so that $\sum_{u \in \mathcal{G}} w_u = 1$. This weight represents how important each user is in the group and will scale the preferred utility ratio between group members if not set uniformly.
 
-On our example in Table \ref{table:6.2_relevance_example} we have at step 1 $TOT_{c1} = 0.9 + 0.8 + 0.0 = 1.7$ which scaled by uniform weight of $1/3$ to $ 1.7 * (1/3) = 0.57$. Therefore our utility cap for all users (we are selecting a first user, therefore all users started with utility 0) and for candidate item $c_1$ is set to $0.57$. We then calculate the unfulfilled relevance as the total received utility (from already selected items in $\mathcal{L}$) subtracted from maximum allowed maximum utility, 
+In our example in Table \ref{table:6.2_relevance_example}, at step 1. we have $TOT_{c1} = 0.9 + 0.8 + 0.0 = 1.7$ which scaled by uniform weight of $1/3$ to $ 1.7 * (1/3) = 0.57 = allowed\_utility_u$. We then calculate the unfulfilled relevance as the total received utility (from already selected items in $\mathcal{L}$) subtracted from the maximum allowed utility. We are selecting the first item. Therefore all users start with a received utility of 0, which makes the unfulfilled relevance for candidate item $c_1$ set to $0.57$ for all users.
 
 \begin{equation}\label{eq:list_user_relevance}
-    r_u = \mathit{total\_received\_utility}_u= \sum_{i \in \mathcal{L}} r_{u,i},
+    \mathit{total\_received\_utility}_u= \sum_{i \in \mathcal{L}} r_{u,i},
 \end{equation}
 
 \begin{equation}
@@ -96,18 +94,19 @@ We can then finally calculate the utility of each item by
     \mathit{rel}_i= \sum_{u \in \mathcal{G}} min(rel_{u,i}, \mathit{unfulfilled\_rel}_u).
 \end{equation}
 
-We can now calculate the utility of item $c1$ as $min(0.9, 0.57) + min(0.8, 0.57) + min(0.9, 0.57) = 1.13$. And similarly for all other candidate items. After the first round we select $c1$ and follow into a second one. Now it starts to get interesting, because we need to calculate the total received utility and use it to correctly calculate the unfulfilled relevance.
 
-For item $c_2$ we have $TOT_{c_2} = 1.7 + 0.6 + 0.5 + 0.0 = 2.8$ (1.7 is $TOT$) and user $u1$ we have unfulfilled relevance of $2.8 / 3 - 0.6 = 0.03$, for user $u_2$ we have $2.8 / 3 - 0.8 = 0.13$ and for $u_3$ we have $2.8 / 3 - 0.0 = 0.93$. All numbers capped from the bottom to zero. So in total the relevance of item $c_1$ is $min(0.6, 0.03) + min(0.5, 0.13) + min(0.93, 0.0) = 0.16$. We can see output of relevance calculations for all items in the example table under column step 2. In the second step we would therefore select item $c_4$.
+We can now calculate the utility of item $c1$ as $min(0.9, 0.57) + min(0.8, 0.57) + min(0.9, 0.57) = 1.13$. And similarly for all other candidate items. After the first round, we select $c1$ and follow into a second one. Now it starts to get interesting because we need to calculate the total received utility and use it to calculate the unfulfilled relevance correctly.
 
-Let us now be more formal with the definition of EP-rel-sum. We have a list of recommendations $\mathcal{L}$ and its total relevance $TOT$ as defined previously. Next we have the $r_u$ total relevance of all items from $\mathcal{L}$ for user $u$ as defined with Equation \ref{eq:list_user_relevance}. Further we have the per-user proportional relevance allowance $a_u$ ($\mathit{allowed\_utility_u}$)  as $TOT * w_u$. Weights $\sum_{u \in \mathcal{G}} w_u = 1$. 
-Then we finally define EP-rel-sum criterion as
+For item $c_2$ we have $TOT_{c_2} = 1.7 + 0.6 + 0.5 + 0.0 = 2.8$ (1.7 is $TOT$) and user $u_1$ we have unfulfilled relevance of $2.8 / 3 - 0.6 = 0.03$, for user $u_2$ we have $2.8 / 3 - 0.8 = 0.13$ and for $u_3$ we have $2.8 / 3 - 0.0 = 0.93$. All numbers are capped to the min 0. So in total the relevance of item $c_1$ is $min(0.6, 0.03) + min(0.5, 0.13) + min(0.93, 0.0) = 0.16$. We can see the output of relevance calculations for all items in the example table under column step 2. In the second step, we would therefore select item $c_4$.
+
+Let us now be more formal with the definition of EP-rel-sum. We have a list of recommendations $\mathcal{L}$ and its total relevance $TOT$ as defined previously. Next, we have the $r_u$ total relevance of all items from $\mathcal{L}$ for user $u$ as defined with Equation \ref{eq:list_user_relevance}. Further, we have the per-user proportional relevance allowance $a_u$ ($\mathit{allowed\_utility_u}$)  as $TOT * w_u$. Weights $\sum_{u \in \mathcal{G}} w_u = 1$. 
+Then we finally define the EP-rel-sum criterion as
 
 \begin{equation}
-    \textrm{EP-rel-sum}(L_G) = \sum_{\forall u \in \mathcal{G}} \min(r_u, a_u).
+    \textrm{EP-rel-sum}(\mathcal{L}_G) = \sum_{\forall u \in \mathcal{G}} \min(r_u, a_u).
 \end{equation}
 
-We can observer that for two lists $L_G^1$ and $L_G^2$ with the same total relevance, EP-rel-sum will be higher for the list with more proportional to the weights $w_u$ distribution. And other way around, if we have two lists with the same relevance distribution, the one with higher total relevance will receive higher EP-rel-sum score.
+We can observe that for two lists $L_G^1$ and $L_G^2$ with the same total relevance, EP-rel-sum will be higher for the list more proportional to the weights $w_u$ distribution. Another way around, if we have two lists with the same relevance distribution, the one with higher total relevance will receive a higher EP-rel-sum score.
 
 \begin{algorithm}\label{alg:fuzzy_dhondt}
     \caption{Exactly-Proportional Fuzzy D'Hondt's Aggregation}
@@ -135,12 +134,12 @@ We can observer that for two lists $L_G^1$ and $L_G^2$ with the same total relev
     \end{algorithmic}
 \end{algorithm}
 
-And finally, in order to make EP-rel-sum ranking sensitive as previously described, we define marginal gains while extending the list of items as
+And finally, to make EP-rel-sum ranking sensitive, as previously described, we define marginal gains while extending the list of items as
 
 \begin{equation}
-    gain(L_G, c_j) = \textrm{EP-rel-sum}(L_G \cup \{c_j\}) - \textrm{EP-rel-sum}(L_G).
+    gain(\mathcal{L}_G, c_j) = \textrm{EP-rel-sum}(\mathcal{L}_G \cup \{c_j\}) - \textrm{EP-rel-sum}(\mathcal{L}_G).
 \end{equation}
 
-EP-FuzzDA which we describe in Algorithm \ref{alg:fuzzy_dhondt} iteratively selects the item that provides the maximal marginal gain to the already selected set of items. It therefore is a \textit{rank-sensitive} approach to optimizing fairness.
+EP-FuzzDA, which we describe in Algorithm \ref{alg:fuzzy_dhondt}, iteratively selects the item that provides the maximal marginal gain to the already selected set of items. It, therefore, is a \textit{rank-sensitive} approach for optimizing fairness.
 
-One additional nice property that is not present in other group recommendation algorithm is that our algorithm naturally incorporates scaling of user preference importance using the weights $w_u$. We will use this later in our experiments for weighted groups and long-term fairness evaluation.
+Another nice property not present in other group recommendation algorithms is that our algorithm naturally incorporates scaling of user preference importance using the weights $w_u$. We will use this later in our experiments for weighted groups and long-term fairness evaluation.

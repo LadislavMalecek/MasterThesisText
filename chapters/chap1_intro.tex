@@ -1,41 +1,36 @@
 \chapter{Introduction}  \label{chap_introduction}
 
-% \addcontentsline{toc}{chapter}{Introduction}
+The goal of this thesis is to explore the area of group recommender systems with an emphasis on fairness. Discuss fairness in the context of machine learning systems and, specifically, group recommender systems. Gather information about available datasets that can be used to evaluate group recommender systems. Design a method of artificial group creation for datasets that do not contain group information. Create a group recommendation algorithm inspired by the mandate allocation method D'Hondt. Finally, evaluate its performance compared to other related methods on a broad spectrum of different datasets.
+
+We have created a novel aggregation method that works on top of a single-user recommender system called Exactly Proportional Fuzzy D'Hondt. We evaluated it on five datasets, three different recommendation scenarios, and two different types of artificially created groups. Further, we have created a set of tools that help future research with the evaluation and validation of new ideas in this domain on big datasets.
 
 
+Most of us interact with many recommender systems daily, even if seemingly indirectly. The proliferation of this technology is astounding. Almost every interaction with today's web is in some way personalized. From search results, shopping, listening to music, reading news, browsing social media, and many more. Recommender systems have become quite literally --- unavoidable.
 
+We can view recommender systems from the following elementary perspective: they are algorithms that recommend items to users, where items and users can be many different things. For example, items can be movies, news articles, more complex objects, or even entire systems. Furthermore, users are real people or other entities that exhibit some preference on which the algorithm can decide.
 
+One of the variants of recommender systems is when the recommendation results are shared among more users based on their shared (aggregated) preferences. This variant is a subset called group recommender systems. They are not as widely used as the non-group variants because we mostly use the web, listen to music and read the news as individuals, at least from the perspective of those systems. However, for some domains, there are valid use cases. We often listen to music and watch movies in groups. Select a restaurant and other public services not just for us. In these situations, group recommenders come in handy.
 
-Most of us interact with many recommender systems daily. Even if seemingly indirectly. The proliferation of this technology is astounding. Almost every interaction with today's web is in some way personalized. From the search results, shopping, listening to music, reading news, to browsing social media, and many more. Recommender systems has become quite literally unavoidable.
+With groups as the target of a recommendation comes new challenges, one of them being how to measure satisfaction and ensure fairness among the group members. We first need to have a reliable way how to evaluate the recommendations. It becomes more complex than simply rating the results based on single feedback. Now, we have multiple users with possibly very different personal experiences, preferences, wants, and needs. We want to be fair towards all the individuals in the group. However, the fairness property can be tricky to describe and evaluate due to the subjective nature of preference perception and distribution among the group members.
 
-We can view recommender systems from a very simple perspective - they are algorithms that recommend items to users. Where items and users can be many different things, items, for example, being movies, news articles, a more complex object, or even entire systems. And users being, real people or other entities that exhibit some sort of preference on which the algorithm can decide.
-
-One of the variants of recommender systems is those where the recommendation result is shared among more users based on their shared (aggregated) preferences. This is a subset called group recommender systems. They are not as widely used as the non-group variants, because we mostly use the web, listen to music and read the news as individuals. At least from the perspective of those systems. However, for some of the domains, there are valid use cases. We often listen to music and watch movies in groups. Select a restaurant and other public services not just for us. And that's where the group recommenders come in handy.
-
-With groups as the target of a recommendation comes new challenges, among many others, how to measure satisfaction and ensure fairness among the group members. We first need to have a reliable way how to evaluate the recommendations. It starts to become harder than just simply rating the results based on single feedback, now we have multiple users with possibly very different personal experiences. We want to be fair towards all individuals in the group. But the fairness property can be tricky to describe and evaluate due to the subjective nature of preference perception and distribution among the group members.
-
-Classical recommendation systems have been studied for quite a long time, but the group variant and more soft-level (meaning evaluation with metrics other than the classical accuracy and precision) thinking about them is quite recent. With the rise of social dilemmas around recommender systems is the fairness-ensuring topic becoming more important than before. And with that, there is growing popularity towards recommender systems that are trained (and therefore evaluated) with these novel requirements in mind.
+Classical recommendation systems have been studied for quite a long time, but the group variant and more soft-level (meaning evaluation with metrics other than the classical accuracy and precision) thinking about them is pretty recent. With the rise of social dilemmas around recommender systems, the fairness-ensuring topic is becoming more important than before. With that, there is a growing popularity of recommender systems that are trained (and therefore evaluated) with these novel requirements in mind.
 
 
 
 \section{Problem statement}
-The current research on the topic of group recommender systems is lacking. There are no standardized data sets that would offer evaluation of the research without using various methods of data augmentation and artificial data creation.
-And the definition of fairness is not unified. It can mean many different things and be evaluated with many different methods.
+The current research on the topic of group recommender systems is lacking. There are no standardized data sets that would offer an evaluation of the research without using various methods of data augmentation and artificial group creation. The augmentation strategies differ widely among research efforts. The evaluation process is often proprietary, slow, and designed only for small-scale datasets.
+Further, the definition of fairness is not unified. It can mean many different things and be evaluated with many different methods.
 
-These two aforementioned problems go hand in hand with the very subjective nature of user preference.
-\todo[inline]{Mozna merge obou kapitol dohromady?}
+These problems mentioned above go hand in hand with the very subjective nature of user preference.
 
 \section{Research objective}
 
-We would like to study how fairness can be defined in the context of the recommender systems, how it can be measured and eventually used to improve recommendations in the group setting. And explore different variants of fairness such as long-term fairness and different distribution of fairness among group members. 
+We want to study how fairness can be defined in the context of recommender systems and how it can be measured and eventually used to improve recommendations in the group setting. Furthermore, we will explore different variants of fairness, such as long-term fairness and different distribution of fairness among group members. 
 
-The primary goal of this thesis is to research and design a novel group recommender system algorithm that would keep fairness as its primary optimization objective. If we could adapt fairness preserving methods such as voting systems from other fields to group recommendation problem. And evaluating the new algorithm with already existing approaches in the domain of group recommender systems.
+The primary goal of this thesis is to research and design a novel group recommender system algorithm that would keep fairness as its primary optimization objective. We will try to adapt fairness-preserving methods, such as voting systems from other fields, to group recommendation problems. And then evaluate the new algorithm with already existing approaches in the domain of group recommender systems.
 
-Additionally, we would like to research and contribute to data sets that could be used for the group setting. Expanding single user data sets with data augmentation that would generate synthetic groups' information and creating a web application in a movie domain that would serve as a platform for online evaluation of group recommender algorithms and provided us with real-user group recommendation data.
+Additionally, we would like to research and contribute to data sets that could be used for the group setting. Expanding single-user data sets with data augmentation that would generate synthetic groups' information.
 
 \section{Thesis structure}
 
-We start with an introduction to recommender systems and specifically to group recommender systems in the chapter: \nameref{chap:recommender_systems}. Then we will continue with the definitions and evaluation methods for fairness in chapter \nameref{chap:fairness}. Next, we will introduce few algorithms that are used in the group recommender field in chapter \nameref{chap:related_work}.
-\textcolor{red}{TODO: check out other works and decide what should be here. This can be nice from the reading perspective, but is it really necessary?}
-
-
+We introduce single and group recommender systems in Chapter \nameref{chap:recommender_systems}. Then we continue with a deep-dive into fairness in Chapter \nameref{chap:fairness}. Next, we introduce a selection of related algorithms used in the group recommender field in Chapter \nameref{chap:related_work}. Following with an overview of single-user and multi-user datasets that are suitable for use in the group recommender domain and a method of creating synthetic group information from single-user dataset information in Chapter \nameref{chap:datasets}. Finally, we introduce our algorithm in Chapter \nameref{chap:our_work} and define evaluation scenarios, describe experiments and discuss the results in Chapter \nameref{chap:experiments}.

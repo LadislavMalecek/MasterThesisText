@@ -57,7 +57,7 @@
 \usepackage{nameref}        % reference by name
 \usepackage{mathtools}      % enhances the appearance of documents containing a lot of mathematics
 
-\usepackage{todonotes}      % extension to typeset comments
+% \usepackage{todonotes}      % extension to typeset comments
 
 \usepackage{multicol}       % support for table multi column
 \usepackage{multirow}       % support for table multi row
@@ -67,12 +67,32 @@
 \usepackage{pgf}            % use pgf backend
 \usepackage{svg}            % draw svg figures
 
-\usepackage{algorithm} 
+\usepackage{algorithm}  
 \usepackage{algpseudocode} 
+
+\usepackage{forest}
+
+% \usepackage{array} % for defining a new column type
+% \usepackage{varwidth}  %for the varwidth minipage environment
+\usepackage{graphicx}
+\usepackage{lipsum,tabularx}
+
+% \newcolumntype{c1}{>{\begin{varwidth}{1cm}}c< {\end{varwidth}}} %M is for Maximal column
+
+%%% Useful operators for statistics and probability
+\DeclareMathOperator{\pr}{\textsf{P}}
+\DeclareMathOperator{\E}{\textsf{E}\,}
+\DeclareMathOperator{\var}{\textrm{var}}
+\DeclareMathOperator{\sd}{\textrm{sd}}
+\DeclareMathOperator*{\argmax}{argmax}          % argmax
+\DeclareMathOperator*{\argmin}{argmin}          % argmin
+\DeclareMathOperator*{\mode}{mode}            % mode, most frequent value
+
+
+\begin{document}
 
 %%% Basic information on the thesis
 \include{other/definitions}
-
 
 %% The hyperref package for clickable links in PDF and also for storing
 %% metadata to PDF (including the table of contents).
@@ -84,7 +104,6 @@
 \include{other/macros}
 
 % Title page and various mandatory informational pages
-\begin{document}
 \include{other/title}
 
 %%% A page with automatically generated table of contents of the master thesis

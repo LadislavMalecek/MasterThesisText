@@ -50,7 +50,7 @@ For each group and each user, we have \textbf{AR} and \textbf{nDCG} scores. Furt
 \subsection{Evaluation use-cases}\label{subsec:07_experiments.evaluation.use_cases}
 % -------------------------------------------------------------------------------------
 
-In \cite{GFAR-kaya2020}, they focus only on the scenario of uniform groups, where each user is weighted uniformly. For our experiments, we are evaluating not only the \textbf{uniform} scenario but \textbf{weighted} and \textbf{long-term} scenarios as well.
+In \cite{GFAR-kaya2020}, the authors focus only on the scenario of uniform groups, where each user is weighted uniformly. For our experiments, we are evaluating not only the \textbf{uniform} scenario but \textbf{weighted} and \textbf{long-term} scenarios as well.
 
 In the \textbf{weighted scenario}, we randomly assign a weight to each of the group members (all summing up to a total of 1). This weight represents the non-uniform importance of each group member. This scenario is a relevant strategy for situations in structured groups where some members have a priority, such as a family with children watching a movie or a birthday party. This is an extension of the most respected person strategy described in \cite{most_respected_person}, with less rigid rules of only requiring weights to be in an interval of [0,1], with the total sum of weights in the group equal to 1.
 
@@ -105,7 +105,7 @@ Our experiments have 5 following steps.
         or run \path{./create_groups/create_topk_groups.py} to create Top-K groups \newline
         or run \path{./create_groups/create_prs_groups.py} if you wish to create PRS groups.
         
-        We use PRS with two different settings of M, first at $M=1$ and second at $M=4$. Based on our analysis in \ref{subsec:04_creation_of_artificial_groups.evaluation}, we believe these two variants nicely represent the usual group setting.
+        We use PRS with two different settings of M, first at $M=1$ and second at $M=4$. Based on our analysis in Subsection \ref{subsec:04_creation_of_artificial_groups.evaluation}, we believe these two variants nicely represent the usual group setting.
         
         Further, for each setting, we generate 1000 groups in sizes 2, 3, 4, 6, and 8. We use 1000 candidates for each group, and lastly, we use 10,000 samples to get the dataset's similarity distribution.
 
@@ -117,7 +117,7 @@ Our experiments have 5 following steps.
     \subsection{Running GRS algorithms}
         After the previous steps, we finally have all the required data to run GRS algorithm. We use the following algorithms from Chapter \ref{chap:related_work}: \textbf{AVG}, \textbf{LM}, \textbf{FAI}, \textbf{XPO\cite{sacharidis_2019_top_n_with_fairness}}, \textbf{NPO}, \textbf{GFAR\cite{GFAR-kaya2020}} together with \textbf{EP-FuzzDA} and is direct optimization variant \textbf{DHondtDO}.
 
-        We use a computation optimization for all algorithms, where for each group member, we select their top 1000 candidate items (by rating), and then we compute the algorithm's item selection only on a joined set of these top items. Note that it is 1000 for each group member, so the number of candidate items in the set for the whole group will be bigger. For XPO and NPO, we use 30 candidate items instead of 1000 due to the computational complexity of those algorithms (this will be further discussed in \ref{sec:experiments.discussion}).
+        We use a computation optimization for all algorithms, where for each group member, we select their top 1000 candidate items (by rating), and then we compute the algorithm's item selection only on a joined set of these top items. Note that it is 1000 for each group member, so the number of candidate items in the set for the whole group will be bigger. For XPO and NPO, we use 30 candidate items instead of 1000 due to the computational complexity of those algorithms (this will be further discussed in Section \ref{sec:experiments.discussion}).
 
         Complete overview of all parameters for each algorithm:
         \begin{itemize}
@@ -228,7 +228,7 @@ The GFAR algorithm performs poorly in our tests compared to the original researc
 
 Another explanation for why GFAR is not performing well in our experiments can be the parameter selection. The algorithm calculates the probability of user satisfaction after each recommended item, which is then used to adjust the relevance probability of the candidate items in the next step. But for a higher number of maximal relevance items (how many items from the top-p of each candidate will be awarded the Borda rating), these probabilities are small and therefore push very little to balance the inter-group relevance inequalities from the previously recommended items. If one person in a big group differs in their preference from the rest, then GFAR won't push hard enough to satisfy this person at some point, especially if other members are in preference consensus.
 
-XPO and NPO algorithms are not performing well in our setup. Similar to the already discussed GFAR algorithm. For all experiments, we use a randomly selected subset of 1000 candidate items (for each user, then joining these candidate lists together) from which we select the top 10. This is an optimization for performance reasons. Unfortunately, XPO and NPO do not scale well in settings where many candidate items are presented to the algorithm. This is due to internally considering all tuples of the candidate items and comparing them using random trials (details can be found in Subsection \ref{subsec:03_advanced_methods.xpo}). We had to therefore limit the candidate items to 30 (instead of 1000), and even that caused the XPO (and NPO) to remain the computationally slowest algorithms. An increase from 30 to only 100 candidate items resulted in 10 times worse computational performance, and we have therefore limited XPO and NPO algorithms to only 30 candidate items. Naturally, this leads to a lesser rating performance due to a lower selection pool.
+XPO and NPO algorithms are not performing well in our setup. Similar to the already discussed GFAR algorithm. For all experiments, we use a randomly selected subset of 1000 candidate items (for each user, then joining these candidate lists together) from which we select the top 10. This is an optimization for performance reasons. Unfortunately, XPO and NPO do not scale well in settings where many candidate items are presented to the algorithm. This is due to internally considering all tuples of the candidate items and comparing them using random trials (details can be found in Subsection \ref{subsec:03_advanced_methods.xpo}). We had to therefore limit the candidate items to 30 (instead of 1000), and even that caused the XPO (and NPO) to remain the computationally slowest algorithm. An increase from 30 to only 100 candidate items resulted in 10 times worse computational performance, and we have therefore limited XPO and NPO algorithms to only 30 candidate items. Naturally, this leads to a lesser rating performance due to a lower selection pool.
 
 The performance of our algorithm in the long-term evaluation was a little surprising. On the one hand, it can handle weighing well, as seen in the weighted scenario, but on the other hand, the average rating performance does not translate well to the long-term scenario. This is probably due to the algorithm pushing too hard to achieve the highest amount of fairness, even for a decrease in AR and nDCG mean and min performance. One possible way to suppress this could be to decrease the effect of the weights. However, then, again, the definition of fairness must be considered. If we require the most balanced performance, then our algorithm performs the best (with regard to the AR M/M metric).
 
@@ -262,7 +262,7 @@ After installing Python and poetry, clone the repository and run the provided sh
 % We provide a detailed structure of the repository:
 Documentation of the repository structure can be found also in \path{./readme.md}. Each script is self-documenting, use the parameter \path{--help} to get more information about all usable parameters and default values.
 
-The git repository has the following structure (only mentioning the most important files, which are mentioned in Section \ref{sec:07_experiments.evaluation_setup}:
+The git repository has the following structure (we show only the most important files, which are mentioned in Section \ref{sec:07_experiments.evaluation_setup}):
 
 \begin{forest}
   for tree={
@@ -291,24 +291,24 @@ The git repository has the following structure (only mentioning the most importa
     [create\_topk\_groups.py]
   ]
   [datasets
-    [kgrec]
-    [movie\_lens]
-    [movie\_lens\_small]
-    [netflix]
-    [spotify]
+    % [kgrec]
+    % [movie\_lens]
+    % [movie\_lens\_small]
+    % [netflix]
+    % [spotify]
+  ]
+  [evaluation
+  [evaluation\_longterm.ipynb]
+  [evaluation\_uniform.ipynb]
+  [evaluation\_weighted.ipynb]
+  ]
+  [experiments
+  [run\_longterm\_algorithms.py]
+  [run\_uniform\_algorithms.py]
+  [run\_weighted\_algorithms.py]
   ]
   [gather\_datasets
     [download\_and\_transform.py]
-  ]
-  [evaluation
-    [evaluation\_longterm.ipynb]
-    [evaluation\_uniform.ipynb]
-    [evaluation\_weighted.ipynb]
-  ]
-  [experiments
-    [run\_longterm\_algorithms.py]
-    [run\_uniform\_algorithms.py]
-    [run\_weighted\_algorithms.py]
   ]
   [matrix\_factorization
     [matrix\_factorization.py]

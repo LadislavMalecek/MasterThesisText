@@ -3,27 +3,31 @@
 % RECOMMENDER SYSTEMS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Recommender systems} \label{chap:recommender_systems}
-In this chapter, we will briefly introduce in general what recommender systems are (hereinafter referred to as RS) and then continue with a description of the group variant of recommender systems and introduce common approaches and methods they employ.
+In this chapter, we briefly introduce what recommender systems are (hereinafter referred to as RS), then continue with a description of the group variant of recommender systems and introduce common approaches and methods they employ.
 
 
 \section{Recommender systems}\label{sec:01_rec_sys}
 %\subsection{Introduction}
-Broadly speaking, recommender systems are algorithms that are trying to suggest items to their users, or from another perspective, they aim to predict how would a user rate (like) an unseen item. They are used in a variety of settings, from e-commerce, media consumption, social networks, expert systems, search engines, and many others.
+Broadly speaking, recommender systems are algorithms that suggest items to users. From another perspective, they aim to predict how a user would rate (like) an unseen item. They are used in various settings, for instance, e-commerce, media consumption, social networks, expert systems, search engines, and many others.
 
-At their core as stated in \cite{wiki:Recommender_system} they are essentially an information filtering systems that aim to deal with selecting a subset from all the items by some filtration criteria, in this case the criteria is the user preference. They become necessary when it comes to suppressing the explosive growth in information on the web and function as a defence system against over loading the user with the vast amount of data that is present in almost every system today.
+At their core, as stated in \cite{wiki:Recommender_system} they are essentially an information filtering system that aims to select a subset of items by some filtration criteria. In this case, the criteria are the user's preference. RS become necessary when it comes to suppressing the explosive growth of information on the web and function as a defense system against overloading the user with the vast amount of data that is present in almost every system today.
 
-They can be views as decision support systems that guide users in finding and identifying items based on their idea about the desired state, in this situation the desired state is to find an item that they would like \cite{grouprecommendersystems_felfernig2018group}.
-
-RS can provide both, by filtering based on user preference and providing alternatives by utilizing similarity. In a way, finding a suitable item can be viewed as a collaboration of the user and the recommender system, in varying degrees of freedom. From passively accepting the RS recommendations to actively interacting by giving feedback and stating the preferences.
+They can be viewed as decision support systems that guide users in finding and identifying items based on their idea about the desired state. In this situation, the desired state is to find an item that they would like \cite{grouprecommendersystems_felfernig2018group}.
+ 
+RS can provide both by filtering based on user preference and providing alternatives by utilizing similarity. In a way, finding a suitable item can be viewed as a collaboration between the user and the recommender system, with varying degrees of freedom, from passively accepting the RS recommendations to actively interacting by giving feedback and stating preferences.
 
 \subsection{High-level examples}\label{subsec:01_rec_sys.high_level_examples}
-Recommender systems are used in multiple ways, we now present a few high-level examples of where and how they are utilized the most.
+Recommender systems are used in multiple ways. We now present high-level examples of where and how they are utilized the most.
 \begin{itemize}
-    \item \textbf{Personalized merchandising}, where the system offers items that other users bought together with the viewed item, items that user could like based on previous orders or viewed items, either related or alternative choices.
-    \item \textbf{Personalized content}, for content consumption services such as video and audio libraries. User is offered personalized content based on their preference profile, such as movies or videos that are similar to others they viewed, globally popular for a regional subset of the user-base and so on.
-    \item \textbf{Personalized news feed and social media feed.} We want to offer user interesting content that would keep them engaged with the service. In the recent years there is push towards more social responsible RS design in this context due to the overwhelming power the social media have. It is important to deal with problems such as polarization \cite{recommender_systems_fighting_polarization}, fairness and disagreement.
-    \item \textbf{Expert systems} that help doctors, operators and other people to make an informed decisions based on data. They can help to deal with data overload and filter relevant items and choices. As well as explore the item space when searching for solution with only weakly defined requirements.
-    \item \textbf{Search experience}, that takes into consideration previous searches, preference profile, location and other attributes.
+    \item \textbf{Personalized merchandising}, where the system offers items that other users bought together with the viewed item. Items that a user could like based on the user's previous orders or viewed items.
+    
+    \item \textbf{Personalized content}, for content consumption services such as video and audio libraries. User is offered personalized content based on their preference profile, such as movies or videos that are similar to other content they consumed, globally popular for a regional subset of the user base, and so on.
+    
+    \item \textbf{Personalized news feed and social media feed}, offering users exciting content to keep them engaged with the service. In recent years there has been a push toward more socially responsible RS design in this context due to the overwhelming power of social media. It is important to deal with problems such as polarization \cite{recommender_systems_fighting_polarization}, fairness and disagreement.
+    
+    \item \textbf{Expert systems}, helping doctors, operators, and other people to make informed decisions based on data. They can help to deal with data overload and filter relevant items and choices. As well as explore the item space when searching for solutions with only weakly defined requirements.
+    
+    \item \textbf{Search experience}, that considers previous searches, preference profile, location, and other attributes.
 \end{itemize}
 
 
@@ -32,28 +36,28 @@ Recommender systems are used in multiple ways, we now present a few high-level e
 We can generally divide them by their approach mentioned in \cite{RS_handbook-ricci2011} and \cite{constraint_based_recommenders} into:
 \begin{itemize}
     \item \textbf{Collaborative filtering} (CF)\newline
-        Solely based on feedback from users (user-item interactions). Trying to recommend unseen items that were liked by users who have a similar taste for other items that they both rated. And thus exploiting data of users with similar preferences.
+        Solely based on feedback from users (user-item interactions). Trying to recommend unseen items liked by users with a similar taste based on other items they have both rated. And thus exploiting data of users with similar preferences.
     \item  \textbf{Content-based filtering} (CB)\newline
-        Uses item features or item descriptions to recommend items similar to those that the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
+        Uses item features or descriptions to recommend items similar to those the user liked or interacted with. We are essentially building a model of preference for users and exploiting domain knowledge about items that match the users' model.
     \item \textbf{Constraint-based recommendation}\newline
-        Depends on hand-crafted deep knowledge about items. User specifies a set of criteria based on which the system filters out items that meet the stated requirements. Additionally the system can sort the items based on their properties, if the stated criteria come with perceived importance - utility.
+        It depends on hand-crafted deep knowledge about items. The user specifies a set of criteria based on which the system filters out items that meet the stated requirements. Additionally, the system can sort the items based on their properties if the stated criteria come with perceived importance - utility.
     \item \textbf{Hybrid systems}\newline    
-        Combines multiple RS, either the same type with different parameters and/or different types together in order to increase recommendation efficacy. Main types according to \cite{grouprecommendersystems_felfernig2018group} are:
+        Combining multiple RS, either of the same type (with different parameters) or different types. This technique aims to increase recommendation efficacy. Main types according to \cite{grouprecommendersystems_felfernig2018group} are:
         \begin{itemize}
             \item Weighted where predictions of individual recommenders are summed up.
             \item Mixed, where predictions of individual recommenders are combined into one list.
-            \item Cascade, where predictions of one recommender is feed as an input to another one.
+            \item Cascade, where predictions of one recommender are fed as an input to another.
         \end{itemize}
 \end{itemize}
 
-The popularity of the first two approaches varies from domain to domain. Some domains naturally contain item-specific data which allows using the \textit{content-based filtering} for example product parameters in e-shops, but other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
+The popularity of the first two approaches varies from domain to domain. Some domains naturally contain item-specific data, which allows for the use of \textit{content-based filtering}, for example, product parameters in e-shops. However, other domains do not. Then it is more beneficial to use \textit{collaborative filtering} techniques or a mix of the two.
 
-There are benefits and drawbacks for both, CF is able to extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. But at the same time, it can cause problems to rely only on user-item interactions because we need a lot of data in order to make a precise recommendation. There will be nothing to recommend if we cannot find similar enough other users that already rated some unseen items. This problem is called a \textit{cold-start problem}.
+There are benefits and drawbacks to both. CF can extract latent meaning from the data that would remain inaccessible to CB that relies on items' features. However, at the same time, it can cause problems to rely only on user-item interactions because we need a large amount of data to make a precise recommendation. There will be nothing to recommend if we cannot find similar enough other users that already rated some unseen items. This problem is called a \textit{cold-start problem}.
 
-Further, the third technique, \textit{Constraint-based filtering} requires a deep knowledge which describes items on a higher level and is not very interesting due to the algorithmic simplicity, we will thus not discuss it further.
+The third technique, \textit{Constraint-based filtering}, requires a deep knowledge that describes items on a higher level and is not very interesting due to the algorithmic simplicity. We will thus not discuss it further.
 
-One additional approach we did not include in the list is \textit{Critique-based recommendation}. It's popularity is quite low, but still worth mentioning. It acts as sort of a guide through the item space, where in cycles we show the user items that are distinct in some property (we could say they lie in different areas of the item space) and user either accepts or rejects them. Based on this critique from user we narrow down the user's preferences and offer different (filtered/extended) set of items and try to further guide the user to a satisfactory result. The critique can some cases be provided for not just the whole item but even just the properties or part of the items. An example could be: 'This carpet has a beautiful pattern but the color is not that nice.'
-\newline
+One other approach we did not include in the list is \textit{Critique-based recommendation}. Its popularity is relatively low, but it is still worth mentioning. It acts as a guide through the item space, where in cycles, we show the user items that are distinct in some property (we could say they lie in different areas of the item space), and the user either accepts or rejects them. Based on this feedback(critique) from the user, we narrow down the user's preferences, offer different (filtered/extended) set/sets of items, and try to guide the user to a satisfactory result. The feedback can, in some cases be provided for not just the item but even specifically for its properties or part of the items. An example could be: 'This carpet has a beautiful pattern, but the color is not that nice'.
+
 %\todo[inline]{Jeste k tem critiquing, v nekterych pripadech API melo umoznit uzivateli rict, ktera vlastnost/oblast objektu nevyhovuje a tomu prizpusobit dalsi doporuceni - muzes zminit...}
 
 Some of the classical and more advanced methods include:
@@ -72,86 +76,87 @@ Some of the classical and more advanced methods include:
 
 \section{Group recommender systems} \label{sec:01_group_rec_sys}
 
-So far we have discussed only recommender systems, where an object of a recommendation is a single user (hereinafter referred to as single user RS). But what do we do, when we have a group of users that we want to recommend to? For example, a group of friends selecting a movie that they want to watch together or a group listening to music?  %We use a group recommender system (group RS). Where the objective of the system is to
+So far, we have discussed only recommender systems, where an object of a recommendation is a single user (from now on referred to as single-user RS or simply as RS, depending on the context). However, what do we do when we have a group of users we want to recommend to? For example, a group of friends selecting a movie they want to watch or a group of colleagues listening to music together?  %We use a group recommender system (group RS). Where the objective of the system is to
 
-Group recommender systems (group RS or GRS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. Results of a recommendation for the group do need to reflect and balance individuals' preferences among all members.
+Group recommender systems (group RS or GRS) are an interesting subarea of recommender systems, where the object of a recommendation is not just a single user but multiple individuals forming a group. The results of a recommendation for the group do need to reflect and balance individual preferences among all members.
 
 
 \subsection{Characteristics of group RS}
 
-There are many specifics that contrast GRS with single RS. Usually some form of aggregation needs to be performed in order to make the transition from a single user preferences that we gather to the recommendation for an entire group.
+There are many specifics that contrast GRS with single-user RS. Usually, some form of aggregation needs to be performed to transition from a single user preference that we gather to a recommendation for an entire group.
 
-Situations differ for small and big groups, where with the increasing amount of users the complexity of the users' preference increases. At the same time, every person is different, someone is more forgiving and someone is less conforming with their taste.
+Situations differ for small and big groups, where the complexity of the users' preferences increases with the increasing number of users. At the same time, every person is different, some may be more forgiving, and some may be less willing to conform to a different set of tastes than their own.
 
-Although, there in not many reported deployments of such systems yet, we see domains which would greatly benefit from the use of GRS.
+Although there are not many reported deployments of such systems yet, we see domains that would greatly benefit from using GRS.
 
-Two domains in particular come to mind, movie recommendation and music recommendation. And in the recent years with the rise of popularity of streaming services such as Netflix and Spotify, there finally exist enough data and more importantly proliferation of these services that would allow the utilization of GRS.
+Two domains, in particular, come to mind: movie recommendation and music recommendation. In recent years with the rise of popularity of streaming services such as Netflix and Spotify, there finally exists enough data and, more importantly, a proliferation of these services that would allow the utilization of GRS.
 
-Group recommendation systems usually operate on top of single RS and then perform some aggregation in order to provide the user group with relevant recommendation. There are two main types of GRS, first aggregates user prefferences that are then fed to a single user recommender system. Second performs the aggregation on the output of single RS and in some way aggregates the recommended items of each member of the group into a single list. We will talk in-depth about the possible methods and strategies in \ref{chap:related_work}.
+Group recommendation systems usually operate on top of single-user RS and then perform some aggregation in order to provide the user group with relevant recommendations. There are two main types of GRS. The first aggregates user preferences that are fed to a single-user recommender system. The second performs the aggregation on the output of a single-user RS and, in some way, aggregates the recommended items of each group member into a single list. We will talk in-depth about the possible methods and strategies in Chapter \ref{chap:related_work}.
+
+In our work, we focus on the second type that performs aggregation on top of an output of a single-user RS.
 
 
 \subsection{Challenges}\label{subsec:01_group_rec_sys.challenges}
 
-We now mention some of the most important challenges that are present in the group recommendation domain.
+We now mention some of the most critical challenges in the group recommendation domain.
 
 \begin{itemize}
     \item \textbf{How to merge individual preferences} \newline
-        The main problem when extending RS systems to support the group setting is how to combine preferences of individual users together. It is possible to not support groups at all and let users deal with the act of combining them via discussion. But then the problem collapses back to single user setting, where the user is the whole group. Therefore we need to decide how and when to merge them. Main two approaches are mentioned in \ref{subsec:01_group_rec_sys.common_aproaches}.
-        
-        %\todo[inline]{Vzhledem k tomu ze je to dost daleko, radeji bych to uvodil i cislem kapitoly - a mozna vyhodit below, cekal jsem to jako nasledujici bullet.}
+        The main problem when extending RS systems to support the group setting is how to combine individual users' preferences. It is possible not to support groups at all and let users deal with the act of combining them via discussion. However, the problem then collapses back to a single-user setting, where the user represents the whole group. Therefore, we need to decide how and when to merge them. The main two approaches are mentioned in Subsection \ref{subsec:01_group_rec_sys.common_aproaches}.
         
     \item \textbf{Divergent group preferences} \newline
-        %\todo[inline]{Tohle zni divne - myslis RS for individuals?}
-        There exist users that are so-called \textit{Grey-sheep} and \textit{Black-sheep}, these users are hard to recommend to, because their preferences do not align with many or any other users (respectively). This problem is especially hard to solve in Collaborative filtering, which directly relies on finding similarity between users. And the same problem arises in the group setting, where it becomes much harder to find solutions that would be satisfactory to all of its members. So in Group RS the problem of outlying
-        %\todo[inline]{asi myslis outlying, ne? (vicekrat v odstavci)}
-        users can be observed on two levels, in the usual situation, where the groups aggregated preferences are outlined and on another level where the inter-group preferences of individual users do not match.
+        Some users are so-called \textit{Grey-sheep} and \textit{Black-sheep}. These users are hard to recommend to because their preferences do not align with many or any other users (respectively). This problem is especially hard to solve in Collaborative filtering, which directly relies on finding similarities between users. Furthermore, the same problem arises in the group setting, where it becomes much harder to find solutions that would be satisfactory to all of its members. So in Group RS, the problem of outlying users can be observed on two levels, in the usual situation, where the group aggregated preferences are outlined, and on another level, where the inter-group preferences of individual users do not match.
     \item \textbf{Feedback gathering} \newline
-        In most applications feedback is gathered explicitly as well as implicitly %\todo[inline]{zavedene pojmy jsou explicit a implicit}
-        Explicitly by users rating recommended items, and implicitly by the system observing users' behavior such as which items they have visited or how long they have interacted with the item. Gathering direct feedback in the group setting is still possible, even if it is harder due to the possibility that not all members leave a rating. In some cases gathering the indirect, implicit feedback, can become even impossible, depending on how the system-user interactions are designed. In most cases users will be selecting an item on a single device, under account of one person, therefore it is hard to distinguish what are preferences of that one individual and what are preferences of the group.
+        In most applications, feedback is gathered explicitly as well as implicitly. Explicitly by users rating recommended items and implicitly by the system observing users' behavior, such as which items they have visited or how long they have interacted with the item. Gathering direct feedback in the group setting is still possible, even if it is more problematic due to the possibility that not all members leave a rating. In some cases, gathering indirect (implicit feedback) can become even impossible, depending on how the system-user interactions are designed. In most cases, users will be selecting an item on a single device under one person's account. Therefore, it is hard to distinguish between the preferences of that one individual and the preferences of the group.
     \item \textbf{Active/passive, primary/secondary group members} \newline
-        Another interesting issue arises when we consider that possibly not all members are equally important when it comes to the recommendation as mentioned in \cite{deCampos_2009_managing_uncertanity_in_grouprec}. One example could be when parents select a movie to watch with their children, the children should arguably be given a priority over the selection. Second example could be that we would possibly want to prioritize satisfaction of individual in the group that were less satisfied the last time an item was consumed.
+        Another interesting issue arises when we consider that possibly not all members are equally important in the recommendation, as mentioned in \cite{deCampos_2009_managing_uncertanity_in_grouprec}. One example could be when parents select a movie to watch with their children. The children should (arguably) be given priority over the selection. A second example could be that we would want to prioritize the satisfaction of individuals in the group who were less satisfied the last time an item was consumed.
         
     \item \textbf{How to explain provided recommendations} \newline
-    Explaining single RS is already pretty hard, with algorithms such as collaborative filtering it is hard to explain why we are recommending an item apart from the obvious explanation of 'similar users liked this item'. And with more advanced methods based on neural networks, or more latent modeling of similarity and preference in general, it gets harder and harder.
+    Explanation of single-user RS is already pretty challenging. With algorithms such as collaborative filtering, it is hard to explain why we are recommending an item apart from the obvious explanation that similar users liked this item. And with more advanced methods based on neural networks or more latent modeling of similarity and preference in general, it gets even more complex.
     
-    This situation gets even worse and another level of complexity emerges when we add the aggregation step in the recommendation process. 
+    This situation gets even worse, and another level of complexity emerges when we add the aggregation step to the recommendation process. 
     
     \item \textbf{Not all members present} \newline
-    What can be done if we design a GRS for a specific group and some of the members of that groups are missing? We need to be able to modulate what members will be part of the recommendation process. This makes gathering and using feedback that would represent the whole group difficult.
+    What can be done if we have a GRS preference model/data for a specific group and some of the members of that group are missing? We need to be able to modulate what members will be part of the recommendation process. This makes gathering and using feedback that would represent the whole group difficult.
     
-    And as a different problem not entirely relevant to our work but still important is that of how do we even know which group members are present. Many solutions exist but they are not as seamless as the single user variant, which is maybe one of the reasons why we do not see any widespread utilization of GRS so far.
+    Another problem not entirely relevant to our work but still important is how we even know which group members are present. Many solutions exist, but they are not as seamless as the single-user variant, which is maybe one of the reasons why we do not see any widespread utilization of GRS so far.
     
     \item \textbf{Selecting from the provided list} \newline
-    Providing the group with recommendations is an algorithmic task, but we need to take the presentation and how the users operate the service into account too. If for example only a single user is selecting an item, lets say a movie to watch, they will most probably have the easiest way to propagate their feedback to the selection. Therefore we need to take the implicit feedback with a grain of salt and not consider it as the implicit feedback of the group.
+    Providing the group with recommendations is an algorithmic task, but we need to take the presentation and how the users operate the service into account too. If, for example, one specific group member is selecting an item for the whole group, let's say, a movie to watch, this member will most probably have the easiest way to propagate their feedback to the selection. Therefore we need to take the implicit feedback with a grain of salt and not consider it as an implicit feedback from the whole group.
     
-    Further, graphical user interfaces and the setup of the whole service, how user interact, select items, leave feedback and other factors become important.
+    Further, graphical user interfaces and the setup of the whole service, how users interact and select items, leave feedback, and other factors become important.
     
 \end{itemize}
 
 
 \subsection{Classification}
-We now mention some basic classification s found in \cite{masthoff_2011_group_rec_systems}.
+We now mention some basic classifications found in \cite{masthoff_2011_group_rec_systems}.
 \begin{itemize}
-    \item \textbf{Individual preferences are know vs. developed over time}
+    \item \textbf{Individual preferences are known vs. developed over time}
     
-    Some GRS start with a good knowledge of preference of each member of the group, such as if we have a system on a popular music streaming service, but some systems such as expert recommender systems can even start with no information about the group members. It then needs to develop and model these preferences over time using a critique approach.
+    Some GRS start with a good knowledge of the preference of each group member, such as if we have a system on a popular music streaming service. On the other hand, some systems, such as expert recommender systems, can even start with no information about the group members. It then needs to develop and model these preferences over time using a critique approach.
     
     \item \textbf{Real time consumption vs. option presentation}
+
+    There are two options for GRS recommendation depending on how the items are consumed.
     
-    We need to take into a consideration if the GRS provides only a set of items that are further filtered by the group members before they select an item that they like or if we then already present the users with the recommended items, such as a recommendation of a shared group playlist at a social event. We, for example can recommend more controversial item options when the list will be further narrowed down by the group members.
+    Firstly, we can provide a set of items that are further filtered by the group members before they select an item that they like. In this case, when the list is further narrowed down by the group members, we can recommend more controversial item options.
+    
+    Secondly, when the recommendations are immediately consumed, such as a music playlist at a social event. We miss the selection process with which the group members narrow down the items list. In this case, one good option is to present the users with a list of already liked/seen items. This playlist would be composed of items the users like on their own.
+    
     
     
     \item \textbf{Group preference weight is identical vs. alterable}
     
-    There are situations in which the priority of group members when it comes to satisfaction differs. We can have systems that allow to set different weights to individual members.
+    There are situations in which the priority of group members differs when it comes to satisfaction. We can have systems that allow setting different weights for individual members.
     
     \item \textbf{Type of recommendation output}
     
-    We can have many types of outputs from the recommender system. Such as a single item, a list of predefined length, a set that does not have an explicit order and other. The output in the case of expert systems can be a graph, set of rules, or a feedback gathering question.
+    We can have many types of outputs from the recommender system. Such as a single item, a list of a predefined length, a set that does not have an explicit order, and others. The output in the case of expert systems can be a graph, a set of rules, or a feedback-gathering question.
     
     \item \textbf{Single vs. k-item utility}
     
-    Another difference is with how the resulting recommended items are processed by the users as presented in \cite{xiao_2017_fairness_aware_g_rec},\cite{connor_2001_polylens_rec_for_groups}. Do they select a single item as is the case when recommending a list of movies? Do they consume the full list such is the case of playlist generation in the music domain? We need to gather feedback and calculate the possible utility separately in these different cases.
+    Another difference is how are the resulting recommended items processed by the users as presented in \cite{xiao_2017_fairness_aware_g_rec},\cite{connor_2001_polylens_rec_for_groups}. Do they select a single item, as is the case when recommending a list of movies? Do they consume the full list, such as playlist generation in the music domain? We must gather feedback and calculate the possible utility separately in these cases.
 \end{itemize}
 
 
@@ -161,9 +166,9 @@ We now mention some basic classification s found in \cite{masthoff_2011_group_re
 Now we introduce the two main algorithmic approaches of group recommender systems, according to \cite{recommendations_to_groups-jameson2007} these are:
 \begin{itemize}
     \item \textbf{Group aware RS approach}\newline
-    Builds a model for the group based on the preferences of all of its members. Either directly by creating a model of preference for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
+    Builds a model for the group based on all its members' preferences. Either directly by creating a model of preference for the group or by aggregating models of individual users together and then recommending items for the group as a single entity.
     \item \textbf{RS aggregation approach}\newline
-    Use single-user RS to recommend to each individual of the group and then aggregate the results together to create the final recommendation for the group.
+    Use single-user RS to recommend to each individual in the group and then aggregate the results together to create the final recommendation for the group.
     
     We can further split the aggregation approaches by where the aggregation takes place into the following two groups.
     
@@ -172,7 +177,7 @@ Now we introduce the two main algorithmic approaches of group recommender system
         \item Aggregation on top of recommendation results for individual users.
     \end{itemize}
     
-    We will further mention these two approaches in detail in \ref{subsec:03_simple_aggregation_methods.methods}.
+    We will further mention these two approaches in detail in Subsection \ref{subsec:03_simple_aggregation_methods.methods}.
     
     % Firstly, aggregation of individuals' preferences before the recommendation and then performing recommendation as if the preference belonged to a single user.
     
@@ -182,13 +187,12 @@ Now we introduce the two main algorithmic approaches of group recommender system
 
 % \todo[inline]{Mention division into groups based on where the recommender is "located" in relation to the aggregation, in short and then ref. the reader to the related work chapter where we discuss in depth. Or move the division from the related work here?}
 
-In the RS aggregation approach we further distinguish between situations where we have predictions for all possible items and therefore can do aggregation directly on the ratings of all items or if only have a list of recommendation for each user - subset of all the items. These two can function very differently, for example taking in context only the position in the recommended list or position and the rating. They are mentioned separately in \cite{recommendations_to_groups-jameson2007}, but the approaches are very similar, they only differ in the availability of provided results from the underlying RS, so we group them together under one main direction.
+In the RS aggregation approach, we further distinguish between two situations. A situation where we have predictions for all possible items and, therefore, can aggregate directly on the ratings of all items. And a situation where we only have a list of items (a subset of all items) for each user. These two can function very differently, for example, taking in context only the position in the recommended list or position and the rating. They are mentioned separately in \cite{recommendations_to_groups-jameson2007}. From a different point of view, they only differ in the availability of provided results from the underlying RS, so we group them under one main direction.
 
-Further, both group aware RS and aggregation approaches do both have some advantages and disadvantages. One of advantages of the Aggregation approach is that we can use the same RS as we would use for an individual recommendation, either as a black box aggregating directly the top items provided, or in more involved way by utilizing the predicted ratings. On the other hand, the aggregation strategies do rely on single-user RS so there is not much that can be done in order to extract some hidden latent preferences of the group, which in case of the first method, the group aware approach, can potentially be extracted.
-
-
-We will go in-depth to discuss techniques used in the latest literature in \ref{chap:related_work}.
+Further, both group-aware RS and aggregation approaches have advantages and disadvantages. One of the advantages of the Aggregation approach is that we can use the same RS as we would use for an individual recommendation. Either as a black box, directly performing aggregation on the top items that the black box provided, or in a more involved way by utilizing the predicted ratings. However, the aggregation strategies do rely on single-user RS so there is not much that can be done in order to extract some hidden latent preferences of the group, which in the case of the first method, the group-aware approach, can potentially be extracted.
 
 
-At the same time, we need to define what does it even mean to recommend something to a group. Do we measure it by fairness, overall user satisfaction, or by the least satisfied member of the group? We will go in depth to describe common approaches to these problems in \ref{chap:fairness}.
+We will discuss techniques from the latest literature in-depth in Chapter \ref{chap:related_work}.
 
+
+At the same time, we need to define what it even means to recommend something to a group. Do we measure it by fairness, overall user satisfaction, or by the least satisfied member of the group? We will describe common approaches to these problems in Chapter \ref{chap:fairness}.

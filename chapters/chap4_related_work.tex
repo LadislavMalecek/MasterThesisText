@@ -18,7 +18,7 @@ We can put each algorithm into one of the following three groups based on the ag
     
     
     \item \textbf{Aggregate predictions} \newline
-     Aggregates predictions outputted from RS. Recommender recommends separately for each group member based solely on their single-user preferences. Then the resulting recommended items are aggregated into a single list of recommendations for the whole group. There are two main ways how the final list can be created. Either directly take items recommended to each user and append them together in some specified manner, or the second way, calculate some utility function from all recommended items and select those most fitting to the group based on this utility function. We will discuss both in more detail in \ref{sec:03_simple_aggregation_metods}.
+     Aggregates predictions outputted from RS. Recommender recommends separately for each group member based solely on their single-user preferences. Then the resulting recommended items are aggregated into a single list of recommendations for the whole group. There are two main ways how the final list can be created. Either directly take items recommended to each user and append them together in some specified manner, or the second way, calculate some utility function from all recommended items and select those most fitting to the group based on this utility function. We will discuss both in more detail in Section \ref{sec:03_simple_aggregation_metods}.
      
      The aggregation step follows after the actual recommendation step. We can see a visualization of this approach in Figure \ref{fig:after_rec_agg}.
      
@@ -50,7 +50,8 @@ This presented grouping based on the aggregation step is different from the rela
 
 
 \section{Simple aggregation methods}\label{sec:03_simple_aggregation_metods}
-We will now introduce the main aggregation functions (interchangeably as 'aggregation strategies', 'aggregation methods') used, together with an overview of how they interact with the single-user recommender systems introduced in \ref{subsec:01_rec_sys.main_alg_approaches}
+We will now introduce the main aggregation functions (interchangeably as 'aggregation strategies', 'aggregation methods') used, together with an overview of how they interact with the single-user recommender systems introduced in Subsection \ref{subsec:01_rec_sys.main_alg_approaches}.
+
 \subsection{Methods}\label{subsec:03_simple_aggregation_methods.methods}
 
 Aggregation methods can be divided into three groups based on their high-level approach: majority-based, consensus-based, and borderline-based strategies. The majority-based generally uses the most popular item among the group members, the consensus-based considers the preferences of all the group members, and the borderline-based considers a subset of the items by some limiting criteria.
@@ -168,10 +169,10 @@ We now need to distinguish between \textit{model aggregation} and \textit{predic
 \subsubsection{Prediction aggregation}
 In most cases, we use them as \textit{prediction aggregation} after the recommendation is relatively straightforward. In all (to us known) cases, RS returns recommended items together with some sort of rating of the recommendation. There are some applications where this presumption does not hold, such as building a group recommendation aggregation on top of a \textit{black box} recommender that only returns a list of items, for example, if extracting recommended items data from a web page where we only retrieve the list itself and we do not have access to the underlying recommender system. Nevertheless, in the following section, we will assume that we have full access to the rating data of the outputted items. We further assume that, if necessary, we can acquire ratings and an ordering for all possible items.
 
-As shown in Figure \ref{fig:after_rec_agg}, we first get a list of recommended items (together with ratings) for each user. Then we can directly apply the methods mentioned in \ref{subsec:03_simple_aggregation_methods.methods}.
+As shown in Figure \ref{fig:after_rec_agg}, we first get a list of recommended items (together with ratings) for each user. Then we can directly apply the methods mentioned in Subsection \ref{subsec:03_simple_aggregation_methods.methods}.
 
 \subsubsection{Model aggregation}
-Running aggregation on top of user preferences, instead of lists of recommended items, is more challenging due to the many possible inputs the recommender can take, such as explicit or implicit feedback. As discussed in section \ref{sec:03_categories}, we have two main options, aggregation of ratings and aggregation of mined preferences.
+Running aggregation on top of user preferences, instead of lists of recommended items, is more challenging due to the many possible inputs the recommender can take, such as explicit or implicit feedback. As discussed in Section \ref{sec:03_categories}, we have two main options, aggregation of ratings and aggregation of mined preferences.
 
 The first option is the aggregation of ratings, in other words creating a set of ratings representing the whole group. This approach is preferred due to its simplicity. We can use many of the previously mentioned simple methods, mainly the \textit{consensus-based}, which aggregate ratings directly (positive and negative). Other mentioned methods can be used as well. However, some of them do not make much sense to adapt, for example, the voting-based, with which we will be very limited due to the usual sparsity of the feedback ratings that we have available.
 
@@ -180,20 +181,20 @@ The second option, the aggregation of mined preferences, is more present in cont
 
 
 \section{Advanced methods}\label{sec:03_advanced_methods}
-As we can see, the simple methods mentioned before are pretty straightforward. They have mostly straightforward and clear objectives and try to optimize in different ways, some quite vaguely specified goals. However, as discussed in \ref{chap:fairness}, the objective is quite hard to define and measure. We will now introduce other methods that either directly or indirectly try to optimize some better-specified goal.
+As we can see, the simple methods mentioned before are pretty straightforward. They have mostly straightforward and clear objectives and try to optimize in different ways, some quite vaguely specified goals. However, as discussed in Chapter \ref{chap:fairness}, the objective is quite hard to define and measure. We will now introduce other methods that either directly or indirectly try to optimize some better-specified goal.
 
 \subsection{GFAR} \label{subsec:03_advanced_methods.gfar}
 So far, we have introduced methods that do not directly specify any form of optimization in the direction of \textit{fairness}. A new method introduced in\cite{GFAR-kaya2020} directly optimizes the resulting list to balance the relevance of the recommended items in a rank-sensitive way. Similarly to all before mentioned methods, it is an aggregation approach that works on top of a single user RS.
 
 \subsubsection{Introduction}
 
-As mentioned, they focus on the \textit{fairness} of $\mathit{topN}_G$ (\textit{fairness} of the top N recommended items for group G). Where they define \textit{fairness} as a property of the top-$N_G$ items, not just any single item but the whole list. As already discussed in \ref{sec:01_rec_sys}, the difference between optimization independently item after item versus in some way for the whole list can yield significantly better results when used in sequential consumption of items or balancing users with different preferences.
+As mentioned, the authors focus on the \textit{fairness} of $\mathit{topN}_G$ (\textit{fairness} of the top N recommended items for group G). Where they define \textit{fairness} as a property of the top-$N_G$ items, not just any single item but the whole list. As already discussed in Section \ref{sec:01_rec_sys}, the difference between optimization independently item after item versus in some way for the whole list can yield significantly better results when used in sequential consumption of items or balancing users with different preferences.
 
 In the latter case of a member with differing preferences, we have more freedom to compensate and give more priority for balancing fairness towards this one user if we define fairness as a property of the whole list.
 
-This kind of fairness is the main focus of the GFAR algorithm. In a way, it exceeds this by trying to optimize each prefix of the recommendation list. We will later define categories based on this fairness perception in \ref{chap:our_work}. The GFAR algorithm is to us, the only known algorithm that optimizes this kind of prefix fairness we call \textit{rank-sensitive} fairness.
+This kind of fairness is the main focus of the GFAR algorithm. In a way, it exceeds this by trying to optimize each prefix of the recommendation list. We will later define categories based on this fairness perception in Chapter \ref{chap:our_work}. The GFAR algorithm is to us, the only known algorithm that optimizes this kind of prefix fairness we call \textit{rank-sensitive} fairness.
 
-In \ref{subsec:03_simple_aggregation_methods.methods}, we have already mentioned the FAI algorithm that tries to balance the fairness of the whole list. It generates the aggregated results in steps, each following step maximizing the utility of the following user in turn. This approach solves the problem mentioned above very simply by not considering the group preferences at all. It is just trying to please everyone in turns, not considering if the rest of the group will like the item in that turn. 
+In Subsection \ref{subsec:03_simple_aggregation_methods.methods}, we have already mentioned the FAI algorithm that tries to balance the fairness of the whole list. It generates the aggregated results in steps, each following step maximizing the utility of the following user in turn. This approach solves the problem mentioned above very simply by not considering the group preferences at all. It is just trying to please everyone in turns, not considering if the rest of the group will like the item in that turn. 
 
 
 \subsubsection{Approach}
@@ -234,7 +235,7 @@ Now we want to generalize for the whole group, so we define $f(S)$ as the sum of
 \end{aligned}
 \end{equation}
 
-We have used Group G as a constant in equation \ref{eq:relevance_for_set}, and forward, the group will stay the same during the calculation. $f(S)$ shows how to balance the fairness amongst the group members for a specified set of items. We now want to extend it in order to make it rank-sensitive by defining a marginal gain in function $f$ for adding a new item $i$ to the set $S$ as follows:
+We have used Group G as a constant in Equation \ref{eq:relevance_for_set}, and forward, the group will stay the same during the calculation. $f(S)$ shows how to balance the fairness amongst the group members for a specified set of items. We now want to extend it in order to make it rank-sensitive by defining a marginal gain in function $f$ for adding a new item $i$ to the set $S$ as follows:
 
 \begin{equation} \label{eq:relevance_for_set_add}
 \begin{aligned}
@@ -243,7 +244,7 @@ We have used Group G as a constant in equation \ref{eq:relevance_for_set}, and f
 \end{aligned}
 \end{equation}
 
-Where we have used equations \ref{eq:atleast_one_relevant} and \ref{eq:relevance_for_set}, finally, we can define an ordered set that is considered fair if it balances each of its prefixes. In other words, the first item of the set should be considered fair/balanced by all group members as much as possible, then the first two items, and so on. We define fairness in an ordered set $OS$ as:
+Where we have used Equations \ref{eq:atleast_one_relevant} and \ref{eq:relevance_for_set}, finally, we can define an ordered set that is considered fair if it balances each of its prefixes. In other words, the first item of the set should be considered fair/balanced by all group members as much as possible, then the first two items, and so on. We define fairness in an ordered set $OS$ as:
 
 \begin{equation}
     \textrm{fair}(OS) = \sum_{k=1}^{|OS|}{f(OS)[k], \{i \in OS : \textrm{rank}(i, OS) < k\})}
