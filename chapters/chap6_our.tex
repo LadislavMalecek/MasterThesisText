@@ -35,7 +35,7 @@ Directly using the DA algorithm is not possible due to it being designed for dis
 
 \section{EP-FuzzDA}
 
-Let us now describe our algorithm of \textbf{E}xactly \textbf{P}roportional \textbf{F}uzzy \textbf{D} 'Hondt's \textbf{A}ggregation. It is a greedy algorithm that iteratively selects the best candidate item maximizing the marginal gains on \textbf{E}xactly-\textbf{P}roportional \textbf{rel}evance \textbf{sum} (EP-rel-sum) criterion.
+Let us now describe our algorithm of \textbf{E}xactly \textbf{P}roportional \textbf{F}uzzy \textbf{D}'Hondt's \textbf{A}ggregation. It is a greedy algorithm that iteratively selects the best candidate item maximizing the marginal gains on \textbf{E}xactly-\textbf{P}roportional \textbf{rel}evance \textbf{sum} (EP-rel-sum) criterion.
 
 As mentioned before, candidate allocation algorithm such as D'Hondt does not consider the varying relevance of candidate items nor the possible overlap of user preferences. Both these situations are very common in the domain of group recommender systems. We can probably find a set of items that closely balance the relevance between all group members. Nevertheless, each of these items may have a different candidate item that is a better fit for the group in the average rating but would lead to more imbalance. This could easily lead to recommending mediocre items only for the sake of balancing fairness.
 
